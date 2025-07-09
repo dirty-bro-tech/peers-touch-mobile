@@ -29,8 +29,8 @@ class BottomNavBar extends StatelessWidget {
           label: 'Chat',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Settings',
+          icon: Icon(Icons.photo),
+          label: 'Photo',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:pure_touch/pages/chat_page.dart';
+import 'package:pure_touch/pages/photo/photo_page.dart';
 
 import 'components/navigation/bottom_nav_bar.dart';
 
@@ -124,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = const [
     ChatPage(),
     ChatPage(),
-    ChatPage(),
+    PhotoPage(),
     ChatPage(),
   ];
 
