@@ -19,6 +19,15 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
+    sourceSets {
+        getByName("main") {
+            res.srcDirs("src/main/res")
+        }
+        getByName("debug") {
+            res.srcDirs(/* empty for debug */)
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "io.peerstouch.pure_touch"

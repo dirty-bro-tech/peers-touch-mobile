@@ -28,7 +28,7 @@ class AvatarOverlay extends StatelessWidget {
                   ),
                   const SizedBox(height: 18), // Add spacing between name and bio
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 0), // Add bottom padding
+                    padding: const EdgeInsets.only(bottom: 1), // Add bottom padding
                     child: Text(
                       'User Bio Ha Ha hah hasd ',
                       style: TextStyle(

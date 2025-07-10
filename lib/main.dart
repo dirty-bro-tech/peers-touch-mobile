@@ -4,6 +4,8 @@ import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
 
 import 'components/navigation/bottom_nav_bar.dart';
+import 'package:pure_touch/components/common/floating_action_ball.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -121,6 +123,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  List<FloatingActionOption> _currentOptions = [];
 
   final List<Widget> _pages = const [
     ChatPage(),
@@ -129,13 +132,42 @@ class _MainScreenState extends State<MainScreen> {
     ChatPage(),
   ];
 
+  void _updateOptions() {
+    final currentPage = _pages[_currentIndex];
+    setState(() {
+      _currentOptions = _getPageOptions(currentPage);
+    });
+  }
+
+  List<FloatingActionOption> _getPageOptions(Widget page) {
+    if (page is ChatPage) return ChatPage.actionOptions;
+    if (page is PhotoPage) return PhotoPage.actionOptions;
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: Stack(
+        children: [
+          _pages[_currentIndex],
+          if (_currentOptions.isNotEmpty)
+            Positioned(
+              bottom: 80,
+              right: 20,
+              child: FloatingActionBall(
+                key: ValueKey(_currentIndex), // Force rebuild on page change
+                options: _currentOptions,
+              ),
+            ),
+        ],
+      ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: (index) => setState(() {
+          _currentIndex = index;
+          _updateOptions();
+        }),
       ),
     );
   }
