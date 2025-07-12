@@ -1,47 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pure_touch/pages/photo/photo_controller.dart';
 
 class PhotoSelectionDrawer extends StatelessWidget {
-  final Set<int> selectedPhotos;
-  final ValueChanged<int> onPhotoSelected;
-  final VoidCallback onSync;
-
-  const PhotoSelectionDrawer({
-    super.key,
-    required this.selectedPhotos,
-    required this.onPhotoSelected,
-    required this.onSync,
-  });
+  const PhotoSelectionDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<PhotoController>();
+
     return Drawer(
       child: Column(
         children: [
           AppBar(
             title: const Text('Select Photos to Sync'),
-            automaticallyImplyLeading: false,
             actions: [
               IconButton(
                 icon: const Icon(Icons.close),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Get.back(),
               ),
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (context, index) => CheckboxListTile(
-                title: Text('Photo ${index + 1}'),
-                value: selectedPhotos.contains(index),
-                onChanged: (bool? value) => onPhotoSelected(index),
+            child: Obx(
+              () => ListView.builder(
+                itemCount: 10,
+                itemBuilder:
+                    (context, index) => CheckboxListTile(
+                      title: Text('Photo ${index + 1}'),
+                      value: controller.selectedPhotos.contains(index),
+                      onChanged: (_) => controller.toggleSelection(index),
+                    ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: selectedPhotos.isEmpty ? null : onSync,
-              child: const Text('Sync Selected Photos'),
+          Obx(
+            () => Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed:
+                    controller.selectedPhotos.isEmpty
+                        ? null
+                        : controller.syncPhotos,
+                child: const Text('Sync Selected Photos'),
+              ),
             ),
           ),
         ],

@@ -6,6 +6,8 @@ import 'package:pure_touch/pages/photo/photo_page.dart';
 import 'components/navigation/bottom_nav_bar.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
 
+import 'package:get/get.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -16,12 +18,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(  // Changed from MaterialApp
       title: 'Peers Touch',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MainScreen(), // Changed from MyHomePage
+      home: const MainScreen(),
     );
   }
 }
