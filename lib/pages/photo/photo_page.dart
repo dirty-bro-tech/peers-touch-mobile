@@ -10,6 +10,11 @@ import 'package:pure_touch/components/common/floating_action_ball.dart';
 class PhotoPage extends StatelessWidget {
   static final List<FloatingActionOption> actionOptions = [
     FloatingActionOption(
+      icon: Icons.cloud_sync,
+      tooltip: 'Sync Photos',
+      onPressed: () => print('Take Photo pressed'),
+    ),
+    FloatingActionOption(
       icon: Icons.camera_alt,
       tooltip: 'Take Photo',
       onPressed: () => print('Take Photo pressed'),
@@ -54,3 +59,4 @@ class PhotoPage extends StatelessWidget {
     );
   }
 }
+
