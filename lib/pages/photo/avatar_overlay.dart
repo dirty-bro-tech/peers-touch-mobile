@@ -28,11 +28,13 @@ class AvatarOverlay extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 0),
                   child: Text(
-                    'User Bio Ha Ha hah hasd ',
+                    _processBioText(
+                      'User Bio Ha Ha hah hasd hello hello hello hello hello, hi hi hi hi hi hi hi hi hi ',
+                    ),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 12,
-                      height: 1.2,
+                      height: 1,
                       shadows: [
                         Shadow(
                           color: Colors.black.withOpacity(0.5),
@@ -40,28 +42,48 @@ class AvatarOverlay extends StatelessWidget {
                         ),
                       ],
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    softWrap: true, // Allow text wrapping
+                    overflow: TextOverflow.visible, // Allow text overflow
+                    maxLines: 2, // Set maxLines to allow multiple lines
+                    // Removed maxLines to enable multi-line display
                   ),
                 ),
               ],
             ),
             const SizedBox(width: 14),
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                image: const DecorationImage(
-                  image: NetworkImage('https://picsum.photos/100'),
-                  fit: BoxFit.cover,
-                ),
+            Transform.translate(
+              offset: const Offset(0, 3), // Lower by 3 units vertically
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const SizedBox(width: 14),
+                  Container(
+                    width: 64,
+                    height: 64,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      image: const DecorationImage(
+                        image: NetworkImage('https://picsum.photos/100'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         );
       },
     );
+  }
+
+  // Helper to add line break after 8th word
+  String _processBioText(String bio) {
+    final words = bio.split(' ');
+    if (words.length > 8) {
+      return '${words.sublist(0, 8).join(' ')}\n${words.sublist(8).join(' ')}';
+    }
+    return bio;
   }
 }

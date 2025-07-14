@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/pages/photo/photo_controller.dart';
+import 'package:pure_touch/controller/photo_controller.dart';
 
 class PhotoSelectionDrawer extends StatelessWidget {
   const PhotoSelectionDrawer({super.key});
@@ -41,7 +41,7 @@ class PhotoSelectionDrawer extends StatelessWidget {
                 onPressed:
                     controller.selectedPhotos.isEmpty
                         ? null
-                        : controller.syncPhotos,
+                        : controller.showSyncPhotoDrawer,
                 child: const Text('Sync Selected Photos'),
               ),
             ),

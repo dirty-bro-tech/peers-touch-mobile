@@ -1,4 +1,4 @@
-import '../pages/photo/photo_controller.dart';
+import 'photo_controller.dart';
 
 class ControllerManager {
   static final ControllerManager _instance = ControllerManager._internal();

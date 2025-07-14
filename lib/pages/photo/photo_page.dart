@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:pure_touch/pages/photo/photo_controller.dart';
+import 'package:pure_touch/controller/photo_controller.dart';
 import 'package:pure_touch/pages/photo/photo_post_item.dart';
 import 'package:pure_touch/pages/photo/profile_header.dart';
 import 'package:pure_touch/pages/photo/avatar_overlay.dart';
@@ -15,7 +15,7 @@ class PhotoPage extends GetView<PhotoController> {
     FloatingActionOption(
       icon: Icons.cloud_sync,
       tooltip: 'Sync Photos',
-      onPressed: () => ControllerManager.photoController.syncPhotos(),
+      onPressed: () => ControllerManager.photoController.showSyncPhotoDrawer(),
     ),
     FloatingActionOption(
       icon: Icons.camera_alt,
@@ -43,26 +43,34 @@ class PhotoPage extends GetView<PhotoController> {
     return Scaffold(
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 0),
-        itemCount: 11, // 1 header + 10 posts
+        itemCount: 11, // Revert to original count (header + 10 posts)
         itemBuilder: (context, index) {
           if (index == 0) {
-            // Header item with integrated avatar
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                // Header widget with key for height measurement
-                SizedBox(
-                  key: _headerKey,
-                  child: const ProfileHeader(),
-                ),
-                // Avatar positioned relative to header using measured height
+                SizedBox(key: _headerKey, child: const ProfileHeader()),
                 Positioned(
-                  top: _getHeaderHeight() - 32, // Same calculation as before
+                  top: _getHeaderHeight() - 38,
                   right: 16,
                   child: const AvatarOverlay(),
                 ),
               ],
             );
+          } else if (index == 1) {
+            // New divider between header and posts
+            return Divider(
+              height: _getHeaderHeight() - 140,
+              // Thin line
+              thickness: 0.1,
+              color: Colors.grey,
+              indent: 16,
+              // Left margin
+              endIndent: 16, // Right margin
+            );
+          } else {
+            // Post items (adjust index by -1 to account for divider)
+            return const PhotoPostItem();
           }
           return const PhotoPostItem();
         },
