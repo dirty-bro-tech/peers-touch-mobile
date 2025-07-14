@@ -127,11 +127,11 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   List<FloatingActionOption> _currentOptions = [];
 
-  final List<Widget> _pages = const [
-    ChatPage(),
-    ChatPage(),
+  final List<Widget> _pages = [
+    const ChatPage(),
+    const ChatPage(),
     PhotoPage(),
-    ChatPage(),
+    const ChatPage(),
   ];
 
   void _updateOptions() {

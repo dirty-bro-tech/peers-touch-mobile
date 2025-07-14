@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
+import 'package:get/get.dart';
+
 import 'package:pure_touch/pages/photo/photo_controller.dart';
 import 'package:pure_touch/pages/photo/photo_post_item.dart';
 import 'package:pure_touch/pages/photo/profile_header.dart';
 import 'package:pure_touch/pages/photo/avatar_overlay.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
 
-import 'package:get/get.dart';
+import 'package:pure_touch/controller/controller.dart';
+
 
 class PhotoPage extends GetView<PhotoController> {
+
   static final List<FloatingActionOption> actionOptions = [
     FloatingActionOption(
       icon: Icons.cloud_sync,
       tooltip: 'Sync Photos',
-      onPressed: () => Get.find<PhotoController>().syncPhotos,
+      onPressed: () => ControllerManager.photoController.syncPhotos,
     ),
     FloatingActionOption(
       icon: Icons.camera_alt,
@@ -26,8 +30,6 @@ class PhotoPage extends GetView<PhotoController> {
       onPressed: () => print('Upload Photo pressed'),
     ),
   ];
-
-  const PhotoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class PhotoPage extends GetView<PhotoController> {
           ),
           const Positioned(
             // Use explicit positioning
-            top: 150, // Half of header height (200 - 64/2)
+            top: 165, // Half of header height (200 - 64/2)
             right: 16,
             child: AvatarOverlay(),
           ),
