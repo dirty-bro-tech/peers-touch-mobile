@@ -12,7 +12,7 @@ class PhotoController extends GetxController {
   }
 
   void syncPhotos() {
-    print('Syncing selected photos: $selectedPhotos');
+    print('Syncing selected photos2: $selectedPhotos');
     Get.back();
   }
 }

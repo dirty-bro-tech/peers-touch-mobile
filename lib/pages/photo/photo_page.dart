@@ -10,14 +10,12 @@ import 'package:pure_touch/components/common/floating_action_ball.dart';
 
 import 'package:pure_touch/controller/controller.dart';
 
-
 class PhotoPage extends GetView<PhotoController> {
-
   static final List<FloatingActionOption> actionOptions = [
     FloatingActionOption(
       icon: Icons.cloud_sync,
       tooltip: 'Sync Photos',
-      onPressed: () => ControllerManager.photoController.syncPhotos,
+      onPressed: () => ControllerManager.photoController.syncPhotos(),
     ),
     FloatingActionOption(
       icon: Icons.camera_alt,
@@ -31,35 +29,43 @@ class PhotoPage extends GetView<PhotoController> {
     ),
   ];
 
+  // Add a key to track the header's size
+  final GlobalKey _headerKey = GlobalKey();
+
+  double _getHeaderHeight() {
+    final headerBox =
+        _headerKey.currentContext?.findRenderObject() as RenderBox?;
+    return headerBox?.size.height ?? 200; // Fallback if measurement fails
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        clipBehavior: Clip.none, // Add this to allow overflow
-        children: [
-          Column(
-            children: [
-              const ProfileHeader(),
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(top: 80),
-                    // Reduce top padding
-                    itemCount: 10,
-                    itemBuilder: (context, index) => const PhotoPostItem(),
-                  ),
+      body: ListView.builder(
+        padding: const EdgeInsets.only(top: 0),
+        itemCount: 11, // 1 header + 10 posts
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            // Header item with integrated avatar
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // Header widget with key for height measurement
+                SizedBox(
+                  key: _headerKey,
+                  child: const ProfileHeader(),
                 ),
-              ),
-            ],
-          ),
-          const Positioned(
-            // Use explicit positioning
-            top: 165, // Half of header height (200 - 64/2)
-            right: 16,
-            child: AvatarOverlay(),
-          ),
-        ],
+                // Avatar positioned relative to header using measured height
+                Positioned(
+                  top: _getHeaderHeight() - 32, // Same calculation as before
+                  right: 16,
+                  child: const AvatarOverlay(),
+                ),
+              ],
+            );
+          }
+          return const PhotoPostItem();
+        },
       ),
     );
   }

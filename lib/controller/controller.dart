@@ -1,14 +1,13 @@
-
-import 'package:get/get.dart';
-
 import '../pages/photo/photo_controller.dart';
 
 class ControllerManager {
   static final ControllerManager _instance = ControllerManager._internal();
+
   factory ControllerManager() {
     return _instance;
   }
-  ControllerManager._internal(){
+
+  ControllerManager._internal() {
     // Initialize all controllers
     _photoController = PhotoController();
   }
