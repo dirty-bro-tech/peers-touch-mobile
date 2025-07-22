@@ -1,5 +1,9 @@
 allprojects {
     repositories {
+        // Add China mirrors first for priority
+        maven("https://mirrors.huaweicloud.com/repository/maven/")
+        maven("https://maven.aliyun.com/repository/public")
+        // Keep original repositories as fallback
         google()
         mavenCentral()
     }
