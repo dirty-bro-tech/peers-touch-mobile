@@ -49,11 +49,11 @@ class PhotoController extends GetxController {
     photos.assignAll(systemPhotos);
   }
 
-  void toggleSelection(int index) {
-    if (selectedPhotos.contains(index)) {
-      selectedPhotos.remove(index);
+  void toggleSelection(int photoId) {
+    if (selectedPhotos.contains(photoId)) {
+      selectedPhotos.remove(photoId);
     } else {
-      selectedPhotos.add(index);
+      selectedPhotos.add(photoId);
     }
   }
 
