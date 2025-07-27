@@ -1,13 +1,14 @@
+// Configure project - level repositories
 allprojects {
     repositories {
-        // Add China mirrors first for priority
         maven("https://mirrors.huaweicloud.com/repository/maven/")
         maven("https://maven.aliyun.com/repository/public")
-        // Keep original repositories as fallback
-        google()
-        mavenCentral()
+        maven("https://maven.aliyun.com/repository/central")
+        maven("https://maven.aliyun.com/repository/jcenter")
     }
 }
+
+// Other build configurations if needed
 
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
 rootProject.layout.buildDirectory.value(newBuildDir)

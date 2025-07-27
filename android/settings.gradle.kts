@@ -10,11 +10,15 @@ pluginManagement {
     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
     repositories {
-        google()
+        // Use Chinese mirror sites
+        maven("https://mirrors.huaweicloud.com/repository/maven/")
+        maven("https://maven.aliyun.com/repository/public")
+        maven("https://maven.aliyun.com/repository/jcenter")
         mavenCentral()
         gradlePluginPortal()
     }
 }
+
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
