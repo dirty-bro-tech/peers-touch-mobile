@@ -242,10 +242,15 @@ class PhotoController extends GetxController {
     _isShowSyncPhotoDrawerRunning.value = true;
 
     try {
-      if (albums.isEmpty) await loadAlbums();
+      // Load albums first and await completion
+      if (albums.isEmpty) {
+        await loadAlbums();
+        // Add a small delay to ensure UI updates
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
       if (photos.isEmpty) await loadPhotos();
 
-      // Assume PhotoSelectionSheet is implemented properly
+      // Show the bottom sheet after albums are loaded
       await Get.bottomSheet(
         const PhotoSelectionSheet(),
         isScrollControlled: true,
