@@ -72,7 +72,6 @@ class PhotoPage extends GetView<PhotoController> {
             // Post items (adjust index by -1 to account for divider)
             return const PhotoPostItem();
           }
-          return const PhotoPostItem();
         },
       ),
     );

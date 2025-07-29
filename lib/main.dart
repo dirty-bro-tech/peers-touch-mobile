@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
@@ -9,7 +11,30 @@ import 'package:pure_touch/components/common/floating_action_ball.dart';
 import 'package:get/get.dart';
 
 
-void main() {
+void main() async {
+  // Ensure Flutter is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Register the method channel early
+  const MethodChannel platform = MethodChannel('samples.flutter.dev/storage');
+  
+  // Set up a method call handler to ensure the channel is registered
+  platform.setMethodCallHandler((call) async {
+    // This is just to ensure the channel is registered
+    return null;
+  });
+  
+  // Try to make a call to initialize the channel, but ignore errors
+  try {
+    await platform.invokeMethod('getFreeDiskSpace').catchError((error) {
+      // Ignore errors during initialization
+      debugPrint('Method channel initialization error (expected): $error');
+    });
+  } catch (e) {
+    // Ignore errors during initialization
+    debugPrint('Method channel initialization exception (expected): $e');
+  }
+  
   runApp(const MyApp());
 }
 
