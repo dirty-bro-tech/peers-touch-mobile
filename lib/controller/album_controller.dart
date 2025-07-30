@@ -30,4 +30,9 @@ class AlbumController extends GetxController {
     // Implement upload logic
     return false;
   }
+
+  void clearAllStates() {
+    selectedAlbums.clear();
+    albums.clear();
+  }
 }

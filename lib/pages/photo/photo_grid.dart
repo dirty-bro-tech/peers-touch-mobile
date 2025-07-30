@@ -4,16 +4,46 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:photo_manager/photo_manager.dart';
-
 import '../../controller/photo_controller.dart';
 
-class PhotoGridWidget extends StatelessWidget {
+class PhotoGridWidget extends StatefulWidget {
   const PhotoGridWidget({super.key});
 
   @override
+  State<PhotoGridWidget> createState() => _PhotoGridWidgetState();
+}
+
+class _PhotoGridWidgetState extends State<PhotoGridWidget> {
+  final ScrollController _scrollController = ScrollController();
+  final PhotoController controller = Get.find<PhotoController>();
+  
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+  
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+  
+  void _scrollListener() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 500) {
+      _loadMorePhotos();
+    }
+  }
+  
+  void _loadMorePhotos() {
+    if (controller.isLoadingMore.value || controller.currentSelectedAlbum.value == null) return;
+    
+    controller.loadMorePhotos(controller.currentSelectedAlbum.value!);
+  }
+  
+  @override
   Widget build(BuildContext context) {
-    final PhotoController controller = Get.find<PhotoController>();
     return Column(
       children: [
         Padding(
@@ -35,31 +65,36 @@ class PhotoGridWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: MediaQuery.of(context).size.height - 100,
+          child: Obx(() {
+            if (controller.photos.isEmpty && controller.currentSelectedAlbum.value != null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            
+            return GridView.builder(
+              controller: _scrollController,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 1,
               ),
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 1,
-                ),
-                itemCount: controller.photos.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final photo = controller.photos[index];
-                  return GestureDetector(
+              itemCount: controller.photos.length + (controller.isLoadingMore.value ? 1 : 0),
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                // Show loading indicator at the bottom
+                if (controller.isLoadingMore.value && index == controller.photos.length) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                final photo = controller.photos[index];
+                return GestureDetector(
+                    key: ValueKey(photo.id),
                     onTap: () {
-                      controller.togglePhotoSelection(photo.id.hashCode);
+                      controller.togglePhotoSelection(photo.id);
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Stack(
-                      key: ValueKey(photo.id),
                       fit: StackFit.expand,
                       children: [
                         const SizedBox.expand(),
@@ -84,7 +119,7 @@ class PhotoGridWidget extends StatelessWidget {
                             },
                           ),
                         ),
-                        if (controller.syncedPhotos.contains(photo.id.hashCode))
+                        if (controller.syncedPhotos.contains(photo.id))
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.4),
@@ -93,18 +128,18 @@ class PhotoGridWidget extends StatelessWidget {
                           ),
                         Align(
                           alignment: Alignment.topRight,
-                          child: Container(
+                          child: Obx(() => Container(
                             margin: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
                               color: controller.selectedPhotos
-                                      .contains(photo.id.hashCode)
+                                      .contains(photo.id)
                                   ? Colors.blue
                                   : Colors.grey,
                               shape: BoxShape.circle,
                             ),
                             child: Opacity(
                               opacity: controller.selectedPhotos
-                                      .contains(photo.id.hashCode)
+                                      .contains(photo.id)
                                   ? 1
                                   : 0,
                               child: const Icon(
@@ -113,19 +148,18 @@ class PhotoGridWidget extends StatelessWidget {
                                 size: 16,
                               ),
                             ),
-                          ),
+                          ),),
                         ),
                       ],
                     ),
                   );
                 },
-              ),
-            ),
+              );
+            }),
           ),
-        ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: ElevatedButton(
+          child: Obx(() => ElevatedButton(
             onPressed: controller.selectedPhotos.isNotEmpty
                 ? () async {
                     try {
@@ -140,8 +174,8 @@ class PhotoGridWidget extends StatelessWidget {
                     }
                   }
                 : null,
-            child: const Text('Sync Selected Photos'),
-          ),
+            child: Text('Sync Selected Photos (${controller.selectedPhotos.length})'),
+          )),
         ),
       ],
     );

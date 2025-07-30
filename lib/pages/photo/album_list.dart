@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -8,18 +9,37 @@ import 'package:photo_manager/photo_manager.dart';
 import '../../controller/album_controller.dart';
 import '../../controller/photo_controller.dart';
 
-class AlbumListWidget extends StatelessWidget {
+class AlbumListWidget extends StatefulWidget {
   const AlbumListWidget({super.key});
   
   @override
-  Widget build(BuildContext context) {
-    final AlbumController controller = Get.find<AlbumController>();
+  State<AlbumListWidget> createState() => _AlbumListWidgetState();
+}
+
+class _AlbumListWidgetState extends State<AlbumListWidget> {
+  late final AlbumController controller;
+  
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<AlbumController>();
     // Load albums only once when widget is first built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (controller.albums.isEmpty) {
         controller.loadAlbums();
       }
     });
+  }
+  
+  @override
+  void dispose() {
+    // Clear all states when drawer is closed
+    controller.clearAllStates();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
 
     return Column(
       children: [
@@ -38,16 +58,20 @@ class AlbumListWidget extends StatelessWidget {
                       leading: _AlbumThumbnail(album: album),
                       title: Text(album.name),
                       subtitle: _AlbumCountSubtitle(album: album),
-                      trailing: Checkbox(
+                      trailing: Obx(() => Checkbox(
                         value: controller.selectedAlbums.contains(album),
                         onChanged: (value) {
                           if (value != null) {
                             controller.toggleAlbumSelection(album);
                           }
                         },
-                      ),
+                      )),
                       onTap: () {
+                        // Navigate to photo list when tapping on album
                         final PhotoController photoController = Get.find<PhotoController>();
+                        if (kDebugMode) {
+                          print('Album tapped: ${album.name}');
+                        }
                         photoController.loadPhotosForAlbum(album);
                       },
                     );
@@ -57,7 +81,7 @@ class AlbumListWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: ElevatedButton(
+              child: Obx(() => ElevatedButton(
                 onPressed: controller.selectedAlbums.isNotEmpty
                     ? () async {
                         try {
@@ -72,8 +96,8 @@ class AlbumListWidget extends StatelessWidget {
                         }
                       }
                     : null,
-                child: const Text('Sync Selected Albums'),
-              ),
+                child: Text('Sync Selected Albums (${controller.selectedAlbums.length})'),
+              )),
             ),
           ],
         );

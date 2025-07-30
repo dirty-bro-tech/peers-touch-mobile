@@ -245,8 +245,30 @@ class PhotoController extends GetxController {
     }
   }
 
+  // Track pagination state for each album
+  final Map<String, int> _albumPageMap = {};
+  final int _pageSize = 20; // Number of photos to load per page
+  final RxBool isLoadingMore = false.obs;
+  
   Future<void> loadPhotosForAlbum(AssetPathEntity album) async {
     bool shouldContinue = true;
+    
+    if (kDebugMode) {
+      print('loadPhotosForAlbum called for album: ${album.name}');
+    }
+    
+    // Set the current selected album at the beginning of the method
+    // to ensure it's set even if we exit early due to storage issues
+    currentSelectedAlbum.value = album;
+    if (kDebugMode) {
+      print('Set currentSelectedAlbum.value to: ${album.name}');
+      print('currentSelectedAlbum.value is now: ${currentSelectedAlbum.value?.name}');
+    }
+    update(); // Force update to ensure UI reflects the change
+    
+    // Reset pagination when loading a new album
+    _albumPageMap[album.id] = 0;
+    photos.clear();
     
     try {
       if (kDebugMode) {
@@ -289,30 +311,133 @@ class PhotoController extends GetxController {
     }
 
     try {
-      photos.clear();
-      currentSelectedAlbum.value = album;
-      final List<AssetEntity> assets = await album.getAssetListRange(
-        start: 0,
-        end: 9999,
-      );
+      if (kDebugMode) {
+        print('Loading first page of photos for album: ${album.name}');
+      }
+      
+      await loadMorePhotos(album);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting asset list for album: $e');
+        print('Stack trace: ${StackTrace.current}');
+      }
+      Get.snackbar('Error', 'Failed to load photos from album: $e');
+    }
+  }
+  
+  // Load more photos for pagination
+  Future<bool> loadMorePhotos(AssetPathEntity album) async {
+    if (isLoadingMore.value) return false;
+    
+    isLoadingMore.value = true;
+    
+    try {
+      final int currentPage = _albumPageMap[album.id] ?? 0;
+      
+      if (kDebugMode) {
+        print('Loading page $currentPage for album: ${album.name}');
+      }
+      
+      List<AssetEntity> assets = [];
+      try {
+        assets = await album.getAssetListPaged(
+          page: currentPage,
+          size: _pageSize,
+        );
+        
+        if (kDebugMode) {
+          print('Found ${assets.length} assets in album for page $currentPage');
+        }
+        
+        // If no more assets, return false
+        if (assets.isEmpty) {
+          return false;
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print('Error getting asset list for album: $e');
+          print('Stack trace: ${StackTrace.current}');
+        }
+        Get.snackbar('Error', 'Failed to load more photos: $e');
+        return false;
+      }
+      
       final List<PhotoModel> albumPhotos = [];
 
       for (final asset in assets) {
-        final file = await asset.file;
-        if (file != null) {
-          albumPhotos.add(
-            PhotoModel(
-              id: int.tryParse(asset.id) ?? asset.id.hashCode,
-              path: file.path,
-            ),
-          );
+        try {
+          // Try to get the file path directly first
+          String? filePath;
+          
+          // Try to get the file
+          final file = await asset.file;
+          if (file != null) {
+            filePath = file.path;
+          } else {
+            // If file is null, try to get the original file path
+            filePath = await asset.originFile.then((f) => f?.path);
+            if (filePath == null) {
+              // As a last resort, try to get the thumbnail path
+              final thumbData = await asset.thumbnailData;
+              if (thumbData != null) {
+                // Save thumbnail to a temporary file
+                final tempDir = await getTemporaryDirectory();
+                final tempFile = File('${tempDir.path}/${asset.id}.jpg');
+                await tempFile.writeAsBytes(thumbData);
+                filePath = tempFile.path;
+              }
+            }
+          }
+          
+          if (filePath != null) {
+            albumPhotos.add(
+              PhotoModel(
+                id: int.tryParse(asset.id) ?? asset.id.hashCode,
+                path: filePath,
+              ),
+            );
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print('Error getting file for asset ${asset.id}: $e');
+          }
         }
       }
-
-      photos.assignAll(albumPhotos);
+      
+      // Filter out photos with invalid paths
+      final validPhotos = <PhotoModel>[];
+      for (final photo in albumPhotos) {
+        try {
+          if (photo.fileExistsSync()) {
+            validPhotos.add(photo);
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print('Error checking photo path: $e');
+          }
+        }
+      }
+      
+      if (kDebugMode) {
+        print('Found ${validPhotos.length} valid photos for page $currentPage');
+      }
+      
+      // Add photos to the existing list
+      photos.addAll(validPhotos);
+      
+      // Increment the page number for next load
+      _albumPageMap[album.id] = currentPage + 1;
+      
+      update(); // Ensure UI updates
+      isLoadingMore.value = false;
+      return true;
     } catch (e) {
-      print('Error loading photos for album: $e');
-      Get.snackbar('Error', 'Failed to load photos for album: $e');
+      if (kDebugMode) {
+        print('Error loading more photos: $e');
+      }
+      Get.snackbar('Error', 'Failed to load more photos: $e');
+      isLoadingMore.value = false;
+      return false;
     }
   }
 
@@ -431,14 +556,30 @@ class PhotoController extends GetxController {
     if (_isShowSyncPhotoDrawerRunning.value) return;
     _isShowSyncPhotoDrawerRunning.value = true;
 
+    if (kDebugMode) {
+      print('Showing sync photo drawer');
+    }
+
     try {
       // Load albums first and await completion
       if (albums.isEmpty) {
+        if (kDebugMode) {
+          print('Albums empty, loading albums');
+        }
         await loadAlbums();
         // Add a small delay to ensure UI updates
         await Future.delayed(const Duration(milliseconds: 100));
       }
-      if (photos.isEmpty) await loadPhotos();
+      
+      // Clear any existing photo data to start fresh
+      photos.clear();
+      currentSelectedAlbum.value = null;
+      update();
+      
+      if (kDebugMode) {
+        print('Showing bottom sheet');
+        print('Current selected album: ${currentSelectedAlbum.value?.name ?? "None"}');
+      }
 
       // Show the bottom sheet after albums are loaded
       await Get.bottomSheet(
@@ -446,6 +587,9 @@ class PhotoController extends GetxController {
         isScrollControlled: true,
       ).whenComplete(() {
         // Clear data when the drawer is closed
+        if (kDebugMode) {
+          print('Bottom sheet closed, clearing data');
+        }
         clearAlbumAndPhotoData();
       });
     } catch (e) {
@@ -456,12 +600,22 @@ class PhotoController extends GetxController {
   }
 
   void clearAlbumAndPhotoData() {
+    if (kDebugMode) {
+      print('Clearing album and photo data');
+      print('Current selected album before clearing: ${currentSelectedAlbum.value?.name ?? "None"}');
+    }
+    
     photos.clear();
     selectedPhotos.clear();
     syncedPhotos.clear();
     selectedAlbums.clear();
     syncedAlbums.clear();
     currentSelectedAlbum.value = null;
+    
+    if (kDebugMode) {
+      print('Current selected album after clearing: ${currentSelectedAlbum.value?.name ?? "None"}');
+    }
+    
     update();
   }
 }
