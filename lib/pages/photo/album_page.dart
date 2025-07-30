@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pure_touch/controller/album_controller.dart';
+import 'package:pure_touch/controller/photo_controller.dart';
 import 'package:pure_touch/pages/photo/album_list.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
 
@@ -15,15 +16,10 @@ class AlbumPage extends StatelessWidget {
           Get.snackbar('No Albums Selected', 'Please select at least one album to sync');
           return;
         }
-        controller.uploadSelectedAlbums().then((success) {
-          if (success) {
-            Get.snackbar('Success', 'Albums synced successfully');
-          } else {
-            Get.snackbar('Error', 'Failed to sync albums');
-          }
-        }).catchError((e) {
-          Get.snackbar('Error', 'An unexpected error occurred: $e');
-        });
+        final photoController = Get.find<PhotoController>();
+        // Transfer selected albums to PhotoController
+        photoController.selectedAlbums.addAll(controller.selectedAlbums);
+        photoController.uploadSelectedPhotos();
       },
     ),
     FloatingActionOption(

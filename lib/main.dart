@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
+import 'package:pure_touch/utils/logger.dart';
 
 import 'components/navigation/bottom_nav_bar.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
@@ -28,11 +29,11 @@ void main() async {
   try {
     await platform.invokeMethod('getFreeDiskSpace').catchError((error) {
       // Ignore errors during initialization
-      debugPrint('Method channel initialization error (expected): $error');
+      appLogger.debug('Method channel initialization error (expected): $error');
     });
   } catch (e) {
     // Ignore errors during initialization
-    debugPrint('Method channel initialization exception (expected): $e');
+    appLogger.debug('Method channel initialization exception (expected): $e');
   }
   
   runApp(const MyApp());

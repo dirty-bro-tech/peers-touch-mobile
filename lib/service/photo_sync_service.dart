@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:pure_touch/utils/logger.dart';
 
 class PhotoSyncService {
   // Singleton pattern (optional - use if you need single instance)
@@ -20,6 +21,6 @@ class PhotoSyncService {
     // - Upload photos to cloud storage
     // - Update backend database
     // - Mark photos as synced locally
-    print('Syncing photos with indices: $photoIndices');
+    appLogger.info('Syncing photos with indices: $photoIndices');
   }
 }

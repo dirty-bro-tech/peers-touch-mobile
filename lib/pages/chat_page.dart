@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
+import 'package:pure_touch/utils/logger.dart';
 
 class ChatPage extends StatelessWidget {
   static final List<FloatingActionOption> actionOptions = [
     FloatingActionOption(
       icon: Icons.group_add,
       tooltip: 'New Group',
-      onPressed: () => print('New Group pressed'),
+      onPressed: () => appLogger.info('New Group pressed'),
     ),
     FloatingActionOption(
       icon: Icons.person_add,
       tooltip: 'Add Contact',
-      onPressed: () => print('Add Contact pressed'),
+      onPressed: () => appLogger.info('Add Contact pressed'),
     ),
   ];
 

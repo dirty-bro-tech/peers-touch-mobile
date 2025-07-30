@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:pure_touch/utils/logger.dart';
 
 class PhotoModel {
   final int id;
@@ -22,13 +23,13 @@ class PhotoModel {
         return path;
       } else {
         if (kDebugMode) {
-          print('File does not exist: $path');
+          appLogger.warning('File does not exist: $path');
         }
         return null;
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error checking file path: $e');
+        appLogger.error('Error checking file path: $e');
       }
       return null;
     }
@@ -40,7 +41,7 @@ class PhotoModel {
       return File(path).existsSync();
     } catch (e) {
       if (kDebugMode) {
-        print('Error checking if file exists: $e');
+        appLogger.error('Error checking if file exists: $e');
       }
       return false;
     }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pure_touch/utils/logger.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '../../controller/photo_controller.dart';
 
@@ -196,7 +197,7 @@ class _PhotoGridWidgetState extends State<PhotoGridWidget> {
       );
       return thumbnailPath != null ? File(thumbnailPath) : null;
     } catch (e) {
-      print('Error generating video thumbnail: $e');
+      appLogger.error('Error generating video thumbnail: $e');
       return null;
     }
   }

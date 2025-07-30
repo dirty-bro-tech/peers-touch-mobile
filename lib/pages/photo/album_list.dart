@@ -85,14 +85,45 @@ class _AlbumListWidgetState extends State<AlbumListWidget> {
                 onPressed: controller.selectedAlbums.isNotEmpty
                     ? () async {
                         try {
-                          final success = await controller.uploadSelectedAlbums();
+                          final PhotoController photoController = Get.find<PhotoController>();
+                          
+                          // Check if there are albums to sync
+                          if (controller.selectedAlbums.isEmpty) {
+                            Get.snackbar('Warning', 'No albums selected for sync');
+                            return;
+                          }
+                          
+                          // Check network connectivity (basic check)
+                          final success = await photoController.uploadSelectedPhotos();
                           if (success) {
                             Get.snackbar('Success', 'Albums synced successfully');
                           } else {
-                            Get.snackbar('Error', 'Failed to sync albums');
+                            Get.snackbar(
+                              'Sync Failed', 
+                              'Upload failed. Check:\n• Network connection\n• Server availability\n• Photo permissions\n• Storage space',
+                              duration: const Duration(seconds: 5),
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
                           }
                         } catch (e) {
-                          Get.snackbar('Error', 'An unexpected error occurred: $e');
+                          String errorMsg = 'Sync error: ';
+                          if (e.toString().contains('SocketException')) {
+                            errorMsg += 'Network connection failed';
+                          } else if (e.toString().contains('TimeoutException')) {
+                            errorMsg += 'Request timed out';
+                          } else if (e.toString().contains('FormatException')) {
+                            errorMsg += 'Invalid server response';
+                          } else if (e.toString().contains('Permission')) {
+                            errorMsg += 'Photo access permission denied';
+                          } else {
+                            errorMsg += e.toString();
+                          }
+                          Get.snackbar(
+                            'Error', 
+                            errorMsg,
+                            duration: const Duration(seconds: 5),
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
                         }
                       }
                     : null,

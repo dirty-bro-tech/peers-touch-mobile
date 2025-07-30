@@ -26,10 +26,7 @@ class AlbumController extends GetxController {
     }
   }
 
-  Future<bool> uploadSelectedAlbums() async {
-    // Implement upload logic
-    return false;
-  }
+  // Upload functionality moved to PhotoController.uploadSelectedPhotos()
 
   void clearAllStates() {
     selectedAlbums.clear();

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pure_touch/pages/photo/photo_grid.dart';
+import 'package:pure_touch/utils/logger.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'package:pure_touch/controller/photo_controller.dart';
@@ -18,8 +19,8 @@ class PhotoSelectionSheet extends StatelessWidget {
     final PhotoController photoController = Get.find<PhotoController>();
     
     if (kDebugMode) {
-      print('Building PhotoSelectionSheet');
-      print('Current selected album: ${photoController.currentSelectedAlbum.value?.name ?? "None"}');
+      appLogger.info('Building PhotoSelectionSheet');
+      appLogger.info('Current selected album: ${photoController.currentSelectedAlbum.value?.name ?? "None"}');
     }
     
     return Container(

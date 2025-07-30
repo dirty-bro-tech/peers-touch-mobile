@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:photo_manager/photo_manager.dart';
 import 'package:pure_touch/model/photo_model.dart';
+import 'package:pure_touch/utils/logger.dart';
 
 import 'package:pure_touch/pages/photo/photo_selection_sheet.dart';
 
@@ -87,24 +88,24 @@ class PhotoController extends GetxController {
   Future<bool> checkStorageSpace() async {
     try {
       if (kDebugMode) {
-        print('Starting storage space check...');
+        appLogger.info('Starting storage space check...');
       }
       
       // Initialize the method channel early if needed
       if (!_isMethodChannelInitialized) {
         if (kDebugMode) {
-          print('Method channel not initialized, initializing now...');
+          appLogger.info('Method channel not initialized, initializing now...');
         }
         await _initializeMethodChannel();
       }
       
       if (kDebugMode) {
-        print('Getting temporary directory...');
+        appLogger.info('Getting temporary directory...');
       }
       final directory = await getTemporaryDirectory();
       
       if (kDebugMode) {
-        print('Temporary directory path: ${directory.path}');
+        appLogger.info('Temporary directory path: ${directory.path}');
       }
       
       final freeSpace = await _getFreeDiskSpace(directory);
@@ -112,17 +113,17 @@ class PhotoController extends GetxController {
       const requiredSpace = 100 * 1024 * 1024; // 100MB
       
       if (kDebugMode) {
-        print('Available storage space: ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
-        print('Required storage space: ${(requiredSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
-        print('Storage check result: ${freeSpace > requiredSpace ? 'SUFFICIENT' : 'INSUFFICIENT'} space');
+        appLogger.info('Available storage space: ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
+        appLogger.info('Required storage space: ${(requiredSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
+        appLogger.info('Storage check result: ${freeSpace > requiredSpace ? 'SUFFICIENT' : 'INSUFFICIENT'} space');
       }
       
       return freeSpace > requiredSpace;
     } catch (e) {
       if (kDebugMode) {
-        print('Error checking storage space: $e');
-        print('Stack trace: ${StackTrace.current}');
-        print('Assuming sufficient space due to error');
+        appLogger.error('Error checking storage space: $e');
+        appLogger.error('Stack trace: ${StackTrace.current}');
+        appLogger.info('Assuming sufficient space due to error');
       }
       // In case of error, we'll assume there's enough space to avoid false negatives
       // This is safer than blocking the user unnecessarily
@@ -145,13 +146,13 @@ class PhotoController extends GetxController {
       await _storageChannel.invokeMethod('getFreeDiskSpace').catchError((error) {
         // Ignore errors during initialization
         if (kDebugMode) {
-          print('Method channel initialization error (expected): $error');
+          appLogger.debug('Method channel initialization error (expected): $error');
         }
       });
     } catch (e) {
       // Ignore errors during initialization
       if (kDebugMode) {
-        print('Method channel initialization exception (expected): $e');
+        appLogger.debug('Method channel initialization exception (expected): $e');
       }
     }
     
@@ -167,7 +168,7 @@ class PhotoController extends GetxController {
           await Future.delayed(const Duration(milliseconds: 500));
           
           if (kDebugMode) {
-            print('Attempting to get free disk space via method channel...');
+            appLogger.info('Attempting to get free disk space via method channel...');
           }
           
           final Map<String, dynamic>? result = await _storageChannel.invokeMapMethod<String, dynamic>('getFreeDiskSpace');
@@ -176,27 +177,27 @@ class PhotoController extends GetxController {
             // Convert to int if it's not already
             if (freeSpace is int) {
               if (kDebugMode) {
-                print('Successfully got free space from method channel: ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
+                appLogger.info('Successfully got free space from method channel: ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
               }
               return freeSpace;
             } else if (freeSpace is double) {
               if (kDebugMode) {
-                print('Successfully got free space from method channel (double): ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
+                appLogger.info('Successfully got free space from method channel (double): ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
               }
               return freeSpace.toInt();
             } else {
               if (kDebugMode) {
-                print('Unexpected type for freeSpace: ${freeSpace.runtimeType}');
+                appLogger.warning('Unexpected type for freeSpace: ${freeSpace.runtimeType}');
               }
             }
           } else {
             if (kDebugMode) {
-              print('Method channel returned invalid result: $result');
+              appLogger.warning('Method channel returned invalid result: $result');
             }
           }
         } catch (methodError) {
           if (kDebugMode) {
-            print('Method channel error: $methodError');
+            appLogger.error('Method channel error: $methodError');
           }
           // Continue to fallback methods
         }
@@ -205,7 +206,7 @@ class PhotoController extends GetxController {
       // Try to get disk space information using dart:io
       try {
         if (kDebugMode) {
-          print('Attempting to get free disk space via directory.statSync()...');
+          appLogger.info('Attempting to get free disk space via directory.statSync()...');
         }
         
         // On some platforms, we can get disk space from the directory stats
@@ -213,7 +214,7 @@ class PhotoController extends GetxController {
         final freeSpace = statFs.size;
         
         if (kDebugMode) {
-          print('Got free space from statSync: ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
+          appLogger.info('Got free space from statSync: ${(freeSpace / (1024 * 1024)).toStringAsFixed(2)} MB');
         }
         
         // If we get a reasonable value (more than 10MB), use it
@@ -221,24 +222,24 @@ class PhotoController extends GetxController {
           return freeSpace;
         } else {
           if (kDebugMode) {
-            print('statSync returned unreasonably small value: $freeSpace bytes');
+            appLogger.warning('statSync returned unreasonably small value: $freeSpace bytes');
           }
         }
       } catch (statError) {
         if (kDebugMode) {
-          print('Stat error: $statError');
+          appLogger.error('Stat error: $statError');
         }
       }
       
       // If all else fails, assume there's enough space (500MB)
       // This prevents false negatives when we can't accurately determine free space
       if (kDebugMode) {
-        print('Using default free space value: 500 MB');
+        appLogger.info('Using default free space value: 500 MB');
       }
       return 500 * 1024 * 1024; // 500MB default
     } catch (e) {
       if (kDebugMode) {
-        print('Error getting free disk space: $e');
+        appLogger.error('Error getting free disk space: $e');
       }
       // Return a reasonable default in case of error
       return 500 * 1024 * 1024; // Assume 500MB free as fallback
@@ -249,20 +250,26 @@ class PhotoController extends GetxController {
   final Map<String, int> _albumPageMap = {};
   final int _pageSize = 20; // Number of photos to load per page
   final RxBool isLoadingMore = false.obs;
+  final RxBool isUploading = false.obs;
+  final RxDouble uploadProgress = 0.0.obs;
+  final RxString uploadStatus = ''.obs;
+  final RxInt totalFilesToUpload = 0.obs;
+  final RxInt uploadedFilesCount = 0.obs;
+  bool _uploadCancelled = false;
   
   Future<void> loadPhotosForAlbum(AssetPathEntity album) async {
     bool shouldContinue = true;
     
     if (kDebugMode) {
-      print('loadPhotosForAlbum called for album: ${album.name}');
+      appLogger.info('loadPhotosForAlbum called for album: ${album.name}');
     }
     
     // Set the current selected album at the beginning of the method
     // to ensure it's set even if we exit early due to storage issues
     currentSelectedAlbum.value = album;
     if (kDebugMode) {
-      print('Set currentSelectedAlbum.value to: ${album.name}');
-      print('currentSelectedAlbum.value is now: ${currentSelectedAlbum.value?.name}');
+      appLogger.info('Set currentSelectedAlbum.value to: ${album.name}');
+      appLogger.info('currentSelectedAlbum.value is now: ${currentSelectedAlbum.value?.name}');
     }
     update(); // Force update to ensure UI reflects the change
     
@@ -272,13 +279,13 @@ class PhotoController extends GetxController {
     
     try {
       if (kDebugMode) {
-        print('Checking storage space before loading photos...');
+        appLogger.info('Checking storage space before loading photos...');
       }
       
       final hasEnoughSpace = await checkStorageSpace();
       if (!hasEnoughSpace) {
         if (kDebugMode) {
-          print('Not enough storage space detected, showing error to user');
+          appLogger.warning('Not enough storage space detected, showing error to user');
         }
         
         Get.snackbar(
@@ -295,9 +302,9 @@ class PhotoController extends GetxController {
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error in storage check: $e');
-        print('Stack trace: ${StackTrace.current}');
-        print('Continuing with photo loading despite storage check error');
+        appLogger.error('Error in storage check: $e');
+        appLogger.error('Stack trace: ${StackTrace.current}');
+        appLogger.info('Continuing with photo loading despite storage check error');
       }
       // Continue loading photos even if storage check fails
       // This prevents blocking the user unnecessarily
@@ -305,21 +312,21 @@ class PhotoController extends GetxController {
     
     if (!shouldContinue) {
       if (kDebugMode) {
-        print('Aborting photo loading due to insufficient storage');
+        appLogger.warning('Aborting photo loading due to insufficient storage');
       }
       return;
     }
 
     try {
       if (kDebugMode) {
-        print('Loading first page of photos for album: ${album.name}');
+        appLogger.info('Loading first page of photos for album: ${album.name}');
       }
       
       await loadMorePhotos(album);
     } catch (e) {
       if (kDebugMode) {
-        print('Error getting asset list for album: $e');
-        print('Stack trace: ${StackTrace.current}');
+        appLogger.error('Error getting asset list for album: $e');
+        appLogger.error('Stack trace: ${StackTrace.current}');
       }
       Get.snackbar('Error', 'Failed to load photos from album: $e');
     }
@@ -335,7 +342,7 @@ class PhotoController extends GetxController {
       final int currentPage = _albumPageMap[album.id] ?? 0;
       
       if (kDebugMode) {
-        print('Loading page $currentPage for album: ${album.name}');
+        appLogger.info('Loading page $currentPage for album: ${album.name}');
       }
       
       List<AssetEntity> assets = [];
@@ -346,7 +353,7 @@ class PhotoController extends GetxController {
         );
         
         if (kDebugMode) {
-          print('Found ${assets.length} assets in album for page $currentPage');
+          appLogger.info('Found ${assets.length} assets in album for page $currentPage');
         }
         
         // If no more assets, return false
@@ -355,8 +362,8 @@ class PhotoController extends GetxController {
         }
       } catch (e) {
         if (kDebugMode) {
-          print('Error getting asset list for album: $e');
-          print('Stack trace: ${StackTrace.current}');
+          appLogger.error('Error getting asset list for album: $e');
+          appLogger.error('Stack trace: ${StackTrace.current}');
         }
         Get.snackbar('Error', 'Failed to load more photos: $e');
         return false;
@@ -399,7 +406,7 @@ class PhotoController extends GetxController {
           }
         } catch (e) {
           if (kDebugMode) {
-            print('Error getting file for asset ${asset.id}: $e');
+            appLogger.error('Error getting file for asset ${asset.id}: $e');
           }
         }
       }
@@ -413,13 +420,13 @@ class PhotoController extends GetxController {
           }
         } catch (e) {
           if (kDebugMode) {
-            print('Error checking photo path: $e');
+            appLogger.error('Error checking photo path: $e');
           }
         }
       }
       
       if (kDebugMode) {
-        print('Found ${validPhotos.length} valid photos for page $currentPage');
+        appLogger.info('Found ${validPhotos.length} valid photos for page $currentPage');
       }
       
       // Add photos to the existing list
@@ -433,7 +440,7 @@ class PhotoController extends GetxController {
       return true;
     } catch (e) {
       if (kDebugMode) {
-        print('Error loading more photos: $e');
+        appLogger.error('Error loading more photos: $e');
       }
       Get.snackbar('Error', 'Failed to load more photos: $e');
       isLoadingMore.value = false;
@@ -457,97 +464,220 @@ class PhotoController extends GetxController {
     }
   }
 
-  // Upload method to sync selected albums
-  Future<bool> uploadSelectedAlbums() async {
-    final url = Uri.parse('http://192.168.31.19:8082/family/photo/sync');
-    final request = http.MultipartRequest('POST', url);
-
+  // Cancel upload process
+  void cancelUpload() {
+    _uploadCancelled = true;
+    uploadStatus.value = 'Cancelling upload...';
+  }
+  
+  // Upload method to sync selected photos with progress tracking
+  Future<bool> uploadSelectedPhotos() async {
+    if (isUploading.value) return false;
+    
+    // Reset upload state
+    isUploading.value = true;
+    _uploadCancelled = false;
+    uploadProgress.value = 0.0;
+    uploadedFilesCount.value = 0;
+    
     try {
+      // Calculate total files to upload
+      int totalFiles = selectedPhotos.length;
+      
+      // Add photos from selected albums
       for (final album in selectedAlbums) {
         final List<AssetEntity> assets = await album.getAssetListRange(
           start: 0,
           end: 9999,
         );
-        for (final asset in assets) {
-          final file = await asset.file;
-          if (file != null) {
-            final stream = http.ByteStream(file.openRead());
-            final length = await file.length();
-            final multipartFile = http.MultipartFile(
-              'media',
-              stream,
-              length,
-              filename: file.path.split('/').last,
-            );
-            request.files.add(multipartFile);
-          }
-        }
+        totalFiles += assets.length;
       }
-
-      final response = await request.send();
-      final responseData = await response.stream.toBytes();
-      final responseString = String.fromCharCodes(responseData);
-
-      if (response.statusCode == 200) {
-        // Mark selected albums as synced
-        syncedAlbums.addAll(selectedAlbums);
-        // Clear selected albums after successful upload
-        selectedAlbums.clear();
-        return true;
-      } else {
-        print(
-          'Upload failed with status: ${response.statusCode}, Response: $responseString',
-        );
-        return false;
-      }
-    } catch (e) {
-      print('Error uploading albums: $e');
-      return false;
-    }
-  }
-
-  // Upload method to sync selected photos
-  Future<bool> uploadSelectedPhotos() async {
-    final url = Uri.parse('http://192.168.31.19:8082/family/photo/sync');
-    final request = http.MultipartRequest('POST', url);
-
-    try {
+      
+      totalFilesToUpload.value = totalFiles;
+      uploadStatus.value = 'Starting upload...';
+      
+      // Show progress dialog
+      _showUploadProgressDialog();
+      
+      // Upload individual selected photos
       for (final photoId in selectedPhotos) {
+        if (_uploadCancelled) {
+          Get.back(); // Close dialog
+          _resetUploadState();
+          return false;
+        }
+        
         final photo = photos.firstWhereOrNull((p) => p.id == photoId);
         if (photo != null) {
           final file = File(photo.path);
           if (await file.exists()) {
-            final stream = http.ByteStream(file.openRead());
-            final length = await file.length();
-            final multipartFile = http.MultipartFile(
-              'photo',
-              stream,
-              length,
-              filename: file.path.split('/').last,
-            );
-            request.files.add(multipartFile);
+            uploadStatus.value = 'Uploading ${file.path.split('/').last}...';
+            final success = await _uploadSinglePhoto(file, currentSelectedAlbum.value?.name);
+            if (!success) {
+              appLogger.error('Failed to upload photo: ${photo.path}');
+              Get.back(); // Close dialog
+              _resetUploadState();
+              Get.snackbar('Upload Error', 'Failed to upload ${file.path.split('/').last}');
+              return false;
+            }
+            _updateProgress();
+          }
+        }
+      }
+      
+      // Upload photos from selected albums
+      for (final album in selectedAlbums) {
+        if (_uploadCancelled) {
+          Get.back(); // Close dialog
+          _resetUploadState();
+          return false;
+        }
+        
+        final List<AssetEntity> assets = await album.getAssetListRange(
+          start: 0,
+          end: 9999,
+        );
+        
+        for (final asset in assets) {
+          if (_uploadCancelled) {
+            Get.back(); // Close dialog
+            _resetUploadState();
+            return false;
+          }
+          
+          final file = await asset.file;
+          if (file != null) {
+            uploadStatus.value = 'Uploading ${file.path.split('/').last} from ${album.name}...';
+            final success = await _uploadSinglePhoto(file, album.name);
+            if (!success) {
+              appLogger.error('Failed to upload photo from album ${album.name}: ${file.path}');
+              Get.back(); // Close dialog
+              _resetUploadState();
+              Get.snackbar('Upload Error', 'Failed to upload ${file.path.split('/').last}');
+              return false;
+            }
+            _updateProgress();
           }
         }
       }
 
+      // Mark selected photos and albums as synced
+      syncedPhotos.addAll(selectedPhotos);
+      syncedAlbums.addAll(selectedAlbums);
+      
+      // Clear selected items after successful upload
+      selectedPhotos.clear();
+      selectedAlbums.clear();
+      
+      uploadStatus.value = 'Upload completed successfully!';
+      await Future.delayed(const Duration(seconds: 1));
+      Get.back(); // Close dialog
+      _resetUploadState();
+      
+      return true;
+    } catch (e) {
+      appLogger.error('Error uploading photos: $e');
+      Get.back(); // Close dialog
+      _resetUploadState();
+      Get.snackbar('Upload Error', 'An unexpected error occurred: $e');
+      return false;
+    }
+  }
+  
+  void _updateProgress() {
+    uploadedFilesCount.value++;
+    uploadProgress.value = uploadedFilesCount.value / totalFilesToUpload.value;
+  }
+  
+  void _resetUploadState() {
+    isUploading.value = false;
+    uploadProgress.value = 0.0;
+    uploadStatus.value = '';
+    totalFilesToUpload.value = 0;
+    uploadedFilesCount.value = 0;
+    _uploadCancelled = false;
+  }
+  
+  void _showUploadProgressDialog() {
+    Get.dialog(
+      WillPopScope(
+        onWillPop: () async {
+          cancelUpload();
+          return false;
+        },
+        child: AlertDialog(
+          title: const Text('Uploading Photos'),
+          content: Obx(() => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LinearProgressIndicator(
+                value: uploadProgress.value,
+                backgroundColor: Colors.grey[300],
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '${uploadedFilesCount.value} / ${totalFilesToUpload.value} files uploaded',
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                uploadStatus.value,
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          )),
+          actions: [
+            TextButton(
+              onPressed: () {
+                cancelUpload();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+  
+  Future<bool> _uploadSinglePhoto(File file, String? albumName) async {
+    final url = Uri.parse('http://192.168.31.19:8082/family/photo/sync');
+    final request = http.MultipartRequest('POST', url);
+    
+    try {
+      // Add album parameter if provided
+      if (albumName != null) {
+        request.fields['album'] = albumName;
+      }
+      
+      // Add photo file
+      final stream = http.ByteStream(file.openRead());
+      final length = await file.length();
+      final multipartFile = http.MultipartFile(
+        'photo',
+        stream,
+        length,
+        filename: file.path.split('/').last,
+      );
+      request.files.add(multipartFile);
+      
       final response = await request.send();
       final responseData = await response.stream.toBytes();
       final responseString = String.fromCharCodes(responseData);
-
+      
       if (response.statusCode == 200) {
-        // Mark selected photos as synced
-        syncedPhotos.addAll(selectedPhotos);
-        // Clear selected photos after successful upload
-        selectedPhotos.clear();
         return true;
       } else {
-        print(
+        appLogger.error(
           'Upload failed with status: ${response.statusCode}, Response: $responseString',
         );
         return false;
       }
     } catch (e) {
-      print('Error uploading photos: $e');
+      appLogger.error('Error uploading single photo: $e');
       return false;
     }
   }
@@ -557,14 +687,14 @@ class PhotoController extends GetxController {
     _isShowSyncPhotoDrawerRunning.value = true;
 
     if (kDebugMode) {
-      print('Showing sync photo drawer');
+      appLogger.info('Showing sync photo drawer');
     }
 
     try {
       // Load albums first and await completion
       if (albums.isEmpty) {
         if (kDebugMode) {
-          print('Albums empty, loading albums');
+          appLogger.info('Albums empty, loading albums');
         }
         await loadAlbums();
         // Add a small delay to ensure UI updates
@@ -577,8 +707,8 @@ class PhotoController extends GetxController {
       update();
       
       if (kDebugMode) {
-        print('Showing bottom sheet');
-        print('Current selected album: ${currentSelectedAlbum.value?.name ?? "None"}');
+        appLogger.info('Showing bottom sheet');
+        appLogger.info('Current selected album: ${currentSelectedAlbum.value?.name ?? "None"}');
       }
 
       // Show the bottom sheet after albums are loaded
@@ -588,12 +718,12 @@ class PhotoController extends GetxController {
       ).whenComplete(() {
         // Clear data when the drawer is closed
         if (kDebugMode) {
-          print('Bottom sheet closed, clearing data');
+          appLogger.info('Bottom sheet closed, clearing data');
         }
         clearAlbumAndPhotoData();
       });
     } catch (e) {
-      print('Error showing sync photo drawer: $e');
+      appLogger.error('Error showing sync photo drawer: $e');
     } finally {
       _isShowSyncPhotoDrawerRunning.value = false;
     }
@@ -601,8 +731,8 @@ class PhotoController extends GetxController {
 
   void clearAlbumAndPhotoData() {
     if (kDebugMode) {
-      print('Clearing album and photo data');
-      print('Current selected album before clearing: ${currentSelectedAlbum.value?.name ?? "None"}');
+      appLogger.info('Clearing album and photo data');
+      appLogger.info('Current selected album before clearing: ${currentSelectedAlbum.value?.name ?? "None"}');
     }
     
     photos.clear();
@@ -613,7 +743,7 @@ class PhotoController extends GetxController {
     currentSelectedAlbum.value = null;
     
     if (kDebugMode) {
-      print('Current selected album after clearing: ${currentSelectedAlbum.value?.name ?? "None"}');
+      appLogger.info('Current selected album after clearing: ${currentSelectedAlbum.value?.name ?? "None"}');
     }
     
     update();
