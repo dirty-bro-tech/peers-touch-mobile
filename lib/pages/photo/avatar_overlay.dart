@@ -8,74 +8,60 @@ class AvatarOverlay extends StatelessWidget {
     // Remove the outer Positioned widget here
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'User Name',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+            // Avatar positioned at top right
+             Row(
+               mainAxisAlignment: MainAxisAlignment.end,
+               crossAxisAlignment: CrossAxisAlignment.end,
+               children: [
+                 Transform.translate(
+                   offset: const Offset(0, 3), // Lower by 3 units vertically
+                   child: Container(
+                     width: 64,
+                     height: 64,
+                     decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.circular(8),
+                       image: const DecorationImage(
+                         image: NetworkImage('https://picsum.photos/100'),
+                         fit: BoxFit.cover,
+                       ),
+                     ),
+                   ),
+                 ),
+               ],
+             ),
+            const SizedBox(height: 14),
+            // Bio text positioned below the header
+            Padding(
+              padding: const EdgeInsets.only(right: 0),
+              child: Text(
+                _processBioText(
+                  'User Bio Ha Ha hah hasd hello hello hello hello hello, hi hi hi hi hi hi hi hi hi ',
                 ),
-                const SizedBox(height: 14),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 0),
-                  child: Text(
-                    _processBioText(
-                      'User Bio Ha Ha hah hasd hello hello hello hello hello, hi hi hi hi hi hi hi hi hi ',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  height: 1,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black.withOpacity(0.5),
+                      blurRadius: 4,
                     ),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      height: 1,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black.withOpacity(0.5),
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                    softWrap: true, // Allow text wrapping
-                    overflow: TextOverflow.visible, // Allow text overflow
-                    maxLines: 2, // Set maxLines to allow multiple lines
-                    // Removed maxLines to enable multi-line display
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(width: 14),
-            Transform.translate(
-              offset: const Offset(0, 3), // Lower by 3 units vertically
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const SizedBox(width: 14),
-                  Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      image: const DecorationImage(
-                        image: NetworkImage('https://picsum.photos/100'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
+                softWrap: true, // Allow text wrapping
+                overflow: TextOverflow.visible, // Allow text overflow
+                maxLines: 2, // Set maxLines to allow multiple lines
+                textAlign: TextAlign.right,
               ),
             ),
           ],
         );
-      },
-    );
+       },
+     );
   }
 
   // Helper to add line break after 8th word

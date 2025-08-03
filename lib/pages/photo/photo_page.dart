@@ -43,7 +43,7 @@ class PhotoPage extends GetView<PhotoController> {
     return Scaffold(
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 0),
-        itemCount: 11, // Revert to original count (header + 10 posts)
+        itemCount: 12, // Header + divider + 10 posts
         itemBuilder: (context, index) {
           if (index == 0) {
             return Stack(
@@ -58,18 +58,16 @@ class PhotoPage extends GetView<PhotoController> {
               ],
             );
           } else if (index == 1) {
-            // New divider between header and posts
+            // Divider between header and posts
             return Divider(
-              height: _getHeaderHeight() - 140,
-              // Thin line
-              thickness: 0.1,
+              height: _getHeaderHeight() - 45,
+              thickness: 0.5,
               color: Colors.grey,
-              indent: 16,
-              // Left margin
-              endIndent: 16, // Right margin
+              indent: 0,
+              endIndent: 0,
             );
           } else {
-            // Post items (adjust index by -1 to account for divider)
+            // Post items (adjust index by -2 to account for header and divider)
             return const PhotoPostItem();
           }
         },
