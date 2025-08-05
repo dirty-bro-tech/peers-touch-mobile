@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 
-import 'photo_controller.dart';
-import 'album_controller.dart';
+import 'package:pure_touch/controller/photo_controller.dart';
+import 'package:pure_touch/controller/album_controller.dart';
+import 'package:pure_touch/controller/device_id_controller.dart';
 
 class ControllerManager {
   static final ControllerManager _instance = ControllerManager._internal();
@@ -12,16 +13,18 @@ class ControllerManager {
 
   ControllerManager._internal() {
     // Initialize all controllers
+    _deviceIdController = Get.put(DeviceIdController());
     _photoController = Get.put(PhotoController());
     _albumController = Get.put(AlbumController());
   }
 
   // Add your controllers here
   // Example:
+  static DeviceIdController get deviceIdController => _instance._deviceIdController;
   static PhotoController get photoController => _instance._photoController;
-
   static AlbumController get albumController => _instance._albumController;
+  
+  late final DeviceIdController _deviceIdController;
   late final AlbumController _albumController;
-
   late final PhotoController _photoController;
 }

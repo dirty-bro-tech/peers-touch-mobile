@@ -9,7 +9,7 @@ import 'package:pure_touch/utils/logger.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import 'package:pure_touch/controller/photo_controller.dart';
-import 'album_list.dart';
+import 'package:pure_touch/pages/photo/album_list.dart';
 
 class PhotoSelectionSheet extends StatelessWidget {
   const PhotoSelectionSheet({super.key});

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pure_touch/utils/logger.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import '../../controller/photo_controller.dart';
+import 'package:pure_touch/controller/photo_controller.dart';
 
 class PhotoGridWidget extends StatefulWidget {
   const PhotoGridWidget({super.key});

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jdenticon_dart/jdenticon_dart.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:pure_touch/controller/controller.dart';
 
 class AvatarOverlay extends StatelessWidget {
   const AvatarOverlay({super.key});
@@ -24,10 +28,20 @@ class AvatarOverlay extends StatelessWidget {
                      decoration: BoxDecoration(
                        color: Colors.white,
                        borderRadius: BorderRadius.circular(8),
-                       image: const DecorationImage(
-                         image: NetworkImage('https://picsum.photos/100'),
-                         fit: BoxFit.cover,
-                       ),
+                     ),
+                     child: ClipRRect(
+                       borderRadius: BorderRadius.circular(8),
+                       child: Obx(() {
+                         final deviceIdController = ControllerManager.deviceIdController;
+                         final identiconInput = deviceIdController.getIdenticonInput();
+                         
+                         return SvgPicture.string(
+                           Jdenticon.toSvg(identiconInput), // Uses device ID for consistent avatar
+                           height: 64,
+                           width: 64,
+                           fit: BoxFit.cover,
+                         );
+                       }),
                      ),
                    ),
                  ),

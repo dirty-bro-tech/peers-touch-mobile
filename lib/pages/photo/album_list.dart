@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 
-import '../../controller/album_controller.dart';
-import '../../controller/photo_controller.dart';
+import 'package:pure_touch/controller/album_controller.dart';
+import 'package:pure_touch/controller/photo_controller.dart';
 
 class AlbumListWidget extends StatefulWidget {
   const AlbumListWidget({super.key});

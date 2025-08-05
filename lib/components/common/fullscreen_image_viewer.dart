@@ -5,66 +5,37 @@ import 'package:flutter/services.dart';
 class FullscreenImageViewer extends StatefulWidget {
   final ImageProvider imageProvider;
   final String? heroTag;
+  final VoidCallback? onEdit;
 
   const FullscreenImageViewer({
     Key? key,
     required this.imageProvider,
     this.heroTag,
+    this.onEdit,
   }) : super(key: key);
 
   @override
   State<FullscreenImageViewer> createState() => _FullscreenImageViewerState();
 }
 
-class _FullscreenImageViewerState extends State<FullscreenImageViewer>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _opacityAnimation;
-
+class _FullscreenImageViewerState extends State<FullscreenImageViewer> {
   @override
   void initState() {
     super.initState();
-    
+
     // Hide status bar for fullscreen experience
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    
-    _scaleAnimation = Tween<double>(
-      begin: 0.8,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _opacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
-    
-    _animationController.forward();
   }
 
   @override
   void dispose() {
     // Restore status bar
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    _animationController.dispose();
     super.dispose();
   }
 
   void _closeViewer() {
-    _animationController.reverse().then((_) {
-      Navigator.of(context).pop();
-    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -73,130 +44,131 @@ class _FullscreenImageViewerState extends State<FullscreenImageViewer>
       backgroundColor: Colors.black,
       body: GestureDetector(
         onTap: _closeViewer,
-        child: AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, child) {
-            return Opacity(
-              opacity: _opacityAnimation.value,
-              child: Stack(
-                children: [
-                  // Background blurred image
-                  Positioned.fill(
-                    child: Image(
-                      image: widget.imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  
-                  // Blur overlay for top area
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.3),
-                                Colors.transparent,
-                              ],
-                            ),
-                          ),
-                        ),
+        child: Stack(
+          children: [
+            // Background blurred image
+            Positioned.fill(
+              child: Image(image: widget.imageProvider, fit: BoxFit.cover),
+            ),
+
+            // Blur overlay for top area
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: MediaQuery.of(context).size.height * 0.15,
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withOpacity(0.6),
+                          Colors.black.withOpacity(0.3),
+                          Colors.transparent,
+                        ],
                       ),
                     ),
                   ),
-                  
-                  // Blur overlay for bottom area
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.6),
-                                Colors.black.withOpacity(0.3),
-                                Colors.transparent,
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  
-                  // Center image with Hero animation and rounded bottom border
-                  Positioned.fill(
-                    child: Transform.scale(
-                      scale: _scaleAnimation.value,
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 60),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          ),
-                          child: widget.heroTag != null
-                              ? Hero(
-                                  tag: widget.heroTag!,
-                                  child: Image(
-                                    image: widget.imageProvider,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  ),
-                                )
-                              : Image(
-                                  image: widget.imageProvider,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  
-                  // Close button
-                  Positioned(
-                    top: MediaQuery.of(context).padding.top + 16,
-                    right: 16,
-                    child: GestureDetector(
-                      onTap: _closeViewer,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            );
-          },
+            ),
+
+            // Blur overlay for bottom area
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: MediaQuery.of(context).size.height * 0.15,
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black.withOpacity(0.6),
+                          Colors.black.withOpacity(0.3),
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Center image with Hero animation and rounded bottom border
+            Positioned.fill(
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 60),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  child:
+                      widget.heroTag != null
+                          ? Hero(
+                            tag: widget.heroTag!,
+                            child: Image(
+                              image: widget.imageProvider,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
+                          )
+                          : Image(
+                            image: widget.imageProvider,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                ),
+              ),
+            ),
+
+            // Close button
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 16,
+              right: 16,
+              child: GestureDetector(
+                onTap: _closeViewer,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.close, color: Colors.white, size: 24),
+                ),
+              ),
+            ),
+
+            // Edit button (only shown when onEdit callback is provided)
+            if (widget.onEdit != null)
+              Positioned(
+                bottom: MediaQuery.of(context).size.height * 0.15 + 10,
+                right: 20,
+                child: FloatingActionButton(
+                  mini: true,
+                  heroTag: "fullscreen_edit_button",
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  onPressed: () {
+                    _closeViewer();
+                    widget.onEdit!();
+                  },
+                  child: const Icon(Icons.edit, size: 20),
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -204,19 +176,28 @@ class _FullscreenImageViewerState extends State<FullscreenImageViewer>
 }
 
 class FullscreenImageViewerHelper {
-  static void show(BuildContext context, ImageProvider imageProvider, {String? heroTag}) {
+  static void show(
+    BuildContext context,
+    ImageProvider imageProvider, {
+    String? heroTag,
+    VoidCallback? onEdit,
+  }) {
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        barrierColor: Colors.transparent,
+        barrierColor: Colors.black54,
         pageBuilder: (context, animation, secondaryAnimation) {
           return FullscreenImageViewer(
             imageProvider: imageProvider,
             heroTag: heroTag,
+            onEdit: onEdit,
           );
         },
-        transitionDuration: const Duration(milliseconds: 300),
-        reverseTransitionDuration: const Duration(milliseconds: 300),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        transitionDuration: const Duration(milliseconds: 250),
+        reverseTransitionDuration: const Duration(milliseconds: 250),
       ),
     );
   }

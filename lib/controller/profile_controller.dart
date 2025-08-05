@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../utils/logger.dart';
+import 'package:pure_touch/utils/logger.dart';
 
 class ProfileController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -109,56 +109,5 @@ class ProfileController extends GetxController {
     }
   }
   
-  void showImageOptions() {
-    Get.bottomSheet(
-      Container(
-        padding: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 20,
-          bottom: 20 + MediaQuery.of(Get.context!).padding.bottom,
-        ),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Profile Picture Options',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            if (hasProfileImage.value)
-              ListTile(
-                leading: const Icon(Icons.delete, color: Colors.red),
-                title: const Text('Remove Picture', style: TextStyle(color: Colors.red)),
-                onTap: () {
-                  Get.back();
-                  _removeProfileImage();
-                },
-              ),
-            ListTile(
-              leading: const Icon(Icons.cancel),
-              title: const Text('Cancel'),
-              onTap: () => Get.back(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 }

@@ -58,13 +58,16 @@ class PhotoPage extends GetView<PhotoController> {
               ],
             );
           } else if (index == 1) {
-            // Divider between header and posts
-            return Divider(
-              height: _getHeaderHeight() - 45,
-              thickness: 0.5,
-              color: Colors.grey,
-              indent: 0,
-              endIndent: 0,
+            // Divider between header and posts (positioned below bio)
+            return Container(
+              margin: const EdgeInsets.only(top: 60), // Add margin to position below bio
+              child: const Divider(
+                height: 20,
+                thickness: 0.5,
+                color: Colors.grey,
+                indent: 0,
+                endIndent: 0,
+              ),
             );
           } else {
             // Post items (adjust index by -2 to account for header and divider)

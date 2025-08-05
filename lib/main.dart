@@ -6,7 +6,7 @@ import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
 import 'package:pure_touch/utils/logger.dart';
 
-import 'components/navigation/bottom_nav_bar.dart';
+import 'package:pure_touch/components/navigation/bottom_nav_bar.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
 
 import 'package:get/get.dart';
