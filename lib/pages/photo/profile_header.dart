@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pure_touch/controller/profile_controller.dart';
 import 'package:pure_touch/components/common/fullscreen_image_viewer.dart';
 import 'package:pure_touch/pages/photo/image_selection_page.dart';
+import 'package:pure_touch/utils/app_localizations_helper.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
@@ -108,7 +109,7 @@ class ProfileHeader extends StatelessWidget {
           bottom: 4,
           right: 90,
           child: Text(
-            'User Name',
+              AppLocalizationsHelper.getLocalizedString((l10n) => l10n.userName, 'User Name'),
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16,

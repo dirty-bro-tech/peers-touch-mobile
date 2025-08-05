@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:pure_touch/controller/profile_controller.dart';
+import 'package:pure_touch/utils/app_localizations_helper.dart';
 
 class ImageSelectionPage extends StatelessWidget {
   const ImageSelectionPage({super.key});
@@ -11,7 +12,7 @@ class ImageSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Profile Picture'),
+        title: Text(AppLocalizationsHelper.getLocalizedString((l10n) => l10n.selectProfilePicture, 'Select Profile Picture')),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
@@ -27,15 +28,15 @@ class ImageSelectionPage extends StatelessWidget {
             const SizedBox(height: 20),
             _buildOptionTile(
               icon: Icons.photo_library,
-              title: 'Choose from Gallery',
-              subtitle: 'Select from your photos',
+              title: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.chooseFromGallery, 'Choose from Gallery'),
+              subtitle: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.selectFromPhotos, 'Select from your photos'),
               onTap: () => _openGallery(),
             ),
             const Divider(height: 1),
             _buildOptionTile(
               icon: Icons.photo,
-              title: 'Choose from Posts',
-              subtitle: 'Coming soon...',
+              title: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.chooseFromPosts, 'Choose from Posts'),
+              subtitle: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.comingSoon, 'Coming soon...'),
               onTap: () => _showComingSoon(),
               enabled: false,
             ),
@@ -98,8 +99,8 @@ class ImageSelectionPage extends StatelessWidget {
 
   void _showComingSoon() {
     Get.snackbar(
-      'Coming Soon',
-      'This feature will be available in future updates',
+      AppLocalizationsHelper.getLocalizedString((l10n) => l10n.comingSoonTitle, 'Coming Soon'),
+        AppLocalizationsHelper.getLocalizedString((l10n) => l10n.comingSoonMessage, 'This feature will be available in future updates'),
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.grey[800],
       colorText: Colors.white,
@@ -130,7 +131,10 @@ class _GallerySelectionPageState extends State<GallerySelectionPage> {
       final PermissionState permission = await PhotoManager.requestPermissionExtend();
       if (permission != PermissionState.authorized) {
         Get.back();
-        Get.snackbar('Permission Denied', 'Need photo access to select profile image');
+        Get.snackbar(
+          AppLocalizationsHelper.getLocalizedString((l10n) => l10n.permissionDenied, 'Permission Denied'), 
+          AppLocalizationsHelper.getLocalizedString((l10n) => l10n.needPhotoAccess, 'Need photo access to select profile image')
+        );
         return;
       }
 
@@ -157,7 +161,10 @@ class _GallerySelectionPageState extends State<GallerySelectionPage> {
       setState(() {
         isLoading = false;
       });
-      Get.snackbar('Error', 'Failed to load photos: $e');
+      Get.snackbar(
+          AppLocalizationsHelper.getLocalizedString((l10n) => l10n.error, 'Error'), 
+          'Failed to load photos: $e'
+        );
     }
   }
 
@@ -165,7 +172,7 @@ class _GallerySelectionPageState extends State<GallerySelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Photo'),
+        title: Text(AppLocalizationsHelper.getLocalizedString((l10n) => l10n.selectPhoto, 'Select Photo')),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
@@ -177,7 +184,7 @@ class _GallerySelectionPageState extends State<GallerySelectionPage> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : assets.isEmpty
-              ? const Center(child: Text('No photos found'))
+              ? Center(child: Text(AppLocalizationsHelper.getLocalizedString((l10n) => l10n.noPhotosFound, 'No photos found')))
               : GridView.builder(
                   padding: const EdgeInsets.all(8),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -214,14 +221,17 @@ class _GallerySelectionPageState extends State<GallerySelectionPage> {
       Get.back(); // Close gallery page
       Get.back(); // Close selection page
       Get.snackbar(
-        'Success',
-        'Profile picture updated successfully',
+          AppLocalizationsHelper.getLocalizedString((l10n) => l10n.success, 'Success'),
+          AppLocalizationsHelper.getLocalizedString((l10n) => l10n.profilePictureUpdated, 'Profile picture updated successfully'),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to set profile image: $e');
+      Get.snackbar(
+          AppLocalizationsHelper.getLocalizedString((l10n) => l10n.error, 'Error'), 
+          'Failed to set profile image: $e'
+        );
     }
   }
 }

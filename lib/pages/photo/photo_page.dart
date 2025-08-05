@@ -9,22 +9,23 @@ import 'package:pure_touch/pages/photo/avatar_overlay.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
 
 import 'package:pure_touch/controller/controller.dart';
+import 'package:pure_touch/utils/app_localizations_helper.dart';
 
 class PhotoPage extends GetView<PhotoController> {
   static final List<FloatingActionOption> actionOptions = [
     FloatingActionOption(
       icon: Icons.cloud_sync,
-      tooltip: 'Sync Photos',
+      tooltip: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.syncPhotos, 'Sync Photos'),
       onPressed: () => ControllerManager.photoController.showSyncPhotoDrawer(),
     ),
     FloatingActionOption(
       icon: Icons.camera_alt,
-      tooltip: 'Take Photo',
+      tooltip: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.takePhoto, 'Take Photo'),
       onPressed: () => print('Take Photo pressed'),
     ),
     FloatingActionOption(
       icon: Icons.photo_library,
-      tooltip: 'Upload Photo',
+      tooltip: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.uploadPhoto, 'Upload Photo'),
       onPressed: () => print('Upload Photo pressed'),
     ),
   ];

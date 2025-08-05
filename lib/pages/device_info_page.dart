@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pure_touch/controller/controller.dart';
+import 'package:pure_touch/utils/app_localizations_helper.dart';
 
 /// Example page showing device ID information
 /// This demonstrates how to use the DeviceIdController in your app
@@ -10,20 +11,22 @@ class DeviceInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceIdController = ControllerManager.deviceIdController;
-    
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Device Information'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+        title: Text(
+          AppLocalizationsHelper.getLocalizedString(
+            (l10n) => l10n.deviceInformation,
+            'Device Information',
+          ),
+        ),
       ),
+      backgroundColor: Colors.blue,
       body: Obx(() {
         if (deviceIdController.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
-        
+
         return SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -31,52 +34,73 @@ class DeviceInfoPage extends StatelessWidget {
             children: [
               // First Launch Status
               _buildInfoCard(
-                title: 'Installation Status',
-                content: deviceIdController.isFirstLaunch.value 
-                    ? 'First Launch' 
-                    : 'Returning User',
-                icon: deviceIdController.isFirstLaunch.value 
-                    ? Icons.new_releases 
-                    : Icons.verified_user,
-                color: deviceIdController.isFirstLaunch.value 
-                    ? Colors.green 
-                    : Colors.blue,
+                title: AppLocalizationsHelper.getLocalizedString(
+                  (l10n) => l10n.installationStatus,
+                  'Installation Status',
+                ),
+                content:
+                    deviceIdController.isFirstLaunch.value
+                        ? AppLocalizationsHelper.getLocalizedString(
+                          (l10n) => l10n.firstLaunch,
+                          'First Launch',
+                        )
+                        : AppLocalizationsHelper.getLocalizedString(
+                          (l10n) => l10n.returningUser,
+                          'Returning User',
+                        ),
+                icon:
+                    deviceIdController.isFirstLaunch.value
+                        ? Icons.new_releases
+                        : Icons.verified_user,
+                color:
+                    deviceIdController.isFirstLaunch.value
+                        ? Colors.green
+                        : Colors.blue,
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Device ID (DID)
               _buildInfoCard(
-                title: 'Device ID (DID)',
+                title: AppLocalizationsHelper.getLocalizedString(
+                  (l10n) => l10n.deviceId,
+                  'Device ID (DID)',
+                ),
                 content: deviceIdController.getCurrentDeviceId(),
                 icon: Icons.fingerprint,
                 color: Colors.purple,
                 copyable: true,
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Installation ID
               _buildInfoCard(
-                title: 'Installation ID',
+                title: AppLocalizationsHelper.getLocalizedString(
+                  (l10n) => l10n.installationId,
+                  'Installation ID',
+                ),
                 content: deviceIdController.getCurrentInstallationId(),
                 icon: Icons.install_mobile,
                 color: Colors.orange,
                 copyable: true,
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Device Information
               _buildInfoCard(
-                title: 'Device Information',
+                title: AppLocalizationsHelper.getLocalizedString(
+                  (l10n) => l10n.deviceInformation,
+                  'Device Information',
+                ),
                 content: deviceIdController.getDeviceInfoString(),
                 icon: Icons.phone_android,
                 color: Colors.teal,
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Avatar Preview
               Card(
                 child: Padding(
@@ -89,8 +113,13 @@ class DeviceInfoPage extends StatelessWidget {
                           Icon(Icons.account_circle, color: Colors.indigo),
                           const SizedBox(width: 8),
                           Text(
-                            'Generated Avatar',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            AppLocalizationsHelper.getLocalizedString(
+                              (l10n) => l10n.generatedAvatar,
+                              'Generated Avatar',
+                            ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.indigo,
                             ),
@@ -99,7 +128,10 @@ class DeviceInfoPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'This avatar is generated based on your device ID and will remain consistent across app sessions:',
+                        AppLocalizationsHelper.getLocalizedString(
+                          (l10n) => l10n.avatarDescription,
+                          'This avatar is generated based on your device ID and will remain consistent across app sessions:',
+                        ),
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 12),
@@ -109,7 +141,10 @@ class DeviceInfoPage extends StatelessWidget {
                           height: 80,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey.shade300, width: 2),
+                            border: Border.all(
+                              color: Colors.grey.shade300,
+                              width: 2,
+                            ),
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
@@ -134,9 +169,9 @@ class DeviceInfoPage extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Reset Button (for testing)
               Center(
                 child: ElevatedButton.icon(
@@ -145,8 +180,14 @@ class DeviceInfoPage extends StatelessWidget {
                     if (confirmed == true) {
                       await deviceIdController.resetDeviceId();
                       Get.snackbar(
-                        'Reset Complete',
-                        'Device ID has been reset and regenerated',
+                        AppLocalizationsHelper.getLocalizedString(
+                          (l10n) => l10n.resetComplete,
+                          'Reset Complete',
+                        ),
+                        AppLocalizationsHelper.getLocalizedString(
+                          (l10n) => l10n.resetCompleteMessage,
+                          'Device ID has been reset and regenerated',
+                        ),
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Colors.green,
                         colorText: Colors.white,
@@ -154,7 +195,12 @@ class DeviceInfoPage extends StatelessWidget {
                     }
                   },
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Reset Device ID (Testing)'),
+                  label: Text(
+                    AppLocalizationsHelper.getLocalizedString(
+                      (l10n) => l10n.resetDeviceId,
+                      'Reset Device ID (Testing)',
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
@@ -167,7 +213,7 @@ class DeviceInfoPage extends StatelessWidget {
       }),
     );
   }
-  
+
   Widget _buildInfoCard({
     required String title,
     required String content,
@@ -200,55 +246,79 @@ class DeviceInfoPage extends StatelessWidget {
                     onPressed: () {
                       // Copy to clipboard functionality would go here
                       Get.snackbar(
-                        'Copied',
-                        'Content copied to clipboard',
+                        AppLocalizationsHelper.getLocalizedString(
+                          (l10n) => l10n.copied,
+                          'Copied',
+                        ),
+                        AppLocalizationsHelper.getLocalizedString(
+                          (l10n) => l10n.copiedMessage,
+                          'Content copied to clipboard',
+                        ),
                         snackPosition: SnackPosition.BOTTOM,
                         duration: const Duration(seconds: 2),
                       );
                     },
                     icon: const Icon(Icons.copy, size: 20),
-                    tooltip: 'Copy to clipboard',
+                    tooltip: AppLocalizationsHelper.getLocalizedString(
+                      (l10n) => l10n.copyToClipboard,
+                      'Copy to clipboard',
+                    ),
                   ),
               ],
             ),
             const SizedBox(height: 8),
             SelectableText(
               content,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 12,
-              ),
+              style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
             ),
           ],
         ),
       ),
     );
   }
-  
+
   Future<bool?> _showResetConfirmation(BuildContext context) {
     return showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Reset Device ID?'),
-        content: const Text(
-          'This will generate a new device ID and installation ID. '
-          'This action is typically only used for testing purposes.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+      builder:
+          (context) => AlertDialog(
+            title: Text(
+              AppLocalizationsHelper.getLocalizedString(
+                (l10n) => l10n.resetDeviceIdTitle,
+                'Reset Device ID?',
+              ),
             ),
-            child: const Text('Reset'),
+            content: Text(
+              AppLocalizationsHelper.getLocalizedString(
+                (l10n) => l10n.resetDeviceIdMessage,
+                'This will generate a new device ID and installation ID. This action is typically only used for testing purposes.',
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text(
+                  AppLocalizationsHelper.getLocalizedString(
+                    (l10n) => l10n.cancel,
+                    'Cancel',
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                child: Text(
+                  AppLocalizationsHelper.getLocalizedString(
+                    (l10n) => l10n.reset,
+                    'Reset',
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }

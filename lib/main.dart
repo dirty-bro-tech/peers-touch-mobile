@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
@@ -11,20 +11,21 @@ import 'package:pure_touch/components/common/floating_action_ball.dart';
 
 import 'package:get/get.dart';
 
+import 'l10n/app_localizations.dart';
 
 void main() async {
   // Ensure Flutter is initialized
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Register the method channel early
   const MethodChannel platform = MethodChannel('samples.flutter.dev/storage');
-  
+
   // Set up a method call handler to ensure the channel is registered
   platform.setMethodCallHandler((call) async {
     // This is just to ensure the channel is registered
     return null;
   });
-  
+
   // Try to make a call to initialize the channel, but ignore errors
   try {
     await platform.invokeMethod('getFreeDiskSpace').catchError((error) {
@@ -35,7 +36,7 @@ void main() async {
     // Ignore errors during initialization
     appLogger.debug('Method channel initialization exception (expected): $e');
   }
-  
+
   runApp(const MyApp());
 }
 
@@ -44,11 +45,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(  // Changed from MaterialApp
+    return GetMaterialApp(
+      // Changed from MaterialApp
       title: 'Peers Touch',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'), // English
+        Locale('es'), // Spanish
+      ],
       home: const MainScreen(),
     );
   }
@@ -192,10 +204,11 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() {
-          _currentIndex = index;
-          _updateOptions();
-        }),
+        onTap:
+            (index) => setState(() {
+              _currentIndex = index;
+              _updateOptions();
+            }),
       ),
     );
   }

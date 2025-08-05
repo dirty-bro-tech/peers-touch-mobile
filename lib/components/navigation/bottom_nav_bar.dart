@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pure_touch/utils/app_localizations_helper.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -19,22 +20,34 @@ class BottomNavBar extends StatelessWidget {
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey,
       backgroundColor: Colors.white,
-      items: const [
+      items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: AppLocalizationsHelper.getLocalizedString(
+            (l10n) => l10n.navHome,
+            'Home',
+          ),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat),
-          label: 'Chat',
+          label: AppLocalizationsHelper.getLocalizedString(
+            (l10n) => l10n.navChat,
+            'Chat',
+          ),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.photo),
-          label: 'Photo',
+          label: AppLocalizationsHelper.getLocalizedString(
+            (l10n) => l10n.navPhoto,
+            'Photo',
+          ),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile',
+          label: AppLocalizationsHelper.getLocalizedString(
+            (l10n) => l10n.navProfile,
+            'Profile',
+          ),
         ),
       ],
     );

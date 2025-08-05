@@ -1,0 +1,444 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2024-01-01T00:00:00.000Z",
+  
+  "appTitle": "Peers Touch",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "homePageTitle": "Home Page",
+  "@homePageTitle": {
+    "description": "Title for the home page"
+  },
+  
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Navigation label for home"
+  },
+  
+  "navChat": "Chat",
+  "@navChat": {
+    "description": "Navigation label for chat"
+  },
+  
+  "navPhoto": "Photo",
+  "@navPhoto": {
+    "description": "Navigation label for photo"
+  },
+  
+  "navProfile": "Profile",
+  "@navProfile": {
+    "description": "Navigation label for profile"
+  },
+  
+  "deviceInformation": "Device Information",
+  "@deviceInformation": {
+    "description": "Title for device information page"
+  },
+  
+  "installationStatus": "Installation Status",
+  "@installationStatus": {
+    "description": "Label for installation status"
+  },
+  
+  "firstLaunch": "First Launch",
+  "@firstLaunch": {
+    "description": "Status text for first app launch"
+  },
+  
+  "returningUser": "Returning User",
+  "@returningUser": {
+    "description": "Status text for returning user"
+  },
+  
+  "deviceId": "Device ID (DID)",
+  "@deviceId": {
+    "description": "Label for device ID"
+  },
+  
+  "installationId": "Installation ID",
+  "@installationId": {
+    "description": "Label for installation ID"
+  },
+  
+  "generatedAvatar": "Generated Avatar",
+  "@generatedAvatar": {
+    "description": "Title for generated avatar section"
+  },
+  
+  "avatarDescription": "This avatar is generated based on your device ID and will remain consistent across app sessions:",
+  "@avatarDescription": {
+    "description": "Description of how avatar is generated"
+  },
+  
+  "resetDeviceId": "Reset Device ID (Testing)",
+  "@resetDeviceId": {
+    "description": "Button text for resetting device ID"
+  },
+  
+  "resetDeviceIdTitle": "Reset Device ID?",
+  "@resetDeviceIdTitle": {
+    "description": "Title for reset device ID dialog"
+  },
+  
+  "resetDeviceIdMessage": "This will generate a new device ID and installation ID. This action is typically only used for testing purposes.",
+  "@resetDeviceIdMessage": {
+    "description": "Message for reset device ID dialog"
+  },
+  
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  
+  "reset": "Reset",
+  "@reset": {
+    "description": "Reset button text"
+  },
+  
+  "resetComplete": "Reset Complete",
+  "@resetComplete": {
+    "description": "Title for reset complete message"
+  },
+  
+  "resetCompleteMessage": "Device ID has been reset and regenerated",
+  "@resetCompleteMessage": {
+    "description": "Message for reset complete"
+  },
+  
+  "copied": "Copied",
+  "@copied": {
+    "description": "Message when content is copied"
+  },
+  
+  "copiedMessage": "Content copied to clipboard",
+  "@copiedMessage": {
+    "description": "Detailed message when content is copied"
+  },
+  
+  "copyToClipboard": "Copy to clipboard",
+  "@copyToClipboard": {
+    "description": "Tooltip for copy button"
+  },
+  
+  "syncPhotos": "Sync Photos",
+  "@syncPhotos": {
+    "description": "Tooltip for sync photos button"
+  },
+  
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Tooltip for take photo button"
+  },
+  
+  "uploadPhoto": "Upload Photo",
+  "@uploadPhoto": {
+    "description": "Tooltip for upload photo button"
+  },
+  
+  "selectProfilePicture": "Select Profile Picture",
+  "@selectProfilePicture": {
+    "description": "Title for profile picture selection page"
+  },
+  
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": {
+    "description": "Option to choose from gallery"
+  },
+  
+  "selectFromPhotos": "Select from your photos",
+  "@selectFromPhotos": {
+    "description": "Subtitle for gallery option"
+  },
+  
+  "chooseFromPosts": "Choose from Posts",
+  "@chooseFromPosts": {
+    "description": "Option to choose from posts"
+  },
+  
+  "comingSoon": "Coming soon...",
+  "@comingSoon": {
+    "description": "Text for features coming soon"
+  },
+  
+  "comingSoonTitle": "Coming Soon",
+  "@comingSoonTitle": {
+    "description": "Title for coming soon dialog"
+  },
+  
+  "comingSoonMessage": "This feature will be available in future updates",
+  "@comingSoonMessage": {
+    "description": "Message for coming soon features"
+  },
+  
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  
+  "selectPhoto": "Select Photo",
+  "@selectPhoto": {
+    "description": "Title for photo selection dialog"
+  },
+  
+  "noPhotosFound": "No photos found",
+  "@noPhotosFound": {
+    "description": "Message when no photos are found"
+  },
+  
+  "success": "Success",
+  "@success": {
+    "description": "Success message title"
+  },
+  
+  "profilePictureUpdated": "Profile picture updated successfully",
+  "@profilePictureUpdated": {
+    "description": "Message when profile picture is updated"
+  },
+  
+  "error": "Error",
+  "@error": {
+    "description": "Error message title"
+  },
+  
+  "permissionDenied": "Permission Denied",
+  "@permissionDenied": {
+    "description": "Permission denied message title"
+  },
+  
+  "needPhotoAccess": "Need photo access to select profile image",
+  "@needPhotoAccess": {
+    "description": "Message when photo access is needed"
+  },
+  
+  "needMediaAccess": "Need media access to load albums",
+  "@needMediaAccess": {
+    "description": "Message when media access is needed"
+  },
+  
+  "photosSyncedSuccessfully": "Photos synced successfully",
+  "@photosSyncedSuccessfully": {
+    "description": "Message when photos are synced successfully"
+  },
+  
+  "failedToSyncPhotos": "Failed to sync photos",
+  "@failedToSyncPhotos": {
+    "description": "Message when photo sync fails"
+  },
+  
+  "unexpectedError": "An unexpected error occurred: {error}",
+  "@unexpectedError": {
+    "description": "Message for unexpected errors",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "The error message"
+      }
+    }
+  },
+  
+  "syncSelectedPhotos": "Sync Selected Photos ({count})",
+  "@syncSelectedPhotos": {
+    "description": "Button text for syncing selected photos",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of selected photos"
+      }
+    }
+  },
+  
+  "userName": "User Name",
+  "@userName": {
+    "description": "Default user name"
+  },
+  
+  "userBio": "User Bio Ha Ha hah hasd hello hello hello hello hello, hi hi hi hi hi hi hi hi hi",
+  "@userBio": {
+    "description": "Default user bio text"
+  },
+  
+  "photoAlbums": "Photo Albums",
+  "@photoAlbums": {
+    "description": "Title for photo albums page"
+  },
+  
+  "albumSync": "Album Sync",
+  "@albumSync": {
+    "description": "Title for album sync dialog"
+  },
+  
+  "albumSyncMessage": "Select albums to sync with your account. Synced albums will be available across all your devices.",
+  "@albumSyncMessage": {
+    "description": "Message for album sync dialog"
+  },
+  
+  "syncSelectedAlbums": "Sync Selected Albums",
+  "@syncSelectedAlbums": {
+    "description": "Button text for syncing selected albums"
+  },
+  
+  "selectAll": "Select All",
+  "@selectAll": {
+    "description": "Tooltip for select all button"
+  },
+  
+  "deselectAll": "Deselect All",
+  "@deselectAll": {
+    "description": "Tooltip for deselect all button"
+  },
+  
+  "noAlbumsSelected": "No Albums Selected",
+  "@noAlbumsSelected": {
+    "description": "Title when no albums are selected"
+  },
+  
+  "selectAtLeastOneAlbum": "Please select at least one album to sync",
+  "@selectAtLeastOneAlbum": {
+    "description": "Message when no albums are selected for sync"
+  },
+  
+  "albumsSyncedSuccessfully": "Albums synced successfully",
+  "@albumsSyncedSuccessfully": {
+    "description": "Message when albums are synced successfully"
+  },
+  
+  "syncFailed": "Sync Failed",
+  "@syncFailed": {
+    "description": "Title for sync failed message"
+  },
+  
+  "syncFailedMessage": "Upload failed. Check:\n• Network connection\n• Server availability\n• Photo permissions\n• Storage space",
+  "@syncFailedMessage": {
+    "description": "Detailed message for sync failure"
+  },
+  
+  "networkConnectionFailed": "Network connection failed",
+  "@networkConnectionFailed": {
+    "description": "Error message for network connection failure"
+  },
+  
+  "requestTimedOut": "Request timed out",
+  "@requestTimedOut": {
+    "description": "Error message for request timeout"
+  },
+  
+  "invalidServerResponse": "Invalid server response",
+  "@invalidServerResponse": {
+    "description": "Error message for invalid server response"
+  },
+  
+  "photoAccessDenied": "Photo access permission denied",
+  "@photoAccessDenied": {
+    "description": "Error message for photo access denial"
+  },
+  
+  "syncSelectedAlbumsCount": "Sync Selected Albums ({count})",
+  "@syncSelectedAlbumsCount": {
+    "description": "Button text for syncing selected albums with count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of selected albums"
+      }
+    }
+  },
+  
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading text"
+  },
+  
+  "errorLoadingCount": "Error loading count",
+  "@errorLoadingCount": {
+    "description": "Error message when loading count fails"
+  },
+  
+  "itemsCount": "{count} items",
+  "@itemsCount": {
+    "description": "Text showing number of items",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of items"
+      }
+    }
+  },
+  
+  "newGroup": "New Group",
+  "@newGroup": {
+    "description": "Tooltip for new group button"
+  },
+  
+  "addContact": "Add Contact",
+  "@addContact": {
+    "description": "Tooltip for add contact button"
+  },
+  
+  "uploadingPhotos": "Uploading Photos",
+  "@uploadingPhotos": {
+    "description": "Title for uploading photos dialog"
+  },
+  
+  "uploadError": "Upload Error",
+  "@uploadError": {
+    "description": "Title for upload error messages"
+  },
+  
+  "storageError": "Storage Error",
+  "@storageError": {
+    "description": "Title for storage error messages"
+  },
+  
+  "notEnoughStorageSpace": "Not enough storage space on the device to load photos. Please free up at least 100MB of space and try again.",
+  "@notEnoughStorageSpace": {
+    "description": "Message when there's not enough storage space"
+  },
+  
+  "startingUpload": "Starting upload...",
+  "@startingUpload": {
+    "description": "Status message when upload starts"
+  },
+  
+  "cancellingUpload": "Cancelling upload...",
+  "@cancellingUpload": {
+    "description": "Status message when upload is being cancelled"
+  },
+  
+  "uploadCompletedSuccessfully": "Upload completed successfully!",
+  "@uploadCompletedSuccessfully": {
+    "description": "Message when upload completes successfully"
+  },
+  
+  "loadingPhotosFrom": "Loading photos from {albumName}...",
+  "@loadingPhotosFrom": {
+    "description": "Message when loading photos from an album",
+    "placeholders": {
+      "albumName": {
+        "type": "String",
+        "description": "Name of the album"
+      }
+    }
+  },
+  
+  "friendName": "Friend Name",
+  "@friendName": {
+    "description": "Default friend name in posts"
+  },
+  
+  "samplePostContent": "This is a sample post content...",
+  "@samplePostContent": {
+    "description": "Sample post content text"
+  },
+  
+  "increment": "Increment",
+  "@increment": {
+    "description": "Tooltip for increment button"
+  },
+  
+  "youHavePushedButton": "You have pushed the button this many times:",
+  "@youHavePushedButton": {
+    "description": "Counter description text"
+  }
+}
