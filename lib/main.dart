@@ -8,6 +8,7 @@ import 'package:pure_touch/utils/logger.dart';
 
 import 'package:pure_touch/components/navigation/bottom_nav_bar.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
+import 'package:pure_touch/components/common/floating_action_ball.dart' show FloatingActionBall;
 import 'package:pure_touch/components/common/scroll_to_top_button.dart';
 
 import 'package:get/get.dart';
@@ -167,6 +168,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   List<FloatingActionOption> _currentOptions = [];
+  final GlobalKey<FloatingActionBallState> _floatingActionBallKey = GlobalKey<FloatingActionBallState>();
 
   final List<Widget> _pages = [
     const ChatPage(),
@@ -204,34 +206,47 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void _handleOutsideTap() {
+    final floatingActionBallState = _floatingActionBallKey.currentState;
+    if (floatingActionBallState != null && floatingActionBallState.isExpanded) {
+      floatingActionBallState.collapse();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _pages[_currentIndex],
-          if (_currentOptions.isNotEmpty)
-            FloatingLayoutManager.positionedFloatingActionBall(
-              context: context,
-              key: ValueKey(_currentIndex), // Force rebuild on page change
-              options: _currentOptions,
-            ),
-          if (_getCurrentPageKey() != null)
-            FloatingLayoutManager.positionedScrollToTopButton(
-              context: context,
-              pageKey: _getCurrentPageKey()!,
-              hasFloatingOptions: _currentOptions.isNotEmpty,
-              optionsCount: _currentOptions.length,
-            ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _currentIndex,
-        onTap:
-            (index) => setState(() {
-              _currentIndex = index;
-              _updateOptions();
-            }),
+    return GestureDetector(
+      onTap: _handleOutsideTap,
+      behavior: HitTestBehavior.translucent,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            _pages[_currentIndex],
+            if (_currentOptions.isNotEmpty)
+              FloatingLayoutManager.positionedFloatingActionBall(
+                context: context,
+                key: ValueKey(_currentIndex), // Force rebuild on page change
+                options: _currentOptions,
+                globalKey: _floatingActionBallKey,
+              ),
+            if (_getCurrentPageKey() != null)
+              FloatingLayoutManager.positionedScrollToTopButton(
+                context: context,
+                pageKey: _getCurrentPageKey()!,
+                hasFloatingOptions: _currentOptions.isNotEmpty,
+                optionsCount: _currentOptions.length,
+              ),
+          ],
+        ),
+        bottomNavigationBar: BottomNavBar(
+          currentIndex: _currentIndex,
+          onTap:
+              (index) => setState(() {
+                _currentIndex = index;
+                _updateOptions();
+              }),
+          onOutsideTap: _handleOutsideTap,
+        ),
       ),
     );
   }

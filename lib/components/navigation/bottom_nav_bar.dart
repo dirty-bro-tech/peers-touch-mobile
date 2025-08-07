@@ -4,18 +4,25 @@ import 'package:pure_touch/utils/app_localizations_helper.dart';
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
+  final VoidCallback? onOutsideTap;
 
   const BottomNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
+    this.onOutsideTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      onTap: onTap,
+      onTap: (index) {
+        // Call outside tap handler first to collapse floating action ball
+        onOutsideTap?.call();
+        // Then call the original onTap
+        onTap(index);
+      },
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.grey,

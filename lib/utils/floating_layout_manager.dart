@@ -56,13 +56,17 @@ class FloatingLayoutManager {
     required BuildContext context,
     required Key? key,
     required List<FloatingActionOption> options,
+    GlobalKey<FloatingActionBallState>? globalKey,
   }) {
     return Positioned(
       bottom: getFloatingActionBallBottom(context),
       right: getFloatingActionBallRight(),
-      child: FloatingActionBall(
-        key: key,
-        options: options,
+      child: GestureDetector(
+        onTap: () {}, // Absorb taps to prevent triggering outside tap handler
+        child: FloatingActionBall(
+          key: globalKey ?? key,
+          options: options,
+        ),
       ),
     );
   }

@@ -21,10 +21,10 @@ class FloatingActionBall extends StatefulWidget {
   });
 
   @override
-  State<FloatingActionBall> createState() => _FloatingActionBallState();
+  State<FloatingActionBall> createState() => FloatingActionBallState();
 }
 
-class _FloatingActionBallState extends State<FloatingActionBall> {
+class FloatingActionBallState extends State<FloatingActionBall> {
   bool _isExpanded = false;
 
   void _toggleExpansion() {
@@ -32,6 +32,16 @@ class _FloatingActionBallState extends State<FloatingActionBall> {
       _isExpanded = !_isExpanded;
     });
   }
+
+  void collapse() {
+    if (_isExpanded) {
+      setState(() {
+        _isExpanded = false;
+      });
+    }
+  }
+
+  bool get isExpanded => _isExpanded;
 
   Widget _buildOptionButton(FloatingActionOption option, double offset) {
     return Positioned(
