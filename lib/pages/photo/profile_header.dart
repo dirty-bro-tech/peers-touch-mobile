@@ -17,9 +17,16 @@ class ProfileHeader extends StatelessWidget {
 
   void _showFullscreenImage(ProfileController controller) {
     if (controller.hasProfileImage.value) {
+      // Create FileImage with cache busting by using a unique key
+      final imageProvider = FileImage(
+        controller.profileImage.value!,
+      );
+      // Force evict from cache to ensure fresh image
+      imageProvider.evict();
+      
       FullscreenImageViewerHelper.show(
         Get.context!,
-        FileImage(controller.profileImage.value!),
+        imageProvider,
         heroTag: 'profile_image',
         onEdit: () => Get.to(() => const ImageSelectionPage()),
       );
@@ -60,6 +67,7 @@ class ProfileHeader extends StatelessWidget {
                       tag: 'profile_image',
                       child: Image.file(
                         controller.profileImage.value!,
+                        key: ValueKey('profile_image_${controller.imageVersion.value}'), // Cache busting key
                         width: double.infinity,
                         height: 200,
                         fit: BoxFit.cover,

@@ -10,6 +10,7 @@ class ProfileController extends GetxController {
   final RxBool isLoading = false.obs;
   final Rx<File?> profileImage = Rx<File?>(null);
   final RxBool hasProfileImage = false.obs;
+  final RxInt imageVersion = 0.obs; // Add version counter for cache busting
 
   
   // Removed ImagePicker, using photo_manager instead
@@ -57,12 +58,26 @@ class ProfileController extends GetxController {
         final directory = await getApplicationDocumentsDirectory();
         final imagePath = '${directory.path}/profile_image.png';
         
+        // Delete existing file first to ensure clean copy
+        final existingFile = File(imagePath);
+        if (await existingFile.exists()) {
+          await existingFile.delete();
+        }
+        
         // Copy the picked image to our app directory
         final File newImage = await pickedFile.copy(imagePath);
         
-        // Update state
+        // Update state and increment version for cache busting
         profileImage.value = newImage;
         hasProfileImage.value = true;
+        imageVersion.value++; // Increment to force UI refresh
+        
+        // Force evict the image from cache to ensure immediate refresh
+        FileImage(newImage).evict();
+        
+        // Force UI update by triggering reactive variables
+        profileImage.refresh();
+        hasProfileImage.refresh();
         
         // Save preference
         final prefs = await SharedPreferences.getInstance();
