@@ -7,40 +7,21 @@ import 'package:photo_manager/photo_manager.dart';
 
 import 'package:pure_touch/controller/album_controller.dart';
 import 'package:pure_touch/controller/photo_controller.dart';
+import 'package:pure_touch/controller/controller.dart';
 
-class AlbumListWidget extends StatefulWidget {
+class AlbumListWidget extends GetView<AlbumController> {
   const AlbumListWidget({super.key});
   
   @override
-  State<AlbumListWidget> createState() => _AlbumListWidgetState();
-}
-
-class _AlbumListWidgetState extends State<AlbumListWidget> {
-  late final AlbumController controller;
-  
-  @override
-  void initState() {
-    super.initState();
-    controller = Get.find<AlbumController>();
+  Widget build(BuildContext context) {
+    final scrollController = ControllerManager.scrollController.getScrollController('album_list');
+    
     // Load albums only once when widget is first built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (controller.albums.isEmpty) {
         controller.loadAlbums();
       }
     });
-  }
-  
-  @override
-  void dispose() {
-    // Clear all states when drawer is closed, but defer it to avoid setState during dispose
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.clearAllStates();
-    });
-    super.dispose();
-  }
-  
-  @override
-  Widget build(BuildContext context) {
 
     return Column(
       children: [
@@ -52,6 +33,7 @@ class _AlbumListWidgetState extends State<AlbumListWidget> {
           child: Obx(() => controller.albums.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : ListView.builder(
+                  controller: scrollController,
                   itemCount: controller.albums.length,
                   itemBuilder: (context, index) {
                     final album = controller.albums[index];

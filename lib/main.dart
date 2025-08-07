@@ -8,10 +8,13 @@ import 'package:pure_touch/utils/logger.dart';
 
 import 'package:pure_touch/components/navigation/bottom_nav_bar.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
+import 'package:pure_touch/components/common/scroll_to_top_button.dart';
 
 import 'package:get/get.dart';
 
 import 'l10n/app_localizations.dart';
+import 'package:pure_touch/controller/controller.dart';
+import 'package:pure_touch/utils/floating_layout_manager.dart';
 
 void main() async {
   // Ensure Flutter is initialized
@@ -167,10 +170,17 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const ChatPage(),
-    const ChatPage(),
+    const ChatPage(), 
     PhotoPage(),
     const ChatPage(),
   ];
+  
+  @override
+  void initState() {
+    super.initState();
+    // Initialize ControllerManager to ensure all controllers are ready
+    ControllerManager();
+  }
 
   void _updateOptions() {
     final currentPage = _pages[_currentIndex];
@@ -185,6 +195,15 @@ class _MainScreenState extends State<MainScreen> {
     return [];
   }
 
+  String? _getCurrentPageKey() {
+    switch (_currentIndex) {
+      case 2: // PhotoPage index
+        return 'photo_page';
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,13 +211,17 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           _pages[_currentIndex],
           if (_currentOptions.isNotEmpty)
-            Positioned(
-              bottom: 80,
-              right: 20,
-              child: FloatingActionBall(
-                key: ValueKey(_currentIndex), // Force rebuild on page change
-                options: _currentOptions,
-              ),
+            FloatingLayoutManager.positionedFloatingActionBall(
+              context: context,
+              key: ValueKey(_currentIndex), // Force rebuild on page change
+              options: _currentOptions,
+            ),
+          if (_getCurrentPageKey() != null)
+            FloatingLayoutManager.positionedScrollToTopButton(
+              context: context,
+              pageKey: _getCurrentPageKey()!,
+              hasFloatingOptions: _currentOptions.isNotEmpty,
+              optionsCount: _currentOptions.length,
             ),
         ],
       ),

@@ -12,6 +12,8 @@ import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/utils/app_localizations_helper.dart';
 
 class PhotoPage extends GetView<PhotoController> {
+  PhotoPage({super.key});
+
   static final List<FloatingActionOption> actionOptions = [
     FloatingActionOption(
       icon: Icons.cloud_sync,
@@ -41,8 +43,11 @@ class PhotoPage extends GetView<PhotoController> {
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = ControllerManager.scrollController.getScrollController('photo_page');
+
     return Scaffold(
       body: ListView.builder(
+        controller: scrollController,
         padding: const EdgeInsets.only(top: 0),
         itemCount: 12, // Header + divider + 10 posts
         itemBuilder: (context, index) {

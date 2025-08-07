@@ -36,7 +36,7 @@ class _FloatingActionBallState extends State<FloatingActionBall> {
   Widget _buildOptionButton(FloatingActionOption option, double offset) {
     return Positioned(
       bottom: offset * 50, // Reduced spacing for closer options
-      right: 6, // Move slightly to the left
+      right: 0, // Align with main button
       child: AnimatedOpacity(
         opacity: _isExpanded ? 1 : 0,
         duration: const Duration(milliseconds: 200),
@@ -60,10 +60,11 @@ class _FloatingActionBallState extends State<FloatingActionBall> {
       width: 56, // Adequate width to show buttons fully
       height: 56 + (widget.options.length * 50), // Adequate height with closer spacing
       child: Stack(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.bottomRight, // Align to bottom right for consistent positioning
         children: [
           Positioned(
             bottom: 0,
+            right: 0, // Explicitly position at right edge
             child: AnimatedRotation(
               duration: const Duration(milliseconds: 300),
               turns: _isExpanded ? 0.125 : 0,
