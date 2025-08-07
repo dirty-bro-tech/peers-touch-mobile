@@ -32,8 +32,10 @@ class _AlbumListWidgetState extends State<AlbumListWidget> {
   
   @override
   void dispose() {
-    // Clear all states when drawer is closed
-    controller.clearAllStates();
+    // Clear all states when drawer is closed, but defer it to avoid setState during dispose
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.clearAllStates();
+    });
     super.dispose();
   }
   

@@ -34,8 +34,9 @@ class _FloatingActionBallState extends State<FloatingActionBall> {
   }
 
   Widget _buildOptionButton(FloatingActionOption option, double offset) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: offset * 60),
+    return Positioned(
+      bottom: offset * 50, // Reduced spacing for closer options
+      right: 6, // Move slightly to the left
       child: AnimatedOpacity(
         opacity: _isExpanded ? 1 : 0,
         duration: const Duration(milliseconds: 200),
@@ -55,24 +56,32 @@ class _FloatingActionBallState extends State<FloatingActionBall> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomRight,
-      children: [
-        AnimatedRotation(
-          duration: const Duration(milliseconds: 300),
-          turns: _isExpanded ? 0.125 : 0,
-          child: FloatingActionButton(
-            onPressed: _toggleExpansion,
-            child: Icon(_isExpanded ? Icons.close : Icons.add),
+    return SizedBox(
+      width: 56, // Adequate width to show buttons fully
+      height: 56 + (widget.options.length * 50), // Adequate height with closer spacing
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Positioned(
+            bottom: 0,
+            child: AnimatedRotation(
+              duration: const Duration(milliseconds: 300),
+              turns: _isExpanded ? 0.125 : 0,
+              child: FloatingActionButton(
+                mini: true, // Make main button smaller
+                onPressed: _toggleExpansion,
+                child: Icon(_isExpanded ? Icons.close : Icons.add),
+              ),
+            ),
           ),
-        ),
 
-        ...widget.options.asMap().entries.map((entry) {
-          final index = entry.key;
-          final option = entry.value;
-          return _buildOptionButton(option, (index + 1).toDouble());
-        }),
-      ],
+          ...widget.options.asMap().entries.map((entry) {
+            final index = entry.key;
+            final option = entry.value;
+            return _buildOptionButton(option, (index + 1).toDouble());
+          }),
+        ],
+      ),
     );
   }
 }
