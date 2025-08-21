@@ -21,6 +21,11 @@ class PhotoPage extends GetView<PhotoController> {
       onPressed: () => ControllerManager.photoController.showSyncPhotoDrawer(),
     ),
     FloatingActionOption(
+      icon: Icons.cloud_download,
+      tooltip: 'View Backend Photos',
+      onPressed: () => Get.toNamed('/backend-photos'),
+    ),
+    FloatingActionOption(
       icon: Icons.camera_alt,
       tooltip: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.takePhoto, 'Take Photo'),
       onPressed: () => print('Take Photo pressed'),

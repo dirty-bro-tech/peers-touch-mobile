@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -264,79 +265,83 @@ class PhotoController extends GetxController {
       appLogger.info('loadPhotosForAlbum called for album: ${album.name}');
     }
     
-    // Set the current selected album at the beginning of the method
-    // to ensure it's set even if we exit early due to storage issues
-    currentSelectedAlbum.value = album;
-    if (kDebugMode) {
-      appLogger.info('Set currentSelectedAlbum.value to: ${album.name}');
-      appLogger.info('currentSelectedAlbum.value is now: ${currentSelectedAlbum.value?.name}');
-    }
-    update(); // Force update to ensure UI reflects the change
-    
-    // Reset pagination when loading a new album
-    _albumPageMap[album.id] = 0;
-    photos.clear();
-    
-    try {
+    // Defer reactive updates until after current build cycle
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Set the current selected album
+      currentSelectedAlbum.value = album;
       if (kDebugMode) {
-        appLogger.info('Checking storage space before loading photos...');
+        appLogger.info('Set currentSelectedAlbum.value to: ${album.name}');
+        appLogger.info('currentSelectedAlbum.value is now: ${currentSelectedAlbum.value?.name}');
       }
       
-      final hasEnoughSpace = await checkStorageSpace();
-      if (!hasEnoughSpace) {
+      // Reset pagination when loading a new album
+      _albumPageMap[album.id] = 0;
+      photos.clear();
+      update(); // Force update to ensure UI reflects the change
+      
+      try {
         if (kDebugMode) {
-          appLogger.warning('Not enough storage space detected, showing error to user');
+          appLogger.info('Checking storage space before loading photos...');
         }
         
-        Get.snackbar(
-          'Storage Error',
-          'Not enough storage space on the device to load photos. Please free up at least 100MB of space and try again.',
-          duration: const Duration(seconds: 5),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red[100],
-          colorText: Colors.red[900],
-          borderRadius: 8,
-          margin: const EdgeInsets.all(8),
-        );
-        shouldContinue = false;
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        appLogger.error('Error in storage check: $e');
-        appLogger.error('Stack trace: ${StackTrace.current}');
-        appLogger.info('Continuing with photo loading despite storage check error');
-      }
-      // Continue loading photos even if storage check fails
-      // This prevents blocking the user unnecessarily
-    }
-    
-    if (!shouldContinue) {
-      if (kDebugMode) {
-        appLogger.warning('Aborting photo loading due to insufficient storage');
-      }
-      return;
-    }
-
-    try {
-      if (kDebugMode) {
-        appLogger.info('Loading first page of photos for album: ${album.name}');
+        final hasEnoughSpace = await checkStorageSpace();
+        if (!hasEnoughSpace) {
+          if (kDebugMode) {
+            appLogger.warning('Not enough storage space detected, showing error to user');
+          }
+          
+          Get.snackbar(
+            'Storage Error',
+            'Not enough storage space on the device to load photos. Please free up at least 100MB of space and try again.',
+            duration: const Duration(seconds: 5),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red[100],
+            colorText: Colors.red[900],
+            borderRadius: 8,
+            margin: const EdgeInsets.all(8),
+          );
+          shouldContinue = false;
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          appLogger.error('Error in storage check: $e');
+          appLogger.error('Stack trace: ${StackTrace.current}');
+          appLogger.info('Continuing with photo loading despite storage check error');
+        }
+        // Continue loading photos even if storage check fails
+        // This prevents blocking the user unnecessarily
       }
       
-      await loadMorePhotos(album);
-    } catch (e) {
-      if (kDebugMode) {
-        appLogger.error('Error getting asset list for album: $e');
-        appLogger.error('Stack trace: ${StackTrace.current}');
+      if (!shouldContinue) {
+        if (kDebugMode) {
+          appLogger.warning('Aborting photo loading due to insufficient storage');
+        }
+        return;
       }
-      Get.snackbar('Error', 'Failed to load photos from album: $e');
-    }
-  }
+
+      try {
+        if (kDebugMode) {
+          appLogger.info('Loading first page of photos for album: ${album.name}');
+        }
+        
+        await loadMorePhotos(album);
+      } catch (e) {
+        if (kDebugMode) {
+          appLogger.error('Error getting asset list for album: $e');
+          appLogger.error('Stack trace: ${StackTrace.current}');
+        }
+        Get.snackbar('Error', 'Failed to load photos from album: $e');
+       }
+     });
+   }
   
   // Load more photos for pagination
   Future<bool> loadMorePhotos(AssetPathEntity album) async {
     if (isLoadingMore.value) return false;
     
-    isLoadingMore.value = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      isLoadingMore.value = true;
+    });
     
     try {
       final int currentPage = _albumPageMap[album.id] ?? 0;
@@ -429,21 +434,26 @@ class PhotoController extends GetxController {
         appLogger.info('Found ${validPhotos.length} valid photos for page $currentPage');
       }
       
-      // Add photos to the existing list
-      photos.addAll(validPhotos);
-      
-      // Increment the page number for next load
-      _albumPageMap[album.id] = currentPage + 1;
-      
-      update(); // Ensure UI updates
-      isLoadingMore.value = false;
+      // Defer reactive updates to avoid build-time setState errors
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Add photos to the existing list
+        photos.addAll(validPhotos);
+        
+        // Increment the page number for next load
+        _albumPageMap[album.id] = currentPage + 1;
+        
+        update(); // Ensure UI updates
+        isLoadingMore.value = false;
+      });
       return true;
     } catch (e) {
       if (kDebugMode) {
         appLogger.error('Error loading more photos: $e');
       }
       Get.snackbar('Error', 'Failed to load more photos: $e');
-      isLoadingMore.value = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isLoadingMore.value = false;
+      });
       return false;
     }
   }
@@ -747,5 +757,99 @@ class PhotoController extends GetxController {
     }
     
     update();
+  }
+
+  // Backend photo fetching methods
+  final RxList<Map<String, dynamic>> backendAlbums = <Map<String, dynamic>>[].obs;
+  final RxBool isLoadingBackendPhotos = false.obs;
+  
+  /// Fetch photo list from backend
+  Future<bool> fetchBackendPhotoList({String? albumFilter}) async {
+    if (isLoadingBackendPhotos.value) return false;
+    
+    isLoadingBackendPhotos.value = true;
+    
+    try {
+      String url = 'http://192.168.31.19:8082/family/photo/list';
+      if (albumFilter != null && albumFilter.isNotEmpty) {
+        url += '?album=${Uri.encodeComponent(albumFilter)}';
+      }
+      
+      final response = await http.get(Uri.parse(url));
+      
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        final List<dynamic> albumsData = data['albums'] ?? [];
+        
+        backendAlbums.assignAll(albumsData.cast<Map<String, dynamic>>());
+        
+        if (kDebugMode) {
+          appLogger.info('Fetched ${backendAlbums.length} albums from backend');
+        }
+        
+        return true;
+      } else {
+        appLogger.error('Failed to fetch backend photos: ${response.statusCode}');
+        Get.snackbar('Error', 'Failed to load photos from server');
+        return false;
+      }
+    } catch (e) {
+      appLogger.error('Error fetching backend photos: $e');
+      Get.snackbar('Error', 'Network error while loading photos');
+      return false;
+    } finally {
+      isLoadingBackendPhotos.value = false;
+    }
+  }
+  
+  /// Get photo URL for displaying from backend
+  String getBackendPhotoUrl(String album, String filename) {
+    return 'http://192.168.31.19:8082/family/photo/get?album=${Uri.encodeComponent(album)}&filename=${Uri.encodeComponent(filename)}';
+  }
+  
+  /// Download photo from backend to local storage
+  Future<File?> downloadBackendPhoto(String album, String filename) async {
+    try {
+      final url = getBackendPhotoUrl(album, filename);
+      final response = await http.get(Uri.parse(url));
+      
+      if (response.statusCode == 200) {
+        final Directory tempDir = await getTemporaryDirectory();
+        final String filePath = '${tempDir.path}/${album}_$filename';
+        final File file = File(filePath);
+        
+        await file.writeAsBytes(response.bodyBytes);
+        
+        if (kDebugMode) {
+          appLogger.info('Downloaded photo: $filename from album: $album');
+        }
+        
+        return file;
+      } else {
+        appLogger.error('Failed to download photo: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      appLogger.error('Error downloading photo: $e');
+      return null;
+    }
+  }
+  
+  /// Get all photos from a specific backend album
+  List<Map<String, dynamic>> getPhotosFromBackendAlbum(String albumName) {
+    final album = backendAlbums.firstWhereOrNull(
+      (album) => album['name'] == albumName,
+    );
+    
+    if (album != null) {
+      return List<Map<String, dynamic>>.from(album['photos'] ?? []);
+    }
+    
+    return [];
+  }
+  
+  /// Refresh backend photos
+  Future<void> refreshBackendPhotos() async {
+    await fetchBackendPhotoList();
   }
 }
