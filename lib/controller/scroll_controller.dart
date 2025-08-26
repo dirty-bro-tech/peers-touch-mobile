@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 
 class AppScrollController extends GetxController {
@@ -9,7 +10,11 @@ class AppScrollController extends GetxController {
     if (!_scrollControllers.containsKey(pageKey)) {
       final controller = ScrollController();
       _scrollControllers[pageKey] = controller;
-      canScrollToTop[pageKey] = false;
+      
+      // Defer reactive state changes to avoid build-time setState errors
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        canScrollToTop[pageKey] = false;
+      });
       
       // Add scroll listener to track scroll position
       controller.addListener(() {

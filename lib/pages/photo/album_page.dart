@@ -13,7 +13,10 @@ class AlbumPage extends StatelessWidget {
       onPressed: () {
         final controller = Get.find<AlbumController>();
         if (controller.selectedAlbums.isEmpty) {
-          Get.snackbar('No Albums Selected', 'Please select at least one album to sync');
+          Get.snackbar(
+            'No Albums Selected',
+            'Please select at least one album to sync',
+          );
           return;
         }
         final photoController = Get.find<PhotoController>();
@@ -48,34 +51,60 @@ class AlbumPage extends StatelessWidget {
     // Ensure AlbumController is initialized
     Get.put(AlbumController());
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Photo Albums'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.info_outline),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          // Clear selected states when navigating back
+          try {
+            final albumController = Get.find<AlbumController>();
+            albumController.clearSelectedStates();
+          } catch (e) {
+            // Controllers might not be initialized, ignore error
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Photo Albums'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Get.dialog(
-                AlertDialog(
-                  title: const Text('Album Sync'),
-                  content: const Text(
-                    'Select albums to sync with your account. '
-                    'Synced albums will be available across all your devices.'
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Get.back(),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
-              );
+              // Clear selected states when using back button
+              try {
+                final albumController = Get.find<AlbumController>();
+                albumController.clearSelectedStates();
+              } catch (e) {
+                // Controllers might not be initialized, ignore error
+              }
+              Get.back();
             },
           ),
-        ],
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              onPressed: () {
+                Get.dialog(
+                  AlertDialog(
+                    title: const Text('Album Sync'),
+                    content: const Text(
+                      'Select albums to sync with your account. '
+                      'Synced albums will be available across all your devices.',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Get.back(),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        body: const AlbumListWidget(),
+        floatingActionButton: FloatingActionBall(options: actionOptions),
       ),
-      body: const AlbumListWidget(),
-      floatingActionButton: FloatingActionBall(options: actionOptions),
     );
   }
 }
