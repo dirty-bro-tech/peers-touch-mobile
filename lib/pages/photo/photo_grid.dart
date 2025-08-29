@@ -17,32 +17,32 @@ class PhotoGridWidget extends StatefulWidget {
 class _PhotoGridWidgetState extends State<PhotoGridWidget> {
   final ScrollController _scrollController = ScrollController();
   final PhotoController controller = Get.find<PhotoController>();
-  
+
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
   }
-  
+
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
   }
-  
+
   void _scrollListener() {
     if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 500) {
       _loadMorePhotos();
     }
   }
-  
+
   void _loadMorePhotos() {
     if (controller.isLoadingMore.value || controller.currentSelectedAlbum.value == null) return;
-    
+
     controller.loadMorePhotos(controller.currentSelectedAlbum.value!);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -70,7 +70,7 @@ class _PhotoGridWidgetState extends State<PhotoGridWidget> {
             if (controller.photos.isEmpty && controller.currentSelectedAlbum.value != null) {
               return const Center(child: CircularProgressIndicator());
             }
-            
+
             return GridView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -160,23 +160,25 @@ class _PhotoGridWidgetState extends State<PhotoGridWidget> {
           ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Obx(() => ElevatedButton(
-            onPressed: controller.selectedPhotos.isNotEmpty
-                ? () async {
-                    try {
-                      final success = await controller.uploadSelectedPhotos();
-                      if (success) {
-                        Get.snackbar('Success', 'Photos synced successfully');
-                      } else {
-                        Get.snackbar('Error', 'Failed to sync photos');
-                      }
-                    } catch (e) {
-                      Get.snackbar('Error', 'An unexpected error occurred: $e');
+          child: Obx(() =>
+              ElevatedButton(
+                onPressed: controller.selectedPhotos.isNotEmpty && controller.isServerAvailable.value
+                    ? () async {
+                  try {
+                    final success = await controller.uploadSelectedPhotos();
+                    if (success) {
+                      Get.snackbar('Success', 'Photos synced successfully');
+                    } else {
+                      Get.snackbar('Error', 'Failed to sync photos');
                     }
+                  } catch (e) {
+                    Get.snackbar('Error', 'An unexpected error occurred: $e');
                   }
-                : null,
-            child: Text('Sync Selected Photos (${controller.selectedPhotos.length})'),
-          )),
+                }
+                    : null,
+                child: Text('Sync Selected Photos (${controller.selectedPhotos
+                    .length})'),
+              )),
         ),
       ],
     );

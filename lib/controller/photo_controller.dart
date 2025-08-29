@@ -28,6 +28,9 @@ class PhotoController extends GetxController {
   final _isShowSyncPhotoDrawerRunning = false.obs;
   final Rx<AssetPathEntity?> currentSelectedAlbum = Rx<AssetPathEntity?>(null);
 
+  // ScrollController for photo grid
+  late final ScrollController photoGridScrollController;
+
   // Permission state tracking
   final Rx<PermissionState> _permissionState =
       PermissionState.notDetermined.obs;
@@ -44,10 +47,20 @@ class PhotoController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // Initialize ScrollController
+    photoGridScrollController = ScrollController();
+    photoGridScrollController.addListener(_scrollListener);
     // Initialize the method channel when the controller is created
     _initializeMethodChannel();
     // Check initial permission state
     _checkInitialPermissionState();
+  }
+
+  @override
+  void onClose() {
+    photoGridScrollController.removeListener(_scrollListener);
+    photoGridScrollController.dispose();
+    super.onClose();
   }
 
   // Check current permission state without requesting
@@ -692,6 +705,39 @@ class PhotoController extends GetxController {
     }
   }
 
+  // Scroll listener for photo grid
+  void _scrollListener() {
+    if (photoGridScrollController.position.pixels >= 
+        photoGridScrollController.position.maxScrollExtent - 500) {
+      _loadMorePhotos();
+    }
+  }
+
+  // Load more photos when scrolling
+  void _loadMorePhotos() {
+    if (isLoadingMore.value || currentSelectedAlbum.value == null) return;
+    loadMorePhotos(currentSelectedAlbum.value!);
+  }
+
+  // Initialize photo grid (called when grid is first displayed)
+  void initializePhotoGrid() {
+    checkPhotoExistence();
+    checkServerConnectivity();
+  }
+
+  // Check photo existence on server
+  void checkPhotoExistence() async {
+    if (photos.isNotEmpty && currentSelectedAlbum.value != null) {
+      final albumName = currentSelectedAlbum.value!.name;
+      await checkMultiplePhotosExistence(
+        photos,
+        albumName: albumName,
+      );
+    }
+  }
+
+
+
   // Cancel upload process
   void cancelUpload() {
     _uploadCancelled = true;
@@ -700,7 +746,14 @@ class PhotoController extends GetxController {
 
   // Upload method to sync selected photos with progress tracking
   Future<bool> uploadSelectedPhotos() async {
-    if (isUploading.value) return false;
+    print('DEBUG: uploadSelectedPhotos called');
+    print('DEBUG: Selected photos count: ${selectedPhotos.length}');
+    print('DEBUG: Selected albums count: ${selectedAlbums.length}');
+    
+    if (isUploading.value) {
+       print('DEBUG: Upload already in progress, returning false');
+       return false;
+     }
 
     // Reset upload state
     isUploading.value = true;
@@ -711,7 +764,7 @@ class PhotoController extends GetxController {
     try {
       // First check server connectivity
       uploadStatus.value = 'Checking server connection...';
-      bool isServerAvailable = await _checkServerConnectivity();
+      bool isServerAvailable = await checkServerConnectivity();
       if (!isServerAvailable) {
         _resetUploadState();
         Get.snackbar(
@@ -735,6 +788,21 @@ class PhotoController extends GetxController {
       }
 
       totalFilesToUpload.value = totalFiles;
+      
+      print('DEBUG: Total files to upload: $totalFiles');
+      
+      // Check if there are files to upload
+      if (totalFiles == 0) {
+        print('DEBUG: No files to upload, showing snackbar');
+        _resetUploadState();
+        Get.snackbar(
+          'No Photos Selected',
+          'Please select photos to upload.',
+          duration: const Duration(seconds: 3),
+        );
+        return false;
+      }
+      
       uploadStatus.value = 'Starting upload...';
 
       // Show progress dialog
@@ -851,25 +919,28 @@ class PhotoController extends GetxController {
     _uploadCancelled = false;
   }
 
-  Future<bool> _checkServerConnectivity() async {
+  /// Check server connectivity and update observable status
+  Future<bool> checkServerConnectivity() async {
+    isCheckingServerConnection.value = true;
+    
     try {
       if (kDebugMode) {
         appLogger.info('Checking server connectivity...');
       }
 
-      // Check server connectivity using the same base URL as other endpoints
-      final url = Uri.parse('http://192.168.31.19:8082/family/photo/list');
+      // Check server connectivity using ping endpoint
+      final url = Uri.parse('http://192.168.31.19:8082/ping');
       final response = await http
           .get(url)
           .timeout(
-            const Duration(seconds: 5),
+            const Duration(seconds: 3),
             onTimeout: () {
               if (kDebugMode) {
-                appLogger.error('Server connection timed out after 5 seconds');
+                appLogger.error('Server connection timed out after 3 seconds');
               }
               throw TimeoutException(
                 'Server connection timed out',
-                const Duration(seconds: 5),
+                const Duration(seconds: 3),
               );
             },
           );
@@ -880,6 +951,9 @@ class PhotoController extends GetxController {
 
       final isConnected =
           response.statusCode >= 200 && response.statusCode < 300;
+      
+      isServerAvailable.value = isConnected;
+      
       if (kDebugMode) {
         appLogger.info('Server connectivity result: $isConnected');
       }
@@ -889,21 +963,30 @@ class PhotoController extends GetxController {
       if (kDebugMode) {
         appLogger.error('Network error - no internet connection: $e');
       }
+      isServerAvailable.value = false;
       return false;
     } on TimeoutException catch (e) {
       if (kDebugMode) {
         appLogger.error('Connection timeout: $e');
       }
+      isServerAvailable.value = false;
       return false;
     } catch (e) {
       if (kDebugMode) {
         appLogger.error('Server connectivity check failed: $e');
       }
+      isServerAvailable.value = false;
       return false;
+    } finally {
+      isCheckingServerConnection.value = false;
     }
   }
+  
+
 
   void _showUploadProgressDialog() {
+    print('DEBUG: Showing upload progress dialog');
+    
     Get.dialog(
       WillPopScope(
         onWillPop: () async {
@@ -1022,6 +1105,7 @@ class PhotoController extends GetxController {
       await Get.bottomSheet(
         const PhotoSelectionSheet(),
         isScrollControlled: true,
+        ignoreSafeArea: false,
       ).whenComplete(() {
         // Clear data when the drawer is closed
         if (kDebugMode) {
@@ -1155,5 +1239,134 @@ class PhotoController extends GetxController {
   /// Refresh backend photos
   Future<void> refreshBackendPhotos() async {
     await fetchBackendPhotoList();
+  }
+
+  // Photo existence checking methods
+  final RxMap<String, bool> photoExistenceCache = <String, bool>{}.obs;
+  final RxBool isCheckingPhotoExistence = false.obs;
+  
+  // Server connectivity status
+  final RxBool isCheckingServerConnection = false.obs;
+  final RxBool isServerAvailable = false.obs;
+
+  /// Check if a photo already exists on the server by filename
+  Future<bool> checkPhotoExistsOnServer(String filename, {String? albumName}) async {
+    // Check cache first
+    final cacheKey = albumName != null ? '${albumName}_$filename' : filename;
+    if (photoExistenceCache.containsKey(cacheKey)) {
+      return photoExistenceCache[cacheKey]!;
+    }
+
+    try {
+      // Fetch backend photos if not already loaded
+      if (backendAlbums.isEmpty) {
+        await fetchBackendPhotoList();
+      }
+
+      bool exists = false;
+      
+      if (albumName != null) {
+        // Check specific album
+        final albumPhotos = getPhotosFromBackendAlbum(albumName);
+        exists = albumPhotos.any((photo) => photo['filename'] == filename);
+      } else {
+        // Check all albums
+        for (final album in backendAlbums) {
+          final photos = List<Map<String, dynamic>>.from(album['photos'] ?? []);
+          if (photos.any((photo) => photo['filename'] == filename)) {
+            exists = true;
+            break;
+          }
+        }
+      }
+
+      // Cache the result
+      photoExistenceCache[cacheKey] = exists;
+      return exists;
+    } catch (e) {
+      appLogger.error('Error checking photo existence: $e');
+      return false;
+    }
+  }
+
+  /// Check multiple photos for existence on server
+  Future<Map<String, bool>> checkMultiplePhotosExistence(
+    List<PhotoModel> photos, {
+    String? albumName,
+  }) async {
+    if (isCheckingPhotoExistence.value) {
+      return {};
+    }
+
+    isCheckingPhotoExistence.value = true;
+    final results = <String, bool>{};
+
+    try {
+      // Fetch backend photos if not already loaded
+      if (backendAlbums.isEmpty) {
+        await fetchBackendPhotoList();
+      }
+
+      for (final photo in photos) {
+        final filename = photo.path.split('/').last;
+        final exists = await checkPhotoExistsOnServer(filename, albumName: albumName);
+        results[photo.path] = exists;
+      }
+
+      if (kDebugMode) {
+        final existingCount = results.values.where((exists) => exists).length;
+        appLogger.info('Checked ${photos.length} photos: $existingCount already exist on server');
+      }
+
+      return results;
+    } catch (e) {
+      appLogger.error('Error checking multiple photos existence: $e');
+      return {};
+    } finally {
+      isCheckingPhotoExistence.value = false;
+    }
+  }
+
+  /// Get photos that don't exist on server (new photos to upload)
+  Future<List<PhotoModel>> getNewPhotosToUpload(
+    List<PhotoModel> photos, {
+    String? albumName,
+  }) async {
+    final existenceMap = await checkMultiplePhotosExistence(photos, albumName: albumName);
+    
+    return photos.where((photo) {
+      final exists = existenceMap[photo.path] ?? false;
+      return !exists; // Return photos that don't exist on server
+    }).toList();
+  }
+
+  /// Get photos that already exist on server
+  Future<List<PhotoModel>> getExistingPhotosOnServer(
+    List<PhotoModel> photos, {
+    String? albumName,
+  }) async {
+    final existenceMap = await checkMultiplePhotosExistence(photos, albumName: albumName);
+    
+    return photos.where((photo) {
+      final exists = existenceMap[photo.path] ?? false;
+      return exists; // Return photos that exist on server
+    }).toList();
+  }
+
+  /// Clear photo existence cache
+  void clearPhotoExistenceCache() {
+    photoExistenceCache.clear();
+  }
+
+  /// Check if a specific photo path exists on server (for UI indicators)
+  bool isPhotoUploadedToServer(String photoPath) {
+    final filename = photoPath.split('/').last;
+    // Check cache for any album containing this filename
+    for (final entry in photoExistenceCache.entries) {
+      if (entry.key.endsWith('_$filename') || entry.key == filename) {
+        return entry.value;
+      }
+    }
+    return false; // Default to not uploaded if not in cache
   }
 }

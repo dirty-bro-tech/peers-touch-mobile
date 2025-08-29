@@ -18,24 +18,87 @@ class PhotoSelectionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final PhotoController photoController = Get.find<PhotoController>();
     
+    // Check server connectivity when opening PhotoSelectionSheet
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      photoController.checkServerConnectivity();
+    });
+    
     if (kDebugMode) {
       appLogger.info('Building PhotoSelectionSheet');
       appLogger.info('Current selected album: ${photoController.currentSelectedAlbum.value?.name ?? "None"}');
     }
     
-    return Container(
-      height: Get.height * 0.9,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      child: GetBuilder<PhotoController>(
-        builder: (controller) {
-          if (kDebugMode) {
-            print('GetBuilder rebuilding with album: ${controller.currentSelectedAlbum.value?.name ?? "None"}');
-          }
-          
-          return Obx(() {
+    return SafeArea(
+      child: Container(
+        height: Get.height * 0.9,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+      child: Column(
+        children: [
+          // Server connectivity status header
+          Obx(() => Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: photoController.isServerAvailable.value 
+                ? Colors.green.withOpacity(0.1) 
+                : Colors.red.withOpacity(0.1),
+              border: Border(
+                bottom: BorderSide(
+                  color: photoController.isServerAvailable.value 
+                    ? Colors.green 
+                    : Colors.red,
+                  width: 1,
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  photoController.isServerAvailable.value 
+                    ? Icons.cloud_done 
+                    : Icons.cloud_off,
+                  color: photoController.isServerAvailable.value 
+                    ? Colors.green 
+                    : Colors.red,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  photoController.isServerAvailable.value 
+                    ? 'Server Connected' 
+                    : 'Server Disconnected',
+                  style: TextStyle(
+                    color: photoController.isServerAvailable.value 
+                      ? Colors.green 
+                      : Colors.red,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                if (photoController.isCheckingServerConnection.value) ...[
+                  const Spacer(),
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          )),
+          // Main content
+          Expanded(
+            child: GetBuilder<PhotoController>(
+              builder: (controller) {
+                if (kDebugMode) {
+                  print('GetBuilder rebuilding with album: ${controller.currentSelectedAlbum.value?.name ?? "None"}');
+                }
+                
+                return Obx(() {
             if (kDebugMode) {
               print('Obx rebuilding with album: ${controller.currentSelectedAlbum.value?.name ?? "None"}');
               print('Photos count: ${controller.photos.length}');
@@ -72,6 +135,10 @@ class PhotoSelectionSheet extends StatelessWidget {
           });
         },
       ),
+    ),
+        ],
+      ),
+    ),
     );
   }
 }

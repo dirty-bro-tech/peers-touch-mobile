@@ -75,10 +75,12 @@ class AlbumListWidget extends GetView<AlbumController> {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Obx(
-            () => ElevatedButton(
-              onPressed:
-                  controller.selectedAlbums.isNotEmpty
-                      ? () async {
+            () {
+              final PhotoController photoController = Get.find<PhotoController>();
+              return ElevatedButton(
+                onPressed:
+                    controller.selectedAlbums.isNotEmpty && photoController.isServerAvailable.value
+                        ? () async {
                         try {
                           final PhotoController photoController =
                               Get.find<PhotoController>();
@@ -135,7 +137,8 @@ class AlbumListWidget extends GetView<AlbumController> {
               child: Text(
                 'Sync Selected Albums (${controller.selectedAlbums.length})',
               ),
-            ),
+            );
+          },
           ),
         ),
       ],
