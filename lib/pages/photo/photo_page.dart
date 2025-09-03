@@ -10,6 +10,7 @@ import 'package:pure_touch/components/common/floating_action_ball.dart';
 
 import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/utils/app_localizations_helper.dart';
+import 'package:pure_touch/utils/logger.dart';
 
 class PhotoPage extends GetView<PhotoController> {
   PhotoPage({super.key});
@@ -28,12 +29,12 @@ class PhotoPage extends GetView<PhotoController> {
     FloatingActionOption(
       icon: Icons.camera_alt,
       tooltip: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.takePhoto, 'Take Photo'),
-      onPressed: () => print('Take Photo pressed'),
+      onPressed: () => appLogger.info('Take Photo pressed'),
     ),
     FloatingActionOption(
       icon: Icons.photo_library,
       tooltip: AppLocalizationsHelper.getLocalizedString((l10n) => l10n.uploadPhoto, 'Upload Photo'),
-      onPressed: () => print('Upload Photo pressed'),
+      onPressed: () => appLogger.info('Upload Photo pressed'),
     ),
   ];
 

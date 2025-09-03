@@ -10,10 +10,15 @@ import 'package:http/http.dart' as http;
 import 'package:photo_manager/photo_manager.dart';
 import 'package:pure_touch/model/photo_model.dart';
 import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/store/photo_store.dart';
+import 'package:pure_touch/store/sync_manager.dart';
+import 'package:pure_touch/store/server_config_manager.dart';
+import 'package:pure_touch/store/base_store.dart';
+
 
 import 'package:pure_touch/pages/photo/photo_selection_sheet.dart';
 
-class PhotoController extends GetxController {
+class PhotoController extends GetxController implements SyncEventListener {
   // Static method channel for storage operations
   static const MethodChannel _storageChannel = MethodChannel(
     'samples.flutter.dev/storage',
@@ -30,6 +35,16 @@ class PhotoController extends GetxController {
 
   // ScrollController for photo grid
   late final ScrollController photoGridScrollController;
+
+  // Timer for periodic server connectivity checks
+  Timer? _serverConnectivityTimer;
+
+  // New store layer components
+  late PhotoStore photoStore;
+  late ServerConfigManager serverConfigManager;
+  
+  // Get SyncManager from dependency injection
+  SyncManager get syncManager => Get.find<SyncManager>();
 
   // Permission state tracking
   final Rx<PermissionState> _permissionState =
@@ -52,15 +67,99 @@ class PhotoController extends GetxController {
     photoGridScrollController.addListener(_scrollListener);
     // Initialize the method channel when the controller is created
     _initializeMethodChannel();
+    // Initialize store layer
+    _initializeStoreLayer();
     // Check initial permission state
     _checkInitialPermissionState();
+    // Note: Periodic server connectivity checks will start when drawer opens
+  }
+  
+  Future<void> _initializeStoreLayer() async {
+    try {
+      // Initialize server config manager
+      serverConfigManager = Get.put(ServerConfigManager());
+      
+      // Initialize photo store
+      photoStore = PhotoStore();
+      await photoStore.initialize();
+      
+      // Register photo store with sync manager
+      syncManager.registerStore(photoStore);
+      
+      // Add sync event listener
+      syncManager.addSyncListener(this);
+      
+      if (kDebugMode) {
+        appLogger.info('Store layer initialized successfully');
+      }
+    } catch (e) {
+      appLogger.error('Failed to initialize store layer: $e');
+    }
+  }
+  
+  // SyncEventListener implementation
+  @override
+  void onSyncStarted(String storeName) {
+    if (kDebugMode) {
+      appLogger.info('Sync started: $storeName');
+    }
+    isUploading.value = true;
+    uploadStatus.value = 'Syncing $storeName...';
+  }
+
+  @override
+  void onSyncProgress(String storeName, int current, int total) {
+    if (kDebugMode) {
+      appLogger.info('Sync progress: $storeName - $current/$total');
+    }
+    uploadProgress.value = total > 0 ? (current / total) : 0.0;
+  }
+
+  @override
+  void onSyncCompleted(String storeName, SyncResult result) {
+    if (kDebugMode) {
+      appLogger.info('Sync completed: $storeName - ${result.success}');
+    }
+    
+    isUploading.value = false;
+    if (result.success) {
+      uploadStatus.value = 'Sync completed';
+    } else {
+      uploadStatus.value = 'Sync failed: ${result.error}';
+      Get.snackbar('Sync Error', result.error ?? 'Sync failed');
+    }
+  }
+
+  @override
+  void onNetworkStatusChanged(NetworkStatus status) {
+    if (kDebugMode) {
+      appLogger.info('Network status changed: $status');
+    }
+    // Handle network status changes if needed
   }
 
   @override
   void onClose() {
     photoGridScrollController.removeListener(_scrollListener);
     photoGridScrollController.dispose();
+    // Cancel the periodic timer
+    _serverConnectivityTimer?.cancel();
+    _disposeStoreLayer();
     super.onClose();
+  }
+  
+  void _disposeStoreLayer() {
+    try {
+      syncManager.removeSyncListener(this);
+      syncManager.unregisterStore('PhotoStore');
+      photoStore.dispose();
+      
+      if (kDebugMode) {
+        appLogger.info('Store layer disposed successfully');
+      }
+    } catch (e) {
+      appLogger.error('Error disposing store layer: $e');
+    }
   }
 
   // Check current permission state without requesting
@@ -82,6 +181,40 @@ class PhotoController extends GetxController {
         appLogger.error('Error checking initial permission state: $e');
       }
       _hasCheckedPermission.value = true;
+    }
+  }
+
+  // Start periodic server connectivity checks (only when drawer is open)
+  void _startPeriodicServerConnectivityCheck() {
+    // Don't start if already running
+    if (_serverConnectivityTimer?.isActive == true) return;
+    
+    // Perform initial check
+    checkServerConnectivity();
+    
+    // Set up periodic timer to check every 20 seconds
+    _serverConnectivityTimer = Timer.periodic(
+      const Duration(seconds: 20),
+      (timer) {
+        checkServerConnectivity();
+        if (kDebugMode) {
+          appLogger.info('Periodic server connectivity check completed (drawer open)');
+        }
+      },
+    );
+    
+    if (kDebugMode) {
+      appLogger.info('Started periodic server connectivity checks for open drawer (every 20 seconds)');
+    }
+  }
+
+  // Stop periodic server connectivity checks (when drawer is closed)
+  void _stopPeriodicServerConnectivityCheck() {
+    _serverConnectivityTimer?.cancel();
+    _serverConnectivityTimer = null;
+    
+    if (kDebugMode) {
+      appLogger.info('Stopped periodic server connectivity checks (drawer closed)');
     }
   }
 
@@ -172,28 +305,6 @@ class PhotoController extends GetxController {
   }
 
   // Show permission denied dialog
-  Future<void> _showPermissionDeniedDialog() async {
-    await Get.dialog(
-      AlertDialog(
-        title: const Text('Permission Denied'),
-        content: const Text(
-          'Photo access is required to view your albums. '
-          'You can enable it later in your device settings.',
-        ),
-        actions: [
-          TextButton(onPressed: () => Get.back(), child: const Text('OK')),
-          ElevatedButton(
-            onPressed: () async {
-              Get.back();
-              await PhotoManager.openSetting();
-            },
-            child: const Text('Open Settings'),
-          ),
-        ],
-      ),
-    );
-  }
-
   // Request permission to access photos
   Future<void> loadAlbums() async {
     // Use the new permission handling system
@@ -744,14 +855,18 @@ class PhotoController extends GetxController {
     uploadStatus.value = 'Cancelling upload...';
   }
 
-  // Upload method to sync selected photos with progress tracking
+  // Upload method to sync selected photos with progress tracking using new store layer
   Future<bool> uploadSelectedPhotos() async {
-    print('DEBUG: uploadSelectedPhotos called');
-    print('DEBUG: Selected photos count: ${selectedPhotos.length}');
-    print('DEBUG: Selected albums count: ${selectedAlbums.length}');
+    if (kDebugMode) {
+      appLogger.info('uploadSelectedPhotos called');
+      appLogger.info('Selected photos count: ${selectedPhotos.length}');
+      appLogger.info('Selected albums count: ${selectedAlbums.length}');
+    }
     
     if (isUploading.value) {
-       print('DEBUG: Upload already in progress, returning false');
+       if (kDebugMode) {
+          appLogger.info('Upload already in progress, returning false');
+        }
        return false;
      }
 
@@ -762,19 +877,6 @@ class PhotoController extends GetxController {
     uploadedFilesCount.value = 0;
 
     try {
-      // First check server connectivity
-      uploadStatus.value = 'Checking server connection...';
-      bool isServerAvailable = await checkServerConnectivity();
-      if (!isServerAvailable) {
-        _resetUploadState();
-        Get.snackbar(
-          'Connection Error',
-          'Cannot connect to server. Please check your network connection and server status.',
-          duration: const Duration(seconds: 5),
-        );
-        return false;
-      }
-
       // Calculate total files to upload
       int totalFiles = selectedPhotos.length;
 
@@ -789,11 +891,15 @@ class PhotoController extends GetxController {
 
       totalFilesToUpload.value = totalFiles;
       
-      print('DEBUG: Total files to upload: $totalFiles');
+      if (kDebugMode) {
+        appLogger.info('Total files to upload: $totalFiles');
+      }
       
       // Check if there are files to upload
       if (totalFiles == 0) {
-        print('DEBUG: No files to upload, showing snackbar');
+        if (kDebugMode) {
+          appLogger.info('No files to upload, showing snackbar');
+        }
         _resetUploadState();
         Get.snackbar(
           'No Photos Selected',
@@ -808,7 +914,7 @@ class PhotoController extends GetxController {
       // Show progress dialog
       _showUploadProgressDialog();
 
-      // Upload individual selected photos
+      // Upload individual selected photos using store layer
       for (final photoId in selectedPhotos) {
         if (_uploadCancelled) {
           Get.back(); // Close dialog
@@ -821,26 +927,24 @@ class PhotoController extends GetxController {
           final file = File(photo.path);
           if (await file.exists()) {
             uploadStatus.value = 'Uploading ${file.path.split('/').last}...';
-            final success = await _uploadSinglePhoto(
-              file,
-              currentSelectedAlbum.value?.name,
+            
+            // Create PhotoData and save to store
+            final photoData = PhotoData(
+              id: photo.id.toString(),
+              path: photo.path,
+              localPath: photo.path,
+              albumId: currentSelectedAlbum.value?.id,
+              syncStatus: SyncStatus.localOnly,
+              createdAt: DateTime.now(),
             );
-            if (!success) {
-              appLogger.error('Failed to upload photo: ${photo.path}');
-              Get.back(); // Close dialog
-              _resetUploadState();
-              Get.snackbar(
-                'Upload Error',
-                'Failed to upload ${file.path.split('/').last}',
-              );
-              return false;
-            }
+            
+            await photoStore.saveLocally(photoData);
             _updateProgress();
           }
         }
       }
 
-      // Upload photos from selected albums
+      // Upload photos from selected albums using store layer
       for (final album in selectedAlbums) {
         if (_uploadCancelled) {
           Get.back(); // Close dialog
@@ -864,23 +968,26 @@ class PhotoController extends GetxController {
           if (file != null) {
             uploadStatus.value =
                 'Uploading ${file.path.split('/').last} from ${album.name}...';
-            final success = await _uploadSinglePhoto(file, album.name);
-            if (!success) {
-              appLogger.error(
-                'Failed to upload photo from album ${album.name}: ${file.path}',
-              );
-              Get.back(); // Close dialog
-              _resetUploadState();
-              Get.snackbar(
-                'Upload Error',
-                'Failed to upload ${file.path.split('/').last}',
-              );
-              return false;
-            }
+            
+            // Create PhotoData and save to store
+            final photoData = PhotoData(
+              id: asset.id,
+              path: file.path,
+              localPath: file.path,
+              albumId: album.id,
+              syncStatus: SyncStatus.localOnly,
+              createdAt: DateTime.now(),
+            );
+            
+            await photoStore.saveLocally(photoData);
             _updateProgress();
           }
         }
       }
+
+      // Trigger sync using sync manager
+      uploadStatus.value = 'Starting sync...';
+      await syncManager.syncAll();
 
       // Mark selected photos and albums as synced
       syncedPhotos.addAll(selectedPhotos);
@@ -919,38 +1026,17 @@ class PhotoController extends GetxController {
     _uploadCancelled = false;
   }
 
-  /// Check server connectivity and update observable status
+  /// Check server connectivity using sync manager
   Future<bool> checkServerConnectivity() async {
     isCheckingServerConnection.value = true;
     
     try {
       if (kDebugMode) {
-        appLogger.info('Checking server connectivity...');
+        appLogger.info('Checking server connectivity via sync manager...');
       }
 
-      // Check server connectivity using ping endpoint
-      final url = Uri.parse('http://192.168.31.19:8082/ping');
-      final response = await http
-          .get(url)
-          .timeout(
-            const Duration(seconds: 3),
-            onTimeout: () {
-              if (kDebugMode) {
-                appLogger.error('Server connection timed out after 3 seconds');
-              }
-              throw TimeoutException(
-                'Server connection timed out',
-                const Duration(seconds: 3),
-              );
-            },
-          );
-
-      if (kDebugMode) {
-        appLogger.info('Server response status: ${response.statusCode}');
-      }
-
-      final isConnected =
-          response.statusCode >= 200 && response.statusCode < 300;
+      // Use sync manager to check connectivity
+      final isConnected = syncManager.networkStatus == NetworkStatus.connected;
       
       isServerAvailable.value = isConnected;
       
@@ -959,18 +1045,6 @@ class PhotoController extends GetxController {
       }
 
       return isConnected;
-    } on SocketException catch (e) {
-      if (kDebugMode) {
-        appLogger.error('Network error - no internet connection: $e');
-      }
-      isServerAvailable.value = false;
-      return false;
-    } on TimeoutException catch (e) {
-      if (kDebugMode) {
-        appLogger.error('Connection timeout: $e');
-      }
-      isServerAvailable.value = false;
-      return false;
     } catch (e) {
       if (kDebugMode) {
         appLogger.error('Server connectivity check failed: $e');
@@ -985,13 +1059,17 @@ class PhotoController extends GetxController {
 
 
   void _showUploadProgressDialog() {
-    print('DEBUG: Showing upload progress dialog');
+    if (kDebugMode) {
+      appLogger.info('Showing upload progress dialog');
+    }
     
     Get.dialog(
-      WillPopScope(
-        onWillPop: () async {
-          cancelUpload();
-          return false;
+      PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (!didPop) {
+            cancelUpload();
+          }
         },
         child: AlertDialog(
           title: const Text('Uploading Photos'),
@@ -1033,44 +1111,6 @@ class PhotoController extends GetxController {
     );
   }
 
-  Future<bool> _uploadSinglePhoto(File file, String? albumName) async {
-    final url = Uri.parse('http://192.168.31.19:8082/family/photo/sync');
-    final request = http.MultipartRequest('POST', url);
-
-    try {
-      // Add album parameter if provided
-      if (albumName != null) {
-        request.fields['album'] = albumName;
-      }
-
-      // Add photo file
-      final stream = http.ByteStream(file.openRead());
-      final length = await file.length();
-      final multipartFile = http.MultipartFile(
-        'photo',
-        stream,
-        length,
-        filename: file.path.split('/').last,
-      );
-      request.files.add(multipartFile);
-
-      final response = await request.send();
-      final responseData = await response.stream.toBytes();
-      final responseString = String.fromCharCodes(responseData);
-
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        appLogger.error(
-          'Upload failed with status: ${response.statusCode}, Response: $responseString',
-        );
-        return false;
-      }
-    } catch (e) {
-      appLogger.error('Error uploading single photo: $e');
-      return false;
-    }
-  }
 
   Future<void> showSyncPhotoDrawer() async {
     if (_isShowSyncPhotoDrawerRunning.value) return;
@@ -1081,6 +1121,9 @@ class PhotoController extends GetxController {
     }
 
     try {
+      // Start periodic server connectivity checks when drawer opens
+      _startPeriodicServerConnectivityCheck();
+      
       // Always load albums to ensure fresh data (no caching)
       if (kDebugMode) {
         appLogger.info('Loading albums (no caching)');
@@ -1107,6 +1150,9 @@ class PhotoController extends GetxController {
         isScrollControlled: true,
         ignoreSafeArea: false,
       ).whenComplete(() {
+        // Stop periodic server connectivity checks when drawer is closed
+        _stopPeriodicServerConnectivityCheck();
+        
         // Clear data when the drawer is closed
         if (kDebugMode) {
           appLogger.info('Bottom sheet closed, clearing data');
@@ -1368,5 +1414,44 @@ class PhotoController extends GetxController {
       }
     }
     return false; // Default to not uploaded if not in cache
+  }
+  
+  /// Configure server settings for photo sync
+  Future<void> configurePhotoServer(String baseUrl, String apiKey) async {
+    try {
+      final serverConfig = ServerConfig(
+        id: 'photo_server',
+        name: 'Photo Server',
+        baseUrl: baseUrl,
+        apiKey: apiKey,
+      );
+      
+      await serverConfigManager.addServerConfig('photos', serverConfig);
+      
+      if (kDebugMode) {
+        appLogger.info('Photo server configured: $baseUrl');
+      }
+    } catch (e) {
+      appLogger.error('Failed to configure photo server: $e');
+      Get.snackbar('Configuration Error', 'Failed to configure server: $e');
+    }
+  }
+  
+  /// Get current sync status for UI display
+  SyncStatus getCurrentSyncStatus() {
+    return syncManager.autoSyncEnabled && 
+           syncManager.networkStatus == NetworkStatus.connected
+        ? SyncStatus.synced
+        : SyncStatus.localOnly;
+  }
+  
+  /// Enable/disable auto sync
+  void toggleAutoSync(bool enabled) {
+    syncManager.setAutoSyncEnabled(enabled);
+  }
+  
+  /// Get network status for UI display
+  NetworkStatus getNetworkStatus() {
+    return syncManager.networkStatus;
   }
 }

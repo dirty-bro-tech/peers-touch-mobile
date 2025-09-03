@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -358,7 +357,7 @@ class _AlbumCountSubtitle extends GetView<_AlbumCountSubtitleController> {
   const _AlbumCountSubtitle({required this.album});
 
   @override
-  String get tag => album.id + '_count';
+  String get tag => '${album.id}_count';
 
   @override
   Widget build(BuildContext context) {

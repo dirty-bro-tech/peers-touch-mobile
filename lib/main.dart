@@ -5,18 +5,18 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
 import 'package:pure_touch/pages/photo/backend_photos_page.dart';
+import 'package:pure_touch/pages/profile/profile_page.dart';
 import 'package:pure_touch/utils/logger.dart';
 
 import 'package:pure_touch/components/navigation/bottom_nav_bar.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
-import 'package:pure_touch/components/common/floating_action_ball.dart' show FloatingActionBall;
-import 'package:pure_touch/components/common/scroll_to_top_button.dart';
 
 import 'package:get/get.dart';
 
 import 'l10n/app_localizations.dart';
 import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/utils/floating_layout_manager.dart';
+import 'package:pure_touch/components/sync_status_bar.dart';
 
 void main() async {
   // Ensure Flutter is initialized
@@ -181,7 +181,7 @@ class _MainScreenState extends State<MainScreen> {
     const ChatPage(),
     const ChatPage(), 
     PhotoPage(),
-    const ChatPage(),
+    const ProfilePage(),
   ];
   
   @override
@@ -201,6 +201,7 @@ class _MainScreenState extends State<MainScreen> {
   List<FloatingActionOption> _getPageOptions(Widget page) {
     if (page is ChatPage) return ChatPage.actionOptions;
     if (page is PhotoPage) return PhotoPage.actionOptions;
+    if (page is ProfilePage) return ProfilePage.actionOptions;
     return [];
   }
 
@@ -229,6 +230,13 @@ class _MainScreenState extends State<MainScreen> {
         body: Stack(
           children: [
             _pages[_currentIndex],
+            // Sync status bar at the top
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: SyncStatusBar(),
+            ),
             if (_currentOptions.isNotEmpty)
               FloatingLayoutManager.positionedFloatingActionBall(
                 context: context,

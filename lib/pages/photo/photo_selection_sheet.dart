@@ -43,8 +43,8 @@ class PhotoSelectionSheet extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: photoController.isServerAvailable.value 
-                ? Colors.green.withOpacity(0.1) 
-                : Colors.red.withOpacity(0.1),
+                ? Colors.green.withValues(alpha: 0.1) 
+                : Colors.red.withValues(alpha: 0.1),
               border: Border(
                 bottom: BorderSide(
                   color: photoController.isServerAvailable.value 
@@ -158,7 +158,7 @@ Future<File?> getVideoThumbnail(String videoPath) async {
     );
     return thumbnailPath != null ? File(thumbnailPath) : null;
   } catch (e) {
-    print('Error generating video thumbnail: $e');
+    appLogger.error('Error generating video thumbnail: $e');
     return null;
   }
 }

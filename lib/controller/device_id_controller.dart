@@ -74,7 +74,7 @@ class DeviceIdController extends GetxController {
   String getDeviceInfoString() {
     if (deviceInfo.isEmpty) return 'Device info not available';
     
-    final info = deviceInfo.value;
+    final info = deviceInfo;
     final platform = info['platform'] ?? 'unknown';
     
     if (platform == 'android') {

@@ -89,40 +89,13 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       appLogger.error('Error setting profile image: $e');
-      throw e;
+      rethrow;
     } finally {
       isLoading.value = false;
     }
   }
   
-  Future<void> _removeProfileImage() async {
-    try {
-      isLoading.value = true;
-      
-      final directory = await getApplicationDocumentsDirectory();
-      final imagePath = '${directory.path}/profile_image.png';
-      final imageFile = File(imagePath);
-      
-      if (await imageFile.exists()) {
-        await imageFile.delete();
-      }
-      
-      // Update state
-      profileImage.value = null;
-      hasProfileImage.value = false;
-      
-      // Save preference
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('has_profile_image', false);
-      
-      appLogger.info('Profile image removed successfully');
-    } catch (e) {
-      appLogger.error('Error removing profile image: $e');
-      Get.snackbar('Error', 'Failed to remove profile image: $e');
-    } finally {
-      isLoading.value = false;
-    }
-  }
+
   
 
 }

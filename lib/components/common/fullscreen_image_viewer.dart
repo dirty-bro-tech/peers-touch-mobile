@@ -8,11 +8,11 @@ class FullscreenImageViewer extends StatefulWidget {
   final VoidCallback? onEdit;
 
   const FullscreenImageViewer({
-    Key? key,
+    super.key,
     required this.imageProvider,
     this.heroTag,
     this.onEdit,
-  }) : super(key: key);
+  });
 
   @override
   State<FullscreenImageViewer> createState() => _FullscreenImageViewerState();
