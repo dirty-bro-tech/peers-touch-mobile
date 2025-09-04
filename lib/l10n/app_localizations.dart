@@ -589,6 +589,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have pushed the button this many times:'**
   String get youHavePushedButton;
+
+  /// Navigation label for me
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get navMe;
+
+  /// Title for me profile page
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get meProfile;
+
+  /// Label for profile photo
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Photo'**
+  String get profilePhoto;
+
+  /// Label for name field
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// Label for gender field
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// Label for region field
+  ///
+  /// In en, this message translates to:
+  /// **'Region'**
+  String get region;
+
+  /// Label for email field
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// Label for peers ID field
+  ///
+  /// In en, this message translates to:
+  /// **'Peers ID'**
+  String get peersId;
+
+  /// Label for QR code section
+  ///
+  /// In en, this message translates to:
+  /// **'My QR Code'**
+  String get myQrCode;
+
+  /// Label for what's up section
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s Up'**
+  String get whatsUp;
+
+  /// Gender option: Male
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// Gender option: Female
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// Default name placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Little First'**
+  String get littleFirst;
 }
 
 class _AppLocalizationsDelegate

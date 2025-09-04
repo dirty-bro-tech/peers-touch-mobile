@@ -276,4 +276,43 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get youHavePushedButton =>
       'Has presionado el botón esta cantidad de veces:';
+
+  @override
+  String get navMe => 'Yo';
+
+  @override
+  String get meProfile => 'Perfil';
+
+  @override
+  String get profilePhoto => 'Foto de Perfil';
+
+  @override
+  String get name => 'Nombre';
+
+  @override
+  String get gender => 'Género';
+
+  @override
+  String get region => 'Región';
+
+  @override
+  String get email => 'Correo Electrónico';
+
+  @override
+  String get peersId => 'ID de Peers';
+
+  @override
+  String get myQrCode => 'Mi Código QR';
+
+  @override
+  String get whatsUp => '¿Qué Tal?';
+
+  @override
+  String get male => 'Masculino';
+
+  @override
+  String get female => 'Femenino';
+
+  @override
+  String get littleFirst => 'Pequeño Primero';
 }

@@ -272,4 +272,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get youHavePushedButton =>
       'You have pushed the button this many times:';
+
+  @override
+  String get navMe => 'Me';
+
+  @override
+  String get meProfile => 'Profile';
+
+  @override
+  String get profilePhoto => 'Profile Photo';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get region => 'Region';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get peersId => 'Peers ID';
+
+  @override
+  String get myQrCode => 'My QR Code';
+
+  @override
+  String get whatsUp => 'What\'s Up';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get littleFirst => 'Little First';
 }

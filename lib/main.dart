@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
 import 'package:pure_touch/pages/photo/backend_photos_page.dart';
-import 'package:pure_touch/pages/profile/profile_page.dart';
+import 'package:pure_touch/pages/me/me_home.dart';
 import 'package:pure_touch/utils/logger.dart';
 
 import 'package:pure_touch/components/navigation/bottom_nav_bar.dart';
@@ -181,7 +181,7 @@ class _MainScreenState extends State<MainScreen> {
     const ChatPage(),
     const ChatPage(), 
     PhotoPage(),
-    const ProfilePage(),
+    const MeHomePage(),
   ];
   
   @override
@@ -201,7 +201,7 @@ class _MainScreenState extends State<MainScreen> {
   List<FloatingActionOption> _getPageOptions(Widget page) {
     if (page is ChatPage) return ChatPage.actionOptions;
     if (page is PhotoPage) return PhotoPage.actionOptions;
-    if (page is ProfilePage) return ProfilePage.actionOptions;
+    if (page is MeHomePage) return MeHomePage.actionOptions;
     return [];
   }
 

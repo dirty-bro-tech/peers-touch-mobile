@@ -83,5 +83,18 @@
   "friendName": "Nombre del Amigo",
   "samplePostContent": "Este es un contenido de publicación de ejemplo...",
   "increment": "Incrementar",
-  "youHavePushedButton": "Has presionado el botón esta cantidad de veces:"
+  "youHavePushedButton": "Has presionado el botón esta cantidad de veces:",
+  "navMe": "Yo",
+  "meProfile": "Perfil",
+  "profilePhoto": "Foto de Perfil",
+  "name": "Nombre",
+  "gender": "Género",
+  "region": "Región",
+  "email": "Correo Electrónico",
+  "peersId": "ID de Peers",
+  "myQrCode": "Mi Código QR",
+  "whatsUp": "¿Qué Tal?",
+  "male": "Masculino",
+  "female": "Femenino",
+  "littleFirst": "Pequeño Primero"
 }

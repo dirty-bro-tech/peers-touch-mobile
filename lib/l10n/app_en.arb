@@ -440,5 +440,70 @@
   "youHavePushedButton": "You have pushed the button this many times:",
   "@youHavePushedButton": {
     "description": "Counter description text"
+  },
+
+  "navMe": "Me",
+  "@navMe": {
+    "description": "Navigation label for me"
+  },
+
+  "meProfile": "Profile",
+  "@meProfile": {
+    "description": "Title for me profile page"
+  },
+
+  "profilePhoto": "Profile Photo",
+  "@profilePhoto": {
+    "description": "Label for profile photo"
+  },
+
+  "name": "Name",
+  "@name": {
+    "description": "Label for name field"
+  },
+
+  "gender": "Gender",
+  "@gender": {
+    "description": "Label for gender field"
+  },
+
+  "region": "Region",
+  "@region": {
+    "description": "Label for region field"
+  },
+
+  "email": "Email",
+  "@email": {
+    "description": "Label for email field"
+  },
+
+  "peersId": "Peers ID",
+  "@peersId": {
+    "description": "Label for peers ID field"
+  },
+
+  "myQrCode": "My QR Code",
+  "@myQrCode": {
+    "description": "Label for QR code section"
+  },
+
+  "whatsUp": "What's Up",
+  "@whatsUp": {
+    "description": "Label for what's up section"
+  },
+
+  "male": "Male",
+  "@male": {
+    "description": "Gender option: Male"
+  },
+
+  "female": "Female",
+  "@female": {
+    "description": "Gender option: Female"
+  },
+
+  "littleFirst": "Little First",
+  "@littleFirst": {
+    "description": "Default name placeholder"
   }
 }
