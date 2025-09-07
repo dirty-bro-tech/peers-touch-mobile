@@ -87,31 +87,43 @@ class UserProfileHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end, // Ensure right alignment
                   mainAxisAlignment: MainAxisAlignment.center, // Center vertically
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        // TODO: Show QR code
-                      },
-                      icon: Icon(
-                        Icons.qr_code,
-                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                        size: 24,
+                    // QR Code button with better tap area
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () {
+                          // TODO: Show QR code
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.qr_code,
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            size: 24,
+                          ),
+                        ),
                       ),
                     ),
-                    // Navigation arrow under QR code
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => MeProfilePage(),
+                    // Navigation arrow under QR code - with larger tap area
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => MeProfilePage(),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0), // Larger padding for better tap area
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            size: 16,
                           ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                          size: 16,
                         ),
                       ),
                     ),

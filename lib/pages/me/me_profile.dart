@@ -158,9 +158,83 @@ class MeProfilePage extends StatelessWidget {
                                label == AppLocalizations.of(context)!.email || 
                                label == AppLocalizations.of(context)!.shortBio;
     
+    // Create the trailing widget with proper tap handling
+    Widget trailingWidget = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Value on the right
+        if (showAvatar)
+          GestureDetector(
+            onTap: () => _navigateToAvatarChange(context),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.transparent,
+              child: CircleAvatar(
+                radius: 18,
+                child: Obx(() {
+                  // Check if profile image exists first
+                  if (profileController.hasProfileImage.value &&
+                      profileController.profileImage.value != null) {
+                    return ClipOval(
+                      child: Image.file(
+                        profileController.profileImage.value!,
+                        height: 36,
+                        width: 36,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  } else {
+                    // Fallback to identicon
+                    final deviceIdController =
+                        ControllerManager.deviceIdController;
+                    final identiconInput =
+                        deviceIdController.getIdenticonInput();
+
+                    return ClipOval(
+                      child: SvgPicture.string(
+                        Jdenticon.toSvg(identiconInput),
+                        height: 36,
+                        width: 36,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  }
+                }),
+              ),
+            ),
+          )
+        else if (value.isNotEmpty)
+          Container(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
+            child: Text(
+              value,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.right,
+              maxLines: isLongTextField ? (isMultiline ? 4 : 2) : 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          
+        // Chevron icon
+        if (showTrailing)
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Icon(
+              Icons.chevron_right,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.54),
+              size: 20,
+            ),
+          ),
+      ],
+    );
+    
     // Use ListTile for consistent layout and alignment
-     return ListTile(
-       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       title: Text(
         label,
         style: TextStyle(
@@ -169,78 +243,19 @@ class MeProfilePage extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
       ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Value on the right
-          if (showAvatar)
-            GestureDetector(
-              onTap: () => _navigateToAvatarChange(context),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.transparent,
-                child: CircleAvatar(
-                  radius: 18,
-                  child: Obx(() {
-                    // Check if profile image exists first
-                    if (profileController.hasProfileImage.value &&
-                        profileController.profileImage.value != null) {
-                      return ClipOval(
-                        child: Image.file(
-                          profileController.profileImage.value!,
-                          height: 36,
-                          width: 36,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    } else {
-                      // Fallback to identicon
-                      final deviceIdController =
-                          ControllerManager.deviceIdController;
-                      final identiconInput =
-                          deviceIdController.getIdenticonInput();
-
-                      return ClipOval(
-                        child: SvgPicture.string(
-                          Jdenticon.toSvg(identiconInput),
-                          height: 36,
-                          width: 36,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    }
-                  }),
-                ),
-              ),
-            )
-          else if (value.isNotEmpty)
-            Container(
-              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.right,
-                maxLines: isLongTextField ? (isMultiline ? 4 : 2) : 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            
-          // Chevron icon
-          if (showTrailing)
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Icon(
-                Icons.chevron_right,
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.54),
-                size: 20,
-              ),
-            ),
-        ],
-      ),
+      trailing: trailingWidget,
+      onTap: showTrailing ? () {
+        // Handle navigation based on field type
+        if (label == AppLocalizations.of(context)!.profilePhoto) {
+          _navigateToAvatarChange(context);
+        } else if (label == AppLocalizations.of(context)!.myQrCode) {
+          // Navigate to QR code page
+          // TODO: Implement QR code navigation
+        } else {
+          // Navigate to edit page for this field
+          // TODO: Implement field editing navigation
+        }
+      } : null,
     );
   }
 
