@@ -13,103 +13,71 @@ class UserProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final meController = ControllerManager.meController;
+    final colorScheme = Theme.of(context).colorScheme;
     
     return Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          // Main profile row
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center, // Align avatar and text properly
-            children: [
-              // Avatar
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        border: Border.all(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          width: 1,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Obx(() {
                     final deviceIdController = ControllerManager.deviceIdController;
                     final identiconInput = deviceIdController.getIdenticonInput();
                     
-                    return SvgPicture.string(
-                      Jdenticon.toSvg(identiconInput),
-                      height: 70,
-                      width: 70,
-                      fit: BoxFit.cover,
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SvgPicture.string(
+                        Jdenticon.toSvg(identiconInput),
+                        height: 60,
+                        width: 60,
+                        fit: BoxFit.cover,
+                      ),
                     );
                   }),
                 ),
-              ),
-              const SizedBox(width: 16),
-              
-              // User Info - aligned with avatar center
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center, // Center align with avatar
-                  children: [
-                    Obx(() => Text(
-                      meController.userName.value,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
-                    const SizedBox(height: 4),
-                    Obx(() => Text(
-                      '${l10n.peersId}: ${meController.peersId.value}',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 14,
-                      ),
-                    )),
-                  ],
-                ),
-              ),
-              
-              // QR Code with navigation arrow
-              Container(
-                width: 80, // Fixed width for right side elements
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end, // Ensure right alignment
-                  mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-                  children: [
-                    // QR Code button with better tap area
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
-                        onTap: () {
-                          // TODO: Show QR code
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.qr_code,
-                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                            size: 24,
-                          ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Obx(() => Text(
+                              meController.userName.value,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                            const SizedBox(height: 4),
+                            Obx(() => Text(
+                              '${l10n.peersId}: ${meController.peersId.value}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: colorScheme.onSurface.withValues(alpha: 0.6),
+                              ),
+                            )),
+                          ],
                         ),
                       ),
-                    ),
-                    // Navigation arrow under QR code - with larger tap area
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
+                      GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -117,66 +85,71 @@ class UserProfileHeader extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0), // Larger padding for better tap area
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                            size: 16,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.qr_code,
+                              color: colorScheme.onSurfaceVariant,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: colorScheme.onSurfaceVariant,
+                              size: 16,
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          
-          // Status and friends row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensure proper spacing
-            children: [
-              Text(
-                '+ Status',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                  fontSize: 14,
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStatusItem(
+                  context,
+                  label: '+ Status',
+                  value: 'Available',
                 ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end, // Right align friends info
-                  children: [
-                    Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Container(
-                      width: 150, // Fixed width for friends text
-                      child: Text(
-                        'and other friends (4)',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                          fontSize: 14,
-                        ),
-                        textAlign: TextAlign.right, // Right align text
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
+                _buildStatusItem(
+                  context,
+                  label: 'Friends',
+                  value: '128',
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildStatusItem(BuildContext context, {required String label, required String value}) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Column(
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: colorScheme.onSurface.withValues(alpha: 0.7),
+            fontSize: 14,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: TextStyle(
+            color: colorScheme.onSurface,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
     );
   }
 }

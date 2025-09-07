@@ -6,20 +6,22 @@ class ServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        color: Theme.of(context).colorScheme.surface,
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.5),
+          width: 1,
+        ),
       ),
       child: Column(
         children: [
           _buildMenuItem(
             context,
-            icon: Icons.payment,
-            iconColor: Colors.green,
-            title: 'Pay and Services',
+            icon: Icons.language,
+            iconColor: Colors.grey,
+            title: 'Peers Network',
             onTap: () {
-              // TODO: Navigate to pay and services
+              // TODO: Navigate to peers network
             },
           ),
         ],
