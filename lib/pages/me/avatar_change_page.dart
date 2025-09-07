@@ -159,13 +159,13 @@ class _AvatarChangePageState extends State<AvatarChangePage> with SingleTickerPr
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: isDarkMode 
-                            ? Colors.white.withOpacity(0.1)
-                            : Colors.black.withOpacity(0.1),
+                            ? Colors.white.withValues(alpha: 0.1)
+                            : Colors.black.withValues(alpha: 0.1),
                           boxShadow: [
                             BoxShadow(
                               color: isDarkMode 
-                                ? Colors.white.withOpacity(0.1)
-                                : Colors.black.withOpacity(0.1),
+                                ? Colors.white.withValues(alpha: 0.1)
+                                : Colors.black.withValues(alpha: 0.1),
                               blurRadius: 20,
                               spreadRadius: 5,
                             ),

@@ -66,8 +66,8 @@ class _FullscreenImageViewerState extends State<FullscreenImageViewer> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withOpacity(0.6),
-                          Colors.black.withOpacity(0.3),
+                          Colors.black.withValues(alpha: 0.6),
+                          Colors.black.withValues(alpha: 0.3),
                           Colors.transparent,
                         ],
                       ),
@@ -92,8 +92,8 @@ class _FullscreenImageViewerState extends State<FullscreenImageViewer> {
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          Colors.black.withOpacity(0.6),
-                          Colors.black.withOpacity(0.3),
+                          Colors.black.withValues(alpha: 0.6),
+                          Colors.black.withValues(alpha: 0.3),
                           Colors.transparent,
                         ],
                       ),
@@ -143,7 +143,7 @@ class _FullscreenImageViewerState extends State<FullscreenImageViewer> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withValues(alpha: 0.5),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(Icons.close, color: Colors.white, size: 24),

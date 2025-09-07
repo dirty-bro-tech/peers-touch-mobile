@@ -30,7 +30,7 @@ class MeProfilePage extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: colorScheme.onBackground, size: 20),
+          icon: Icon(Icons.arrow_back_ios, color: colorScheme.onSurface, size: 20),
           onPressed: () => Get.back(),
         ),
         title: Text(
@@ -44,7 +44,7 @@ class MeProfilePage extends StatelessWidget {
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: colorScheme.onBackground.withOpacity(0.1), height: 0.5),
+          child: Container(color: colorScheme.onSurface.withValues(alpha: 0.1), height: 0.5),
         ),
       ),
       body: SafeArea(
@@ -263,7 +263,7 @@ class MeProfilePage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.zero,
       height: 0.5,
-      color: Theme.of(context).colorScheme.onBackground.withOpacity(0.1),
+      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
     );
   }
 }

@@ -31,7 +31,7 @@ class UserProfileHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+                      color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.1),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
@@ -99,7 +99,7 @@ class UserProfileHeader extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.qr_code,
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                             size: 24,
                           ),
                         ),
@@ -121,7 +121,7 @@ class UserProfileHeader extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0), // Larger padding for better tap area
                           child: Icon(
                             Icons.arrow_forward_ios,
-                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                             size: 16,
                           ),
                         ),
@@ -141,7 +141,7 @@ class UserProfileHeader extends StatelessWidget {
               Text(
                 '+ Status',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                   fontSize: 14,
                 ),
               ),
@@ -154,7 +154,7 @@ class UserProfileHeader extends StatelessWidget {
                       height: 20,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -163,7 +163,7 @@ class UserProfileHeader extends StatelessWidget {
                       child: Text(
                         'and other friends (4)',
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                           fontSize: 14,
                         ),
                         textAlign: TextAlign.right, // Right align text

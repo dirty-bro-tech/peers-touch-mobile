@@ -32,7 +32,7 @@ class MeHomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: colorScheme.surface,
         elevation: 0,
-        shadowColor: colorScheme.onSurface.withOpacity(0.1),
+        shadowColor: colorScheme.onSurface.withValues(alpha: 0.1),
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(
@@ -53,7 +53,7 @@ class MeHomePage extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Container(
-            color: colorScheme.onSurface.withOpacity(0.2),
+            color: colorScheme.onSurface.withValues(alpha: 0.2),
             height: 0.5,
           ),
         ),

@@ -49,7 +49,7 @@ class ProfileHeader extends StatelessWidget {
             height: 200,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Theme.of(Get.context!).colorScheme.surfaceVariant,
+              color: Theme.of(Get.context!).colorScheme.surfaceContainerHighest,
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(20),
               ),
@@ -75,7 +75,7 @@ class ProfileHeader extends StatelessWidget {
                           return Container(
                             width: double.infinity,
                             height: 200,
-                            color: Theme.of(context).colorScheme.surfaceVariant,
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
                             child: Icon(
                               Icons.person,
                               size: 80,
@@ -97,7 +97,7 @@ class ProfileHeader extends StatelessWidget {
                           return Container(
                             width: double.infinity,
                             height: 200,
-                            color: Theme.of(context).colorScheme.surfaceVariant,
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
                             child: Icon(
                               Icons.person,
                               size: 80,
