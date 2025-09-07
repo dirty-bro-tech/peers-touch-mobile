@@ -44,7 +44,7 @@ class PhotoController extends GetxController implements SyncEventListener {
   late ServerConfigManager serverConfigManager;
   
   // Get SyncManager from dependency injection
-  SyncManager get syncManager => Get.find<SyncManager>();
+  late SyncManager syncManager;
 
   // Permission state tracking
   final Rx<PermissionState> _permissionState =
@@ -78,6 +78,16 @@ class PhotoController extends GetxController implements SyncEventListener {
     try {
       // Initialize server config manager
       serverConfigManager = Get.put(ServerConfigManager());
+      
+      // Get SyncManager instance
+      try {
+        syncManager = Get.find<SyncManager>();
+      } catch (e) {
+        appLogger.warning('SyncManager not found, waiting for initialization');
+        // Wait briefly and try again
+        await Future.delayed(Duration(milliseconds: 100));
+        syncManager = Get.find<SyncManager>();
+      }
       
       // Initialize photo store
       photoStore = PhotoStore();
@@ -150,9 +160,20 @@ class PhotoController extends GetxController implements SyncEventListener {
   
   void _disposeStoreLayer() {
     try {
-      syncManager.removeSyncListener(this);
-      syncManager.unregisterStore('PhotoStore');
-      photoStore.dispose();
+      // Check if syncManager is initialized before using it
+      try {
+        syncManager.removeSyncListener(this);
+        syncManager.unregisterStore('PhotoStore');
+      } catch (syncError) {
+        appLogger.warning('Error during sync manager cleanup: $syncError');
+      }
+      
+      // Dispose photo store if initialized
+      try {
+        photoStore.dispose();
+      } catch (storeError) {
+        appLogger.warning('Error disposing photo store: $storeError');
+      }
       
       if (kDebugMode) {
         appLogger.info('Store layer disposed successfully');

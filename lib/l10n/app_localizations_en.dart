@@ -135,10 +135,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get permissionDenied => 'Permission Denied';
 
   @override
-  String get needPhotoAccess => 'Need photo access to select profile image';
+  String get needPhotoAccess =>
+      'Photo access is needed to select a profile image';
 
   @override
-  String get needMediaAccess => 'Need media access to load albums';
+  String get needMediaAccess => 'Media access is needed to load albums';
 
   @override
   String get photosSyncedSuccessfully => 'Photos synced successfully';
@@ -160,8 +161,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userName => 'User Name';
 
   @override
-  String get userBio =>
-      'User Bio Ha Ha hah hasd hello hello hello hello hello, hi hi hi hi hi hi hi hi hi';
+  String get userBio => 'This is a sample user biography.';
 
   @override
   String get photoAlbums => 'Photo Albums';
@@ -301,7 +301,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myQrCode => 'My QR Code';
 
   @override
-  String get whatsUp => 'What\'s Up';
+  String get shortBio => 'Short Bio';
 
   @override
   String get male => 'Male';

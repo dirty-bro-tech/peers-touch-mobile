@@ -66,8 +66,12 @@ class MyApp extends StatelessWidget {
         Locale('en'), // English
         Locale('es'), // Spanish
       ],
-      home: const MainScreen(),
+      initialRoute: '/',
       getPages: [
+        GetPage(
+          name: '/',
+          page: () => const MainScreen(),
+        ),
         GetPage(
           name: '/backend-photos',
           page: () => const BackendPhotosPage(),
@@ -181,7 +185,7 @@ class _MainScreenState extends State<MainScreen> {
     const ChatPage(),
     const ChatPage(), 
     PhotoPage(),
-    const MeHomePage(),
+    MeHomePage(),
   ];
   
   @override

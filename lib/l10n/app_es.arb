@@ -50,7 +50,7 @@
   "unexpectedError": "Ocurrió un error inesperado: {error}",
   "syncSelectedPhotos": "Sincronizar Fotos Seleccionadas ({count})",
   "userName": "Nombre de Usuario",
-  "userBio": "Biografía del Usuario Ja Ja ja jasd hola hola hola hola hola, hola hola hola hola hola hola hola hola hola",
+  "userBio": "Esta es una biografía de usuario de ejemplo.",
   "photoAlbums": "Álbumes de Fotos",
   "albumSync": "Sincronización de Álbum",
   "albumSyncMessage": "Selecciona álbumes para sincronizar con tu cuenta. Los álbumes sincronizados estarán disponibles en todos tus dispositivos.",

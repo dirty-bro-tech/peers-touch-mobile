@@ -347,13 +347,13 @@ abstract class AppLocalizations {
   /// Message when photo access is needed
   ///
   /// In en, this message translates to:
-  /// **'Need photo access to select profile image'**
+  /// **'Photo access is needed to select a profile image'**
   String get needPhotoAccess;
 
   /// Message when media access is needed
   ///
   /// In en, this message translates to:
-  /// **'Need media access to load albums'**
+  /// **'Media access is needed to load albums'**
   String get needMediaAccess;
 
   /// Message when photos are synced successfully
@@ -389,7 +389,7 @@ abstract class AppLocalizations {
   /// Default user bio text
   ///
   /// In en, this message translates to:
-  /// **'User Bio Ha Ha hah hasd hello hello hello hello hello, hi hi hi hi hi hi hi hi hi'**
+  /// **'This is a sample user biography.'**
   String get userBio;
 
   /// Title for photo albums page
@@ -644,11 +644,11 @@ abstract class AppLocalizations {
   /// **'My QR Code'**
   String get myQrCode;
 
-  /// Label for what's up section
+  /// No description provided for @shortBio.
   ///
   /// In en, this message translates to:
-  /// **'What\'s Up'**
-  String get whatsUp;
+  /// **'Short Bio'**
+  String get shortBio;
 
   /// Gender option: Male
   ///

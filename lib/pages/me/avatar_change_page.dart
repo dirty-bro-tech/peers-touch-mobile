@@ -11,23 +11,25 @@ class AvatarChangePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.close,
-            color: Colors.white,
+            color: colorScheme.onBackground,
           ),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Get.back(),
         ),
         title: Text(
           l10n.profilePhoto,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: colorScheme.onBackground,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -43,28 +45,33 @@ class AvatarChangePage extends StatelessWidget {
                 width: 200,
                 height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Get.theme.colorScheme.onSurface,
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
+                  boxShadow: [                    BoxShadow(                      color: Colors.black.withOpacity(0.3),                      blurRadius: 20,                      offset: const Offset(0, 10),                    ),                  ],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Obx(() {
-                    final deviceIdController = ControllerManager.deviceIdController;
-                    final identiconInput = deviceIdController.getIdenticonInput();
+                    final profileController = ControllerManager.profileController;
                     
-                    return SvgPicture.string(
-                      Jdenticon.toSvg(identiconInput),
-                      height: 200,
-                      width: 200,
-                      fit: BoxFit.cover,
-                    );
+                    if (profileController.hasProfileImage.value && profileController.profileImage.value != null) {
+                      return Image.file(
+                        profileController.profileImage.value!,
+                        height: 200,
+                        width: 200,
+                        fit: BoxFit.cover,
+                      );
+                    } else {
+                      final deviceIdController = ControllerManager.deviceIdController;
+                      final identiconInput = deviceIdController.getIdenticonInput();
+                      
+                      return SvgPicture.string(
+                        Jdenticon.toSvg(identiconInput),
+                        height: 200,
+                        width: 200,
+                        fit: BoxFit.cover,
+                      );
+                    }
                   }),
                 ),
               ),
@@ -108,7 +115,7 @@ class AvatarChangePage extends StatelessWidget {
                   context,
                   'Cancel',
                   Icons.cancel,
-                  () => Navigator.of(context).pop(),
+                  () => Get.back(),
                   isCancel: true,
                 ),
               ],
@@ -132,14 +139,7 @@ class AvatarChangePage extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: isCancel 
-              ? Colors.grey.withOpacity(0.2)
-              : Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 1,
-          ),
+          color: isCancel               ? Get.theme.colorScheme.surface.withOpacity(0.2)              : Get.theme.colorScheme.primary.withOpacity(0.1),          borderRadius: BorderRadius.circular(12),          border: Border.all(            color: Get.theme.colorScheme.onSurface.withOpacity(0.3),            width: 1,          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -152,11 +152,7 @@ class AvatarChangePage extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: TextStyle(                color: Get.theme.colorScheme.onSurface,                fontSize: 16,                fontWeight: FontWeight.w500,              ),
             ),
           ],
         ),
@@ -164,31 +160,67 @@ class AvatarChangePage extends StatelessWidget {
     );
   }
 
-  void _takePhoto(BuildContext context) {
-    // TODO: Implement take photo functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Take Photo - Not implemented yet')),
-    );
+  void _takePhoto(BuildContext context) async {
+    final profileController = ControllerManager.profileController;
+    try {
+      await profileController.takePhoto();
+      Get.snackbar(
+        'Success',
+        'Photo taken successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to take photo: ${e.toString()}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
-  void _chooseFromAlbum(BuildContext context) {
-    // TODO: Implement choose from album functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Choose from Album - Not implemented yet')),
-    );
+  void _chooseFromAlbum(BuildContext context) async {
+    final profileController = ControllerManager.profileController;
+    try {
+      await profileController.chooseFromAlbum();
+      Get.snackbar(
+        'Success',
+        'Photo selected from album',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to select photo: ${e.toString()}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   void _viewPreviousPhoto(BuildContext context) {
+    final profileController = ControllerManager.profileController;
     // TODO: Implement view previous photo functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('View Previous Photo - Not implemented yet')),
+    Get.snackbar(
+      'Not Implemented',
+      'View Previous Photo - Not implemented yet',
+      snackPosition: SnackPosition.BOTTOM,
     );
   }
 
-  void _savePhoto(BuildContext context) {
-    // TODO: Implement save photo functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Save Photo - Not implemented yet')),
-    );
+  void _savePhoto(BuildContext context) async {
+    final profileController = ControllerManager.profileController;
+    try {
+      await profileController.saveCurrentImage();
+      Get.snackbar(
+        'Success',
+        'Photo saved successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to save photo: ${e.toString()}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 }

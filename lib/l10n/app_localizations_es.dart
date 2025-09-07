@@ -163,8 +163,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get userName => 'Nombre de Usuario';
 
   @override
-  String get userBio =>
-      'Biografía del Usuario Ja Ja ja jasd hola hola hola hola hola, hola hola hola hola hola hola hola hola hola';
+  String get userBio => 'Esta es una biografía de usuario de ejemplo.';
 
   @override
   String get photoAlbums => 'Álbumes de Fotos';
@@ -305,7 +304,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get myQrCode => 'Mi Código QR';
 
   @override
-  String get whatsUp => '¿Qué Tal?';
+  String get shortBio => 'Short Bio';
 
   @override
   String get male => 'Masculino';

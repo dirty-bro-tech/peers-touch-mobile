@@ -49,7 +49,7 @@ class ProfileHeader extends StatelessWidget {
             height: 200,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: Theme.of(Get.context!).colorScheme.surfaceVariant,
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(20),
               ),
@@ -75,11 +75,11 @@ class ProfileHeader extends StatelessWidget {
                           return Container(
                             width: double.infinity,
                             height: 200,
-                            color: Colors.grey[400],
-                            child: const Icon(
+                            color: Theme.of(context).colorScheme.surfaceVariant,
+                            child: Icon(
                               Icons.person,
                               size: 80,
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
                           );
                         },
@@ -97,11 +97,11 @@ class ProfileHeader extends StatelessWidget {
                           return Container(
                             width: double.infinity,
                             height: 200,
-                            color: Colors.grey[400],
-                            child: const Icon(
+                            color: Theme.of(context).colorScheme.surfaceVariant,
+                            child: Icon(
                               Icons.person,
                               size: 80,
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
                           );
                         },
@@ -118,11 +118,11 @@ class ProfileHeader extends StatelessWidget {
           right: 90,
           child: Text(
               AppLocalizationsHelper.getLocalizedString((l10n) => l10n.userName, 'User Name'),
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Colors.white, // Keeping white for contrast against photo background
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              shadows: [
+              shadows: const [
                 Shadow(
                   color: Colors.black54,
                   blurRadius: 4,

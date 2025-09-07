@@ -207,12 +207,12 @@
     "description": "Permission denied message title"
   },
   
-  "needPhotoAccess": "Need photo access to select profile image",
+  "needPhotoAccess": "Photo access is needed to select a profile image",
   "@needPhotoAccess": {
     "description": "Message when photo access is needed"
   },
   
-  "needMediaAccess": "Need media access to load albums",
+  "needMediaAccess": "Media access is needed to load albums",
   "@needMediaAccess": {
     "description": "Message when media access is needed"
   },
@@ -254,7 +254,7 @@
     "description": "Default user name"
   },
   
-  "userBio": "User Bio Ha Ha hah hasd hello hello hello hello hello, hi hi hi hi hi hi hi hi hi",
+  "userBio": "This is a sample user biography.",
   "@userBio": {
     "description": "Default user bio text"
   },
@@ -487,9 +487,9 @@
     "description": "Label for QR code section"
   },
 
-  "whatsUp": "What's Up",
+  "shortBio": "Short Bio",
   "@whatsUp": {
-    "description": "Label for what's up section"
+    "description": "Label for Short Bio section"
   },
 
   "male": "Male",

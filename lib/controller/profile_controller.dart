@@ -94,8 +94,89 @@ class ProfileController extends GetxController {
       isLoading.value = false;
     }
   }
+  Future<void> takePhoto() async {
+    try {
+      isLoading.value = true;
+      appLogger.info('Taking photo for profile image');
+      
+      // Request camera permission
+      final permitted = await PhotoManager.requestPermissionExtend();
+      if (!permitted.isAuth) {
+        throw Exception('Camera permission denied');
+      }
+      
+      // TODO: Implement camera capture functionality
+      // This would typically involve using a camera plugin
+      // For now, we'll just show a message that it's not implemented
+      
+      appLogger.info('Camera functionality not yet implemented');
+    } catch (e) {
+      appLogger.error('Error taking photo: $e');
+      rethrow;
+    } finally {
+      isLoading.value = false;
+    }
+  }
   
-
+  Future<void> chooseFromAlbum() async {
+    try {
+      isLoading.value = true;
+      appLogger.info('Choosing image from album');
+      
+      // Request photos permission
+      final permitted = await PhotoManager.requestPermissionExtend();
+      if (!permitted.isAuth) {
+        throw Exception('Photos permission denied');
+      }
+      
+      // Get all albums
+      final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+        type: RequestType.image,
+      );
+      
+      if (albums.isEmpty) {
+        throw Exception('No albums found');
+      }
+      
+      // Get recent album
+      final recentAlbum = albums.first;
+      
+      // Get recent images
+      final List<AssetEntity> recentAssets = await recentAlbum.getAssetListRange(
+        start: 0,
+        end: 20, // Limit to 20 recent images
+      );
+      
+      if (recentAssets.isEmpty) {
+        throw Exception('No images found');
+      }
+      
+      // For now, just use the most recent image
+      // In a real app, you would show a UI for selection
+      final selectedAsset = recentAssets.first;
+      await setProfileImageFromAsset(selectedAsset);
+      
+      appLogger.info('Image selected from album');
+    } catch (e) {
+      appLogger.error('Error choosing from album: $e');
+      rethrow;
+    } finally {
+      isLoading.value = false;
+    }
+  }
   
-
+  Future<void> saveCurrentImage() async {
+    try {
+      if (!hasProfileImage.value || profileImage.value == null) {
+        throw Exception('No profile image to save');
+      }
+      
+      appLogger.info('Current profile image is already saved');
+      // The image is already saved when set, so we just confirm
+      
+    } catch (e) {
+      appLogger.error('Error saving image: $e');
+      rethrow;
+    }
+  }
 }
