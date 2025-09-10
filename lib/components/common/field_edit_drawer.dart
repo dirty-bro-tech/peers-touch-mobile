@@ -78,20 +78,14 @@ class FieldEditDrawer extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minHeight: 200,
-        maxHeight: MediaQuery.of(context).size.height * 0.6,
+    return Container(
+      height: (MediaQuery.of(context).size.height * 0.32) + bottomPadding,
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: EdgeInsets.only(bottom: bottomPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+      child: Column(
+        children: [
           // Handle bar
           Container(
             margin: const EdgeInsets.only(top: 8),
@@ -117,7 +111,8 @@ class FieldEditDrawer extends StatelessWidget {
           ),
           
           // Form
-          Form(
+          Expanded(
+            child: Form(
               key: controller.formKey,
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -161,8 +156,8 @@ class FieldEditDrawer extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
