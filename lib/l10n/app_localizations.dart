@@ -667,6 +667,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Little First'**
   String get littleFirst;
+
+  /// Button text for update action
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
 }
 
 class _AppLocalizationsDelegate

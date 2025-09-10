@@ -5,6 +5,7 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/pages/photo/image_selection_page.dart';
 
 class ProfileController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -129,34 +130,12 @@ class ProfileController extends GetxController {
         throw Exception('Photos permission denied');
       }
       
-      // Get all albums
-      final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-        type: RequestType.image,
-      );
+      // Navigate to image selection page
+      await Get.to<void>(() => const ImageSelectionPage());
       
-      if (albums.isEmpty) {
-        throw Exception('No albums found');
-      }
-      
-      // Get recent album
-      final recentAlbum = albums.first;
-      
-      // Get recent images
-      final List<AssetEntity> recentAssets = await recentAlbum.getAssetListRange(
-        start: 0,
-        end: 20, // Limit to 20 recent images
-      );
-      
-      if (recentAssets.isEmpty) {
-        throw Exception('No images found');
-      }
-      
-      // For now, just use the most recent image
-      // In a real app, you would show a UI for selection
-      final selectedAsset = recentAssets.first;
-      await setProfileImageFromAsset(selectedAsset);
-      
-      appLogger.info('Image selected from album');
+      // The image selection and setting is handled in the GallerySelectionPage
+      // which calls setProfileImageFromAsset directly when an image is selected
+      appLogger.info('Opened image selection page');
     } catch (e) {
       appLogger.error('Error choosing from album: $e');
       rethrow;

@@ -52,7 +52,6 @@ class _AvatarChangePageState extends State<AvatarChangePage> with SingleTickerPr
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final isDarkMode = theme.brightness == Brightness.dark;
     
     // Determine colors based on theme

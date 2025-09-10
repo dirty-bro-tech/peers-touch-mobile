@@ -66,11 +66,5 @@ class FeaturesSection extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 64),
-      height: 0.5,
-      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.12),
-    );
-  }
+
 }

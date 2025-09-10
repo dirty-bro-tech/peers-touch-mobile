@@ -6,6 +6,7 @@ import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/controller/profile_controller.dart';
 import 'package:pure_touch/l10n/app_localizations.dart';
 import 'package:pure_touch/pages/me/avatar_change_page.dart';
+import 'package:pure_touch/pages/me/name_update_drawer.dart';
 
 class MeProfilePage extends StatelessWidget {
   MeProfilePage({super.key});
@@ -248,6 +249,14 @@ class MeProfilePage extends StatelessWidget {
         // Handle navigation based on field type
         if (label == AppLocalizations.of(context)!.profilePhoto) {
           _navigateToAvatarChange(context);
+        } else if (label == AppLocalizations.of(context)!.name) {
+          showNameUpdateDrawer(
+            context: context,
+            initialValue: meController.userName.value,
+            onUpdate: (value) async {
+              await meController.updateUserName(value);
+            },
+          );
         } else if (label == AppLocalizations.of(context)!.myQrCode) {
           // Navigate to QR code page
           // TODO: Implement QR code navigation

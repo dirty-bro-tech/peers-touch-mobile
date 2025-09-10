@@ -311,4 +311,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get littleFirst => 'Little First';
+
+  @override
+  String get update => 'Update';
 }

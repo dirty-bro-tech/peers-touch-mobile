@@ -505,5 +505,10 @@
   "littleFirst": "Little First",
   "@littleFirst": {
     "description": "Default name placeholder"
+  },
+
+  "update": "Update",
+  "@update": {
+    "description": "Button text for update action"
   }
 }

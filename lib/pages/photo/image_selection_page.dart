@@ -218,8 +218,10 @@ class _GallerySelectionPageState extends State<GallerySelectionPage> {
   Future<void> _selectImage(AssetEntity asset) async {
     try {
       await controller.setProfileImageFromAsset(asset);
+      // Navigate back to the avatar change page (close gallery, selection page, and fullscreen viewer)
       Get.back(); // Close gallery page
       Get.back(); // Close selection page
+      Get.back(); // Close fullscreen viewer if it exists
       Get.snackbar(
           AppLocalizationsHelper.getLocalizedString((l10n) => l10n.success, 'Success'),
           AppLocalizationsHelper.getLocalizedString((l10n) => l10n.profilePictureUpdated, 'Profile picture updated successfully'),

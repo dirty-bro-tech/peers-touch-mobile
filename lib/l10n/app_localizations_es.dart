@@ -314,4 +314,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get littleFirst => 'Pequeño Primero';
+
+  @override
+  String get update => 'Actualizar';
 }

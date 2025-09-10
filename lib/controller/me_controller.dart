@@ -37,4 +37,20 @@ class MeController extends GetxController {
     if (whatsUp != null) this.whatsUp.value = whatsUp;
     if (phone != null) this.phone.value = phone;
   }
+  
+  // Method to update user name specifically
+  Future<void> updateUserName(String newName) async {
+    try {
+      // TODO: Add API call to update name on server
+      // For now, just update locally
+      userName.value = newName;
+      
+      // Here you would typically make an API call to update the name on the server
+      // await apiService.updateUserName(newName);
+      
+    } catch (e) {
+      // Re-throw the error to be handled by the UI
+      rethrow;
+    }
+  }
 }
