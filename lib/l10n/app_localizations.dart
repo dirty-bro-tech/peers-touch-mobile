@@ -644,11 +644,17 @@ abstract class AppLocalizations {
   /// **'My QR Code'**
   String get myQrCode;
 
-  /// No description provided for @shortBio.
+  /// Label for Short Bio section
   ///
   /// In en, this message translates to:
   /// **'Short Bio'**
   String get shortBio;
+
+  /// Greeting or status inquiry
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s Up'**
+  String get whatsUp;
 
   /// Gender option: Male
   ///
@@ -673,6 +679,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get update;
+
+  /// Label for new item
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get newLabel;
+
+  /// Label for current item
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get current;
+
+  /// Character count display
+  ///
+  /// In en, this message translates to:
+  /// **'{count}/{max}'**
+  String characterCount(int count, int max);
+
+  /// Helper text explaining name visibility
+  ///
+  /// In en, this message translates to:
+  /// **'Your name will be visible to other users when you connect with them.'**
+  String get nameVisibilityHelper;
+
+  /// Validation message for empty name
+  ///
+  /// In en, this message translates to:
+  /// **'{field} cannot be empty'**
+  String nameCannotBeEmpty(String field);
+
+  /// Validation message for minimum length
+  ///
+  /// In en, this message translates to:
+  /// **'{field} must be at least {min} characters'**
+  String nameMinLength(String field, int min);
+
+  /// Validation message for maximum length
+  ///
+  /// In en, this message translates to:
+  /// **'{field} cannot exceed {max} characters'**
+  String nameMaxLength(String field, int max);
+
+  /// Success message for name update
+  ///
+  /// In en, this message translates to:
+  /// **'{field} updated successfully'**
+  String nameUpdatedSuccessfully(String field);
 }
 
 class _AppLocalizationsDelegate

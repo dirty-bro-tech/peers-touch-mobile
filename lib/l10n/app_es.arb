@@ -97,5 +97,14 @@
   "male": "Masculino",
   "female": "Femenino",
   "littleFirst": "Pequeño Primero",
-  "update": "Actualizar"
+  "update": "Actualizar",
+  
+  "newLabel": "Nuevo",
+  "current": "Actual",
+  "characterCount": "{count}/{max}",
+  "nameVisibilityHelper": "Tu nombre será visible para otros usuarios cuando te conectes con ellos.",
+  "nameCannotBeEmpty": "{field} no puede estar vacío",
+  "nameMinLength": "{field} debe tener al menos {min} caracteres",
+  "nameMaxLength": "{field} no puede exceder {max} caracteres",
+  "nameUpdatedSuccessfully": "{field} actualizado exitosamente"
 }

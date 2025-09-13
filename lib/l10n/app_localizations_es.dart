@@ -307,6 +307,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get shortBio => 'Short Bio';
 
   @override
+  String get whatsUp => '¿Qué Tal?';
+
+  @override
   String get male => 'Masculino';
 
   @override
@@ -317,4 +320,39 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get update => 'Actualizar';
+
+  @override
+  String get newLabel => 'Nuevo';
+
+  @override
+  String get current => 'Actual';
+
+  @override
+  String characterCount(int count, int max) {
+    return '$count/$max';
+  }
+
+  @override
+  String get nameVisibilityHelper =>
+      'Tu nombre será visible para otros usuarios cuando te conectes con ellos.';
+
+  @override
+  String nameCannotBeEmpty(String field) {
+    return '$field no puede estar vacío';
+  }
+
+  @override
+  String nameMinLength(String field, int min) {
+    return '$field debe tener al menos $min caracteres';
+  }
+
+  @override
+  String nameMaxLength(String field, int max) {
+    return '$field no puede exceder $max caracteres';
+  }
+
+  @override
+  String nameUpdatedSuccessfully(String field) {
+    return '$field actualizado exitosamente';
+  }
 }

@@ -488,8 +488,13 @@
   },
 
   "shortBio": "Short Bio",
-  "@whatsUp": {
+  "@shortBio": {
     "description": "Label for Short Bio section"
+  },
+  
+  "whatsUp": "What's Up",
+  "@whatsUp": {
+    "description": "Greeting or status inquiry"
   },
 
   "male": "Male",
@@ -510,5 +515,87 @@
   "update": "Update",
   "@update": {
     "description": "Button text for update action"
+  },
+  
+  "newLabel": "New",
+  "@newLabel": {
+    "description": "Label for new item"
+  },
+  
+  "current": "Current",
+  "@current": {
+    "description": "Label for current item"
+  },
+  
+  "characterCount": "{count}/{max}",
+  "@characterCount": {
+    "description": "Character count display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Current character count"
+      },
+      "max": {
+        "type": "int",
+        "description": "Maximum character count"
+      }
+    }
+  },
+  
+  "nameVisibilityHelper": "Your name will be visible to other users when you connect with them.",
+  "@nameVisibilityHelper": {
+    "description": "Helper text explaining name visibility"
+  },
+  
+  "nameCannotBeEmpty": "{field} cannot be empty",
+  "@nameCannotBeEmpty": {
+    "description": "Validation message for empty name",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "description": "Field name"
+      }
+    }
+  },
+  
+  "nameMinLength": "{field} must be at least {min} characters",
+  "@nameMinLength": {
+    "description": "Validation message for minimum length",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "description": "Field name"
+      },
+      "min": {
+        "type": "int",
+        "description": "Minimum character count"
+      }
+    }
+  },
+  
+  "nameMaxLength": "{field} cannot exceed {max} characters",
+  "@nameMaxLength": {
+    "description": "Validation message for maximum length",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "description": "Field name"
+      },
+      "max": {
+        "type": "int",
+        "description": "Maximum character count"
+      }
+    }
+  },
+  
+  "nameUpdatedSuccessfully": "{field} updated successfully",
+  "@nameUpdatedSuccessfully": {
+    "description": "Success message for name update",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "description": "Field name"
+      }
+    }
   }
 }

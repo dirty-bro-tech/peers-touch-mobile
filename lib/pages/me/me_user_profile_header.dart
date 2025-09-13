@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/pages/me/me_profile.dart';
 import 'package:pure_touch/l10n/app_localizations.dart';
-import 'package:pure_touch/pages/me/name_update_drawer.dart';
+import 'package:pure_touch/pages/me/name_update_page.dart';
 
 class UserProfileHeader extends StatelessWidget {
   const UserProfileHeader({super.key});
@@ -61,13 +61,13 @@ class UserProfileHeader extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Obx(() => GestureDetector(
-                              onTap: () => showNameUpdateDrawer(
-                                context: context,
-                                initialValue: meController.userName.value,
-                                onUpdate: (value) async {
-                                  await meController.updateUserName(value);
-                                },
-                              ),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>  NameUpdatePage(),
+                                  ),
+                                );
+                              },
                               child: Text(
                                 meController.userName.value,
                                 style: const TextStyle(
