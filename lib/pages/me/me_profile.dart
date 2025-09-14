@@ -6,7 +6,8 @@ import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/controller/profile_controller.dart';
 import 'package:pure_touch/l10n/app_localizations.dart';
 import 'package:pure_touch/pages/me/avatar_change_page.dart';
-import 'package:pure_touch/pages/me/name_update_page.dart';
+import 'package:pure_touch/pages/me/me_name_update_page.dart';
+import 'package:pure_touch/pages/me/me_gender_update_page.dart';
 
 class MeProfilePage extends StatelessWidget {
   MeProfilePage({super.key});
@@ -253,6 +254,12 @@ class MeProfilePage extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => NameUpdatePage(),
+            ),
+          );
+        } else if (label == AppLocalizations.of(context)!.gender) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => GenderUpdatePage(),
             ),
           );
         } else if (label == AppLocalizations.of(context)!.myQrCode) {

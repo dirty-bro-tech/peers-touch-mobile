@@ -9,12 +9,19 @@ class NameUpdatePage extends StatelessWidget {
   final TextEditingController _textController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final RxBool _isLoading = false.obs;
+  final _currentText = ''.obs;
   final meController = ControllerManager.meController;
 
   @override
   Widget build(BuildContext context) {
     // Initialize text controller with current name
     _textController.text = meController.userName.value;
+    _currentText.value = meController.userName.value;
+    
+    // Add listener to trigger UI updates when text changes
+    _textController.addListener(() {
+      _currentText.value = _textController.text;
+    });
     
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
@@ -33,31 +40,34 @@ class NameUpdatePage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0), // 16px = 8px × 2 (follows 8px grid)
             child: Form(
               key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                  const SizedBox(height: 24), // 24px = 8px × 3 (follows 8px grid)
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 24), // 24px = 8px × 3 (follows 8px grid)
+                          
+                          // Current name display
+                          _buildCurrentNameDisplay(context, l10n, colorScheme),
+                          
+                          const SizedBox(height: 24), // 24px spacing between sections
+                          
+                          // Name input field
+                          _buildNameInputField(context, l10n, colorScheme),
+                        ],
+                      ),
+                    ),
+                  ),
                   
-                  // Current name display
-                  _buildCurrentNameDisplay(context, l10n, colorScheme),
-                  
-                  const SizedBox(height: 24), // 24px spacing between sections
-                  
-                  // Name input field
-                  _buildNameInputField(context, l10n, colorScheme),
-                  
-                  const SizedBox(height: 32), // 32px = 8px × 4 (follows 8px grid)
-                  
-                  // Update button
-                  _buildUpdateButton(context, l10n, colorScheme),
-                  
-                  const SizedBox(height: 24), // 24px spacing before helper text
-                  
-                  // Helper text
-                  _buildHelperText(context, l10n, colorScheme),
-                  ],
-                ),
+                  // Helper text always at bottom
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                    child: _buildHelperText(context, l10n, colorScheme),
+                  ),
+                ],
               ),
             ),
           ),
@@ -85,6 +95,32 @@ class NameUpdatePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+        actions: [
+          Obx(() => TextButton(
+            onPressed: (_isLoading.value || _currentText.value.trim() == meController.userName.value)
+                ? null
+                : () => _updateName(context, l10n),
+            child: _isLoading.value
+                ? const SizedBox(
+                    height: 16,
+                    width: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Text(
+                    l10n.update,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: (_currentText.value.trim() == meController.userName.value)
+                          ? colorScheme.onSurface.withValues(alpha: 0.38)
+                          : colorScheme.primary,
+                    ),
+                  ),
+          )),
+          const SizedBox(width: 8),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Container(
@@ -152,44 +188,14 @@ class NameUpdatePage extends StatelessWidget {
       ),
       maxLength: 50,
       validator: (value) => _validateName(value, l10n),
-      autofocus: true,
+      autofocus: false,
       onChanged: (value) {
         // Counter updates automatically with TextFormField
       },
     );
   }
 
-  Widget _buildUpdateButton(BuildContext context, AppLocalizations l10n, ColorScheme colorScheme) {
-    return SizedBox(
-      height: 48, // 48px = 8px × 6 (follows 8px grid)
-      child: Obx(() => ElevatedButton(
-        onPressed: _isLoading.value ? null : () => _updateName(context, l10n),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: colorScheme.primary,
-          foregroundColor: colorScheme.onPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8), // 8px radius (follows 8px grid)
-          ),
-        ),
-        child: _isLoading.value
-            ? const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                ),
-              )
-            : Text(
-                l10n.update,
-                style: const TextStyle(
-                  fontSize: 15, // Follows typography rules for body_text
-                  fontWeight: FontWeight.w500, // Slightly bolder for button text
-                ),
-              ),
-      )),
-    );
-  }
+
 
   Widget _buildHelperText(BuildContext context, AppLocalizations l10n, ColorScheme colorScheme) {
     return Container(

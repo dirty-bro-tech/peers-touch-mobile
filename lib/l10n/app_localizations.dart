@@ -668,6 +668,12 @@ abstract class AppLocalizations {
   /// **'Female'**
   String get female;
 
+  /// Gender option: Prefer not to say
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer not to say'**
+  String get preferNotToSay;
+
   /// Default name placeholder
   ///
   /// In en, this message translates to:

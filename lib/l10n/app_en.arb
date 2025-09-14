@@ -507,6 +507,11 @@
     "description": "Gender option: Female"
   },
 
+  "preferNotToSay": "Prefer not to say",
+  "@preferNotToSay": {
+    "description": "Gender option: Prefer not to say"
+  },
+
   "littleFirst": "Little First",
   "@littleFirst": {
     "description": "Default name placeholder"

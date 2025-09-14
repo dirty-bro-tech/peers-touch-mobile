@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/pages/me/me_profile.dart';
 import 'package:pure_touch/l10n/app_localizations.dart';
-import 'package:pure_touch/pages/me/name_update_page.dart';
+import 'package:pure_touch/pages/me/me_name_update_page.dart';
 
 class UserProfileHeader extends StatelessWidget {
   const UserProfileHeader({super.key});

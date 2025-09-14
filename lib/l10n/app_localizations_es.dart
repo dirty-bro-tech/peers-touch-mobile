@@ -316,6 +316,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get female => 'Femenino';
 
   @override
+  String get preferNotToSay => 'Prefiero no decir';
+
+  @override
   String get littleFirst => 'Pequeño Primero';
 
   @override
