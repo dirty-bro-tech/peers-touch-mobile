@@ -6,8 +6,11 @@ import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/controller/profile_controller.dart';
 import 'package:pure_touch/l10n/app_localizations.dart';
 import 'package:pure_touch/pages/me/avatar_change_page.dart';
-import 'package:pure_touch/pages/me/me_name_update_page.dart';
+import 'package:pure_touch/pages/me/me_email_update_page.dart';
 import 'package:pure_touch/pages/me/me_gender_update_page.dart';
+import 'package:pure_touch/pages/me/me_name_update_page.dart';
+import 'package:pure_touch/pages/me/me_peersid_update_page.dart';
+import 'package:pure_touch/pages/me/me_short_bio_update_page.dart';
 
 class MeProfilePage extends StatelessWidget {
   MeProfilePage({super.key});
@@ -262,9 +265,27 @@ class MeProfilePage extends StatelessWidget {
               builder: (context) => GenderUpdatePage(),
             ),
           );
+        } else if (label == AppLocalizations.of(context)!.email) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => EmailUpdatePage(),
+            ),
+          );
+        } else if (label == AppLocalizations.of(context)!.peersId) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PeersIdUpdatePage(),
+            ),
+          );
         } else if (label == AppLocalizations.of(context)!.myQrCode) {
           // Navigate to QR code page
           // TODO: Implement QR code navigation
+        } else if (label == AppLocalizations.of(context)!.shortBio) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ShortBioUpdatePage(),
+            ),
+          );
         } else {
           // Navigate to edit page for this field
           // TODO: Implement field editing navigation

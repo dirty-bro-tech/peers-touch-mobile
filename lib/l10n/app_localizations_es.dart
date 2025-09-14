@@ -358,4 +358,45 @@ class AppLocalizationsEs extends AppLocalizations {
   String nameUpdatedSuccessfully(String field) {
     return '$field actualizado exitosamente';
   }
+
+  @override
+  String get emailValidationError =>
+      'Por favor ingrese una dirección de correo electrónico válida';
+
+  @override
+  String get emailVisibilityHelper =>
+      'Su correo electrónico se utilizará para la recuperación de cuenta y notificaciones importantes.';
+
+  @override
+  String get emailVisibilityTitle => 'Visibilidad del Correo';
+
+  @override
+  String get allowEmailPublishing =>
+      'Permitir que otros me encuentren por correo';
+
+  @override
+  String get emailPublishingHelper =>
+      'Cuando esté habilitado, otros usuarios pueden encontrarte y conectarse contigo usando tu dirección de correo electrónico.';
+
+  @override
+  String get peersIdUpdateTitle => 'ID de Peers';
+
+  @override
+  String get peersIdReadOnlyMessage =>
+      'Tu ID de Peers es generado automáticamente por la red y no puede ser cambiado manualmente. Este identificador único ayuda a otros usuarios a encontrarte y conectarse contigo en la red Peers Touch.';
+
+  @override
+  String get peersIdHelper =>
+      'Este ID es único para tu dispositivo y conexión de red. Se mantiene consistente mientras estés conectado a la misma red.';
+
+  @override
+  String get shortBioUpdateTitle => 'Biografía Corta';
+
+  @override
+  String get shortBioHelper =>
+      'Comparte una breve descripción sobre ti. Esto será visible para otros usuarios cuando vean tu perfil.';
+
+  @override
+  String get shortBioMaxLength =>
+      'La biografía corta no puede exceder 30 caracteres';
 }

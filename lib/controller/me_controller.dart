@@ -53,4 +53,20 @@ class MeController extends GetxController {
       rethrow;
     }
   }
+  
+  // Method to update user email specifically
+  Future<void> updateUserEmail(String newEmail) async {
+    try {
+      // TODO: Add API call to update email on server
+      // For now, just update locally
+      email.value = newEmail;
+      
+      // Here you would typically make an API call to update the email on the server
+      // await apiService.updateUserEmail(newEmail);
+      
+    } catch (e) {
+      // Re-throw the error to be handled by the UI
+      rethrow;
+    }
+  }
 }
