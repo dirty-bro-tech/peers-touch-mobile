@@ -57,20 +57,10 @@
 					<key>UISceneConfigurationName</key>
 					<string>Default Configuration</string>
 					<key>UISceneDelegateClassName</key>
-					<string>SceneDelegate</string>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Need photo access to select images</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Need photo access to save images</string>
-    <key>CFBundleLocalizations</key>
-    <array>
-        <string>en</string>
-        <string>es</string>
-        <string>zh</string>
-    </array>
 </dict>
 </plist>

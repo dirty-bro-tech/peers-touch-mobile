@@ -96,13 +96,6 @@ class MeSettingsPage extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     Widget trailingWidget = Container(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        border: Border.all(
-          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-          width: 1,
-        ),
-      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -131,27 +124,18 @@ class MeSettingsPage extends StatelessWidget {
     );
 
     // Use ListTile for consistent layout and alignment
-    return Container(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        border: Border.all(
-          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-          width: 1,
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      title: Text(
+        label,
+        style: TextStyle(
+          color: colorScheme.onSurface,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        title: Text(
-          label,
-          style: TextStyle(
-            color: colorScheme.onSurface,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        trailing: trailingWidget,
-        onTap: showTrailing ? onTap : null,
-      ),
+      trailing: trailingWidget,
+      onTap: showTrailing ? onTap : null,
     );
   }
 
