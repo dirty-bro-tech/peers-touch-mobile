@@ -108,5 +108,24 @@
   "nameCannotBeEmpty": "{field} no puede estar vacío",
   "nameMinLength": "{field} debe tener al menos {min} caracteres",
   "nameMaxLength": "{field} no puede exceder {max} caracteres",
-  "nameUpdatedSuccessfully": "{field} actualizado exitosamente"
+  "nameUpdatedSuccessfully": "{field} actualizado exitosamente",
+  
+  "emailValidationError": "Por favor ingrese una dirección de correo electrónico válida",
+  "emailVisibilityHelper": "Su correo electrónico se utilizará para la recuperación de cuenta y notificaciones importantes.",
+  
+  "emailVisibilityTitle": "Visibilidad del Correo",
+  "allowEmailPublishing": "Permitir que otros me encuentren por correo",
+  "emailPublishingHelper": "Cuando esté habilitado, otros usuarios pueden encontrarte y conectarse contigo usando tu dirección de correo electrónico.",
+  
+  "success": "Éxito",
+  "error": "Error",
+  "unexpectedError": "Ocurrió un error inesperado: {error}",
+  
+  "peersIdUpdateTitle": "ID de Peers",
+  "peersIdReadOnlyMessage": "Tu ID de Peers es generado automáticamente por la red y no puede ser cambiado manualmente. Este identificador único ayuda a otros usuarios a encontrarte y conectarse contigo en la red Peers Touch.",
+  "peersIdHelper": "Este ID es único para tu dispositivo y conexión de red. Se mantiene consistente mientras estés conectado a la misma red.",
+  
+  "shortBioUpdateTitle": "Biografía Corta",
+  "shortBioHelper": "Comparte una breve descripción sobre ti. Esto será visible para otros usuarios cuando vean tu perfil.",
+  "shortBioMaxLength": "La biografía corta no puede exceder 30 caracteres"
 }
