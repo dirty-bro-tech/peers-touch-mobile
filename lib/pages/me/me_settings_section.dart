@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pure_touch/pages/me/me_settings.dart';
 
 class SettingsSection extends StatelessWidget {
   const SettingsSection({super.key});
@@ -21,7 +23,8 @@ class SettingsSection extends StatelessWidget {
             iconColor: Colors.grey,
             title: 'Settings',
             onTap: () {
-              // TODO: Navigate to settings
+              // Navigate to settings page
+              Get.to(() => MeSettingsPage());
             },
           ),
         ],

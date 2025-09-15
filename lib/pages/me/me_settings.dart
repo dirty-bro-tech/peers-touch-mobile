@@ -1,0 +1,164 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pure_touch/controller/controller.dart';
+import 'package:pure_touch/l10n/app_localizations.dart';
+import 'package:pure_touch/pages/me/me_general_settings.dart';
+
+class MeSettingsPage extends StatelessWidget {
+  MeSettingsPage({super.key});
+
+  // Get the MeController instance for user data
+  final meController = ControllerManager.meController;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Scaffold(
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        backgroundColor: colorScheme.surface,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: colorScheme.onSurface, size: 20),
+          onPressed: () => Get.back(),
+        ),
+        title: Text(
+          'Settings', // TODO: Add to localization
+          style: TextStyle(
+            color: colorScheme.onSurface,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(color: colorScheme.onSurface.withValues(alpha: 0.1), height: 0.5),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              _buildSettingsFields(context, l10n),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsFields(BuildContext context, AppLocalizations l10n) {
+    return Column(
+      children: [
+        // My Account item
+        _buildSettingsField(
+          context,
+          'My Account', // TODO: Add to localization
+          '',
+          Icons.account_circle_outlined,
+          onTap: () {
+            // TODO: Navigate to My Account page
+          },
+        ),
+        _buildDivider(context),
+        
+        // General item
+        _buildSettingsField(
+          context,
+          'General', // TODO: Add to localization
+          '',
+          Icons.settings_outlined,
+          onTap: () {
+            // Navigate to General settings page
+            Get.to(() => MeGeneralSettingsPage());
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSettingsField(
+    BuildContext context,
+    String label,
+    String value,
+    IconData icon, {
+    bool showTrailing = true,
+    VoidCallback? onTap,
+  }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    Widget trailingWidget = Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        border: Border.all(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (value.isNotEmpty)
+            Flexible(
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: colorScheme.onSurface.withValues(alpha: 0.6),
+                  fontSize: 14,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          if (showTrailing)
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Icon(
+                Icons.chevron_right,
+                color: colorScheme.onSurface.withValues(alpha: 0.54),
+                size: 20,
+              ),
+            ),
+        ],
+      ),
+    );
+
+    // Use ListTile for consistent layout and alignment
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        border: Border.all(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          width: 1,
+        ),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        title: Text(
+          label,
+          style: TextStyle(
+            color: colorScheme.onSurface,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        trailing: trailingWidget,
+        onTap: showTrailing ? onTap : null,
+      ),
+    );
+  }
+
+  Widget _buildDivider(BuildContext context) {
+    return Container(
+      height: 0.5,
+      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
+    );
+  }
+}
