@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:pure_touch/store/base_store.dart';
 import 'package:pure_touch/model/photo_model.dart';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 
 /// Photo data model for local storage
 class PhotoData implements Storable {

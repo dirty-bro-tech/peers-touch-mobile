@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:photo_manager/photo_manager.dart';
 import 'package:pure_touch/model/photo_model.dart';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 import 'package:pure_touch/store/photo_store.dart';
 import 'package:pure_touch/store/sync_manager.dart';
 import 'package:pure_touch/store/server_config_manager.dart';

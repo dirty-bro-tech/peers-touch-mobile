@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pure_touch/service/device_id_service.dart';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 
 /// Controller for managing device identification
 class DeviceIdController extends GetxController {

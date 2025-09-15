@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 
 class PhotoModel {
   final int id;

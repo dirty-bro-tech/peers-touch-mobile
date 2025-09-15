@@ -304,7 +304,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get myQrCode => 'Mi Código QR';
 
   @override
-  String get shortBio => 'Short Bio';
+  String get shortBio => 'Biografía Breve';
 
   @override
   String get whatsUp => '¿Qué Tal?';

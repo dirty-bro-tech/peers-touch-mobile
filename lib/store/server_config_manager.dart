@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pure_touch/store/base_store.dart';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 
 /// Server configuration manager for handling multiple backend servers
 class ServerConfigManager extends GetxController {

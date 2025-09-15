@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 
 class PhotoSyncService {
   // Singleton pattern (optional - use if you need single instance)

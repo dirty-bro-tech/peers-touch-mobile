@@ -10,7 +10,7 @@ import 'package:pure_touch/components/common/floating_action_ball.dart';
 
 import 'package:pure_touch/controller/controller.dart';
 import 'package:pure_touch/utils/app_localizations_helper.dart';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 
 class PhotoPage extends GetView<PhotoController> {
   PhotoPage({super.key});

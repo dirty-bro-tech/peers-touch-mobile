@@ -6,7 +6,7 @@ import 'package:pure_touch/pages/chat_page.dart';
 import 'package:pure_touch/pages/photo/photo_page.dart';
 import 'package:pure_touch/pages/photo/backend_photos_page.dart';
 import 'package:pure_touch/pages/me/me_home.dart';
-import 'package:pure_touch/utils/logger.dart';
+import 'package:pure_touch/common/logger/logger.dart';
 
 import 'package:pure_touch/components/navigation/bottom_nav_bar.dart';
 import 'package:pure_touch/components/common/floating_action_ball.dart';
@@ -65,6 +65,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [
         Locale('en'), // English
         Locale('es'), // Spanish
+        Locale('zh'), // Chinese
       ],
       initialRoute: '/',
       getPages: [
