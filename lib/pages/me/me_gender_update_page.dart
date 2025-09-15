@@ -182,67 +182,93 @@ class GenderUpdatePage extends StatelessWidget {
           ),
           const SizedBox(height: 16), // 16px spacing (follows 8px grid)
           
-          // Male option
-          Obx(() => RadioListTile<String>(
-            title: Text(
-              l10n.male,
-              style: TextStyle(
-                fontSize: 15, // Follows typography rules for body_text
-                color: colorScheme.onSurface,
-                fontWeight: FontWeight.w400,
+          // Gender selection using RadioListTile
+          Obx(() => Column(
+            children: [
+              // Male option
+              RadioListTile<String>(
+                title: Text(
+                  l10n.male,
+                  style: TextStyle(
+                    fontSize: 15, // Follows typography rules for body_text
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                value: 'Male',
+                groupValue: _selectedGender.value,
+                onChanged: (String? value) {
+                  if (value != null) {
+                    _selectedGender.value = value;
+                  }
+                },
+                fillColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return colorScheme.primary;
+                    }
+                    return colorScheme.onSurface.withValues(alpha: 0.6);
+                  },
+                ),
+                contentPadding: EdgeInsets.zero,
               ),
-            ),
-            value: 'Male',
-            groupValue: _selectedGender.value,
-            onChanged: (String? value) {
-              if (value != null) {
-                _selectedGender.value = value;
-              }
-            },
-            activeColor: colorScheme.primary,
-            contentPadding: EdgeInsets.zero,
-          )),
-          
-          // Female option
-          Obx(() => RadioListTile<String>(
-            title: Text(
-              l10n.female,
-              style: TextStyle(
-                fontSize: 15, // Follows typography rules for body_text
-                color: colorScheme.onSurface,
-                fontWeight: FontWeight.w400,
+              
+              // Female option
+              RadioListTile<String>(
+                title: Text(
+                  l10n.female,
+                  style: TextStyle(
+                    fontSize: 15, // Follows typography rules for body_text
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                value: 'Female',
+                groupValue: _selectedGender.value,
+                onChanged: (String? value) {
+                  if (value != null) {
+                    _selectedGender.value = value;
+                  }
+                },
+                fillColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return colorScheme.primary;
+                    }
+                    return colorScheme.onSurface.withValues(alpha: 0.6);
+                  },
+                ),
+                contentPadding: EdgeInsets.zero,
               ),
-            ),
-            value: 'Female',
-            groupValue: _selectedGender.value,
-            onChanged: (String? value) {
-              if (value != null) {
-                _selectedGender.value = value;
-              }
-            },
-            activeColor: colorScheme.primary,
-            contentPadding: EdgeInsets.zero,
-          )),
-          
-          // Prefer not to say option
-          Obx(() => RadioListTile<String>(
-            title: Text(
-              l10n.preferNotToSay,
-              style: TextStyle(
-                fontSize: 15, // Follows typography rules for body_text
-                color: colorScheme.onSurface,
-                fontWeight: FontWeight.w400,
+              
+              // Prefer not to say option
+              RadioListTile<String>(
+                title: Text(
+                  l10n.preferNotToSay,
+                  style: TextStyle(
+                    fontSize: 15, // Follows typography rules for body_text
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                value: 'Prefer not to say',
+                groupValue: _selectedGender.value,
+                onChanged: (String? value) {
+                  if (value != null) {
+                    _selectedGender.value = value;
+                  }
+                },
+                fillColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return colorScheme.primary;
+                    }
+                    return colorScheme.onSurface.withValues(alpha: 0.6);
+                  },
+                ),
+                contentPadding: EdgeInsets.zero,
               ),
-            ),
-            value: 'Prefer not to say',
-            groupValue: _selectedGender.value,
-            onChanged: (String? value) {
-              if (value != null) {
-                _selectedGender.value = value;
-              }
-            },
-            activeColor: colorScheme.primary,
-            contentPadding: EdgeInsets.zero,
+            ],
           )),
         ],
       ),

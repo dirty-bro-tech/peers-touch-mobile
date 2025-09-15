@@ -280,7 +280,7 @@ class EmailUpdatePage extends StatelessWidget {
               ),
             ),
             contentPadding: EdgeInsets.zero,
-            activeColor: colorScheme.primary,
+            activeThumbColor: colorScheme.primary,
           )),
           const SizedBox(height: 8), // 8px spacing (follows 8px grid)
           Text(
