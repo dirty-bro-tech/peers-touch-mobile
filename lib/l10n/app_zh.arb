@@ -217,5 +217,17 @@
   "@blockFriend": {
     "description": "Option to block friend"
   },
-  "startingUpload": "开始上传..."
+  "startingUpload": "开始上传...",
+  
+  "emailValidationError": "请输入有效的电子邮件地址",
+  "emailVisibilityHelper": "您的电子邮件将用于账户恢复和重要通知。",
+  "emailVisibilityTitle": "邮箱可见性",
+  "allowEmailPublishing": "允许他人通过邮箱找到我",
+  "emailPublishingHelper": "启用后，其他用户可以使用您的电子邮件地址找到并与您连接。",
+  "peersIdUpdateTitle": "Peers ID",
+  "peersIdReadOnlyMessage": "您的 Peers ID 由网络自动生成，无法手动更改。这个唯一标识符帮助其他用户在 Peers Touch 网络中找到并连接您。",
+  "peersIdHelper": "此 ID 对您的设备和网络连接是唯一的。只要您连接到同一网络，它就会保持一致。",
+  "shortBioUpdateTitle": "个人简介",
+  "shortBioHelper": "分享一个关于您自己的简短描述。当其他用户查看您的个人资料时，这将是可见的。",
+  "shortBioMaxLength": "个人简介不能超过30个字符"
 }

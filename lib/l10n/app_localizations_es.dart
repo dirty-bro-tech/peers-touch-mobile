@@ -375,161 +375,161 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get contactsTitle => 'Contacts';
+  String get contactsTitle => 'Contactos';
 
   @override
-  String get searchContacts => 'Search contacts';
+  String get searchContacts => 'Buscar contactos';
 
   @override
-  String get noContactsFound => 'No contacts found';
+  String get noContactsFound => 'No se encontraron contactos';
 
   @override
-  String get viewProfile => 'View Profile';
+  String get viewProfile => 'Ver Perfil';
 
   @override
-  String get editRemark => 'Edit Remark';
+  String get editRemark => 'Editar Comentario';
 
   @override
-  String get enterRemark => 'Enter remark';
+  String get enterRemark => 'Ingresar comentario';
 
   @override
-  String get save => 'Save';
+  String get save => 'Guardar';
 
   @override
-  String get mute => 'Mute';
+  String get mute => 'Silenciar';
 
   @override
-  String get unmute => 'Unmute';
+  String get unmute => 'Activar sonido';
 
   @override
-  String get deleteFriend => 'Delete Friend';
+  String get deleteFriend => 'Eliminar Amigo';
 
   @override
   String get deleteFriendConfirmation =>
-      'Are you sure you want to delete this contact? This action cannot be undone.';
+      '¿Estás seguro de que quieres eliminar este amigo?';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Eliminar';
 
   @override
-  String get online => 'Online';
+  String get online => 'En línea';
 
   @override
   String lastSeen(String time) {
-    return 'Last seen: $time';
+    return 'Visto por última vez';
   }
 
   @override
-  String get justNow => 'Just now';
+  String get justNow => 'Ahora mismo';
 
   @override
   String minutesAgo(int minutes) {
-    return '$minutes minutes ago';
+    return 'hace $minutes minutos';
   }
 
   @override
   String hoursAgo(int hours) {
-    return '$hours hours ago';
+    return 'hace $hours horas';
   }
 
   @override
   String daysAgo(int days) {
-    return '$days days ago';
+    return 'hace $days días';
   }
 
   @override
-  String get today => 'Today';
+  String get today => 'Hoy';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get yesterday => 'Ayer';
 
   @override
-  String get monday => 'Monday';
+  String get monday => 'Lunes';
 
   @override
-  String get tuesday => 'Tuesday';
+  String get tuesday => 'Martes';
 
   @override
-  String get wednesday => 'Wednesday';
+  String get wednesday => 'Miércoles';
 
   @override
-  String get thursday => 'Thursday';
+  String get thursday => 'Jueves';
 
   @override
-  String get friday => 'Friday';
+  String get friday => 'Viernes';
 
   @override
-  String get saturday => 'Saturday';
+  String get saturday => 'Sábado';
 
   @override
-  String get sunday => 'Sunday';
+  String get sunday => 'Domingo';
 
   @override
-  String get noMessages => 'No messages yet';
+  String get noMessages => 'No hay mensajes';
 
   @override
-  String get typeMessage => 'Type a message...';
+  String get typeMessage => 'Escribir mensaje';
 
   @override
-  String get send => 'Send';
+  String get send => 'Enviar';
 
   @override
-  String get copy => 'Copy';
+  String get copy => 'Copiar';
 
   @override
-  String get forward => 'Forward';
+  String get forward => 'Reenviar';
 
   @override
-  String get deleteMessage => 'Delete Message';
+  String get deleteMessage => 'Eliminar mensaje';
 
   @override
   String get deleteMessageConfirmation =>
-      'Are you sure you want to delete this message?';
+      '¿Estás seguro de que quieres eliminar este mensaje?';
 
   @override
-  String get photo => 'Photo';
+  String get photo => 'Foto';
 
   @override
-  String get file => 'File';
+  String get file => 'Archivo';
 
   @override
-  String get location => 'Location';
+  String get location => 'Ubicación';
 
   @override
-  String get voice => 'Voice';
+  String get voice => 'Voz';
 
   @override
   String get video => 'Video';
 
   @override
-  String get contact => 'Contact';
+  String get contact => 'Contacto';
 
   @override
-  String get allFriends => 'All Friends';
+  String get allFriends => 'Todos los Amigos';
 
   @override
-  String get conversations => 'Conversations';
+  String get conversations => 'Conversaciones';
 
   @override
-  String get friends => 'Friends';
+  String get friends => 'Amigos';
 
   @override
-  String get onlineFriends => 'Online Friends';
+  String get onlineFriends => 'Amigos en línea';
 
   @override
-  String get offlineFriends => 'Offline Friends';
+  String get offlineFriends => 'Amigos desconectados';
 
   @override
-  String get addFriend => 'Add Friend';
+  String get addFriend => 'Agregar Amigo';
 
   @override
-  String get sendMessage => 'Send Message';
+  String get sendMessage => 'Enviar Mensaje';
 
   @override
-  String get removeFriend => 'Remove Friend';
+  String get removeFriend => 'Eliminar Amigo';
 
   @override
-  String get blockFriend => 'Block Friend';
+  String get blockFriend => 'Bloquear Amigo';
 
   @override
   String get emailValidationError =>

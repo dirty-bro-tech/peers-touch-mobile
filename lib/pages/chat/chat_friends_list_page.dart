@@ -5,6 +5,8 @@ import 'package:peers_touch_mobile/pages/chat/chat_detail_page.dart';
 import 'package:peers_touch_mobile/pages/chat/models/friend_model.dart';
 import 'package:peers_touch_mobile/pages/chat/chat_search_bar.dart';
 
+import 'chat_detail_page.dart';
+
 class FriendsListPage extends StatefulWidget {
   const FriendsListPage({super.key});
 

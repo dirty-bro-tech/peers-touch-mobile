@@ -237,11 +237,7 @@ class FriendsController extends ChangeNotifier {
   }
 
   void removeFriend(String friendId) {
-    final removedFriend = _allFriends.removeWhere((friend) => friend.friendId == friendId);
-    if (removedFriend > 0) {
-      notifyListeners();
-      appLogger.info('Removed friend with id: $friendId');
-    }
+    _allFriends.removeWhere((friend) => friend.friendId == friendId);
   }
 
   void dispose() {
