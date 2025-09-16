@@ -13,4 +13,4 @@ export 'region_provider.dart';
 export 'region_widgets.dart';
 
 // Re-export region data model for convenience
-export 'package:pure_touch/common/init/init_loader_regions.dart' show RegionData;
+export 'package:peers_touch_mobile/common/init/init_loader_regions.dart' show RegionData;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/controller/album_controller.dart';
-import 'package:pure_touch/controller/photo_controller.dart';
-import 'package:pure_touch/pages/photo/album_list.dart';
-import 'package:pure_touch/components/common/floating_action_ball.dart';
+import 'package:peers_touch_mobile/controller/album_controller.dart';
+import 'package:peers_touch_mobile/controller/photo_controller.dart';
+import 'package:peers_touch_mobile/pages/photo/album_list.dart';
+import 'package:peers_touch_mobile/components/common/floating_action_ball.dart';
 
 class AlbumPage extends StatelessWidget {
   static final List<FloatingActionOption> actionOptions = [

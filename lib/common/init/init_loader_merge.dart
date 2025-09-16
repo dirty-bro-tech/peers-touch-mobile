@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'init_loader_regions.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
 /// Initialization status enum
 enum InitStatus {

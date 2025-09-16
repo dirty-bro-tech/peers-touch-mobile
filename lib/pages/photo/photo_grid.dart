@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pure_touch/common/logger/logger.dart';
-import 'package:pure_touch/utils/snackbar_utils.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
+import 'package:peers_touch_mobile/utils/snackbar_utils.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:pure_touch/controller/photo_controller.dart';
+import 'package:peers_touch_mobile/controller/photo_controller.dart';
 
 class PhotoGridWidget extends StatefulWidget {
   const PhotoGridWidget({super.key});

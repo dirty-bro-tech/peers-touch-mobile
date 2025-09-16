@@ -16,7 +16,7 @@ The app uses Flutter's built-in internationalization support with ARB (Applicati
 ### Method 1: Using AppLocalizationsHelper (Recommended)
 
 ```dart
-import 'package:pure_touch/utils/app_localizations_helper.dart';
+import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
 
 // Simple usage with fallback
 Text(AppLocalizationsHelper.getLocalizedString(
@@ -31,7 +31,7 @@ Text(l10n.userName)
 ### Method 2: Using Context Extension
 
 ```dart
-import 'package:pure_touch/utils/app_localizations_helper.dart';
+import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
 
 // In a widget with BuildContext
 Text(context.l10n.userName)

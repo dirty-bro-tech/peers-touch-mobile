@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/controller/controller.dart';
-import 'package:pure_touch/utils/app_localizations_helper.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
+import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
 
 /// Example page showing device ID information
 /// This demonstrates how to use the DeviceIdController in your app

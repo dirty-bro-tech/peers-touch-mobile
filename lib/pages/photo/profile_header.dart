@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/controller/profile_controller.dart';
-import 'package:pure_touch/components/common/fullscreen_image_viewer.dart';
-import 'package:pure_touch/pages/photo/image_selection_page.dart';
-import 'package:pure_touch/utils/app_localizations_helper.dart';
+import 'package:peers_touch_mobile/controller/profile_controller.dart';
+import 'package:peers_touch_mobile/components/common/fullscreen_image_viewer.dart';
+import 'package:peers_touch_mobile/pages/photo/image_selection_page.dart';
+import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});

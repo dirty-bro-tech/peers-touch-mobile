@@ -604,6 +604,230 @@
     }
   },
   
+  "contactsTitle": "Contacts",
+  "@contactsTitle": {
+    "description": "Title for contacts page"
+  },
+  
+  "searchContacts": "Search contacts",
+  "@searchContacts": {
+    "description": "Placeholder for contact search field"
+  },
+  
+  "noContactsFound": "No contacts found",
+  "@noContactsFound": {
+    "description": "Message when no contacts are found"
+  },
+  
+  "viewProfile": "View Profile",
+  "@viewProfile": {
+    "description": "Option to view contact profile"
+  },
+  
+  "editRemark": "Edit Remark",
+  "@editRemark": {
+    "description": "Option to edit contact remark"
+  },
+  
+  "enterRemark": "Enter remark",
+  "@enterRemark": {
+    "description": "Placeholder for remark input field"
+  },
+  
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+  
+  "mute": "Mute",
+  "@mute": {
+    "description": "Option to mute notifications from contact"
+  },
+  
+  "unmute": "Unmute",
+  "@unmute": {
+    "description": "Option to unmute notifications from contact"
+  },
+  
+  "deleteFriend": "Delete Friend",
+  "@deleteFriend": {
+    "description": "Option to delete a contact"
+  },
+  
+  "deleteFriendConfirmation": "Are you sure you want to delete this contact? This action cannot be undone.",
+  "@deleteFriendConfirmation": {
+    "description": "Confirmation message for deleting a contact"
+  },
+  
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+  
+  "online": "Online",
+  "@online": {
+    "description": "Status indicating user is online"
+  },
+  
+  "lastSeen": "Last seen: {time}",
+  "@lastSeen": {
+    "description": "Status showing when user was last seen",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "description": "Time of last activity"
+      }
+    }
+  },
+  
+  "justNow": "Just now",
+  "@justNow": {
+    "description": "Time indicator for very recent activity"
+  },
+  
+  "minutesAgo": "{minutes} minutes ago",
+  "@minutesAgo": {
+    "description": "Time indicator for minutes ago",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "description": "Number of minutes"
+      }
+    }
+  },
+  
+  "hoursAgo": "{hours} hours ago",
+  "@hoursAgo": {
+    "description": "Time indicator for hours ago",
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "description": "Number of hours"
+      }
+    }
+  },
+  
+  "daysAgo": "{days} days ago",
+  "@daysAgo": {
+    "description": "Time indicator for days ago",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "description": "Number of days"
+      }
+    }
+  },
+  
+  "today": "Today",
+  "@today": {
+    "description": "Label for today"
+  },
+  
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "Label for yesterday"
+  },
+  
+  "monday": "Monday",
+  "@monday": {
+    "description": "Day of week: Monday"
+  },
+  
+  "tuesday": "Tuesday",
+  "@tuesday": {
+    "description": "Day of week: Tuesday"
+  },
+  
+  "wednesday": "Wednesday",
+  "@wednesday": {
+    "description": "Day of week: Wednesday"
+  },
+  
+  "thursday": "Thursday",
+  "@thursday": {
+    "description": "Day of week: Thursday"
+  },
+  
+  "friday": "Friday",
+  "@friday": {
+    "description": "Day of week: Friday"
+  },
+  
+  "saturday": "Saturday",
+  "@saturday": {
+    "description": "Day of week: Saturday"
+  },
+  
+  "sunday": "Sunday",
+  "@sunday": {
+    "description": "Day of week: Sunday"
+  },
+  
+  "noMessages": "No messages yet",
+  "@noMessages": {
+    "description": "Message shown when chat has no messages"
+  },
+  
+  "typeMessage": "Type a message...",
+  "@typeMessage": {
+    "description": "Placeholder for message input field"
+  },
+  
+  "send": "Send",
+  "@send": {
+    "description": "Send message button text"
+  },
+  
+  "copy": "Copy",
+  "@copy": {
+    "description": "Option to copy message content"
+  },
+  
+  "forward": "Forward",
+  "@forward": {
+    "description": "Option to forward message"
+  },
+  
+  "deleteMessage": "Delete Message",
+  "@deleteMessage": {
+    "description": "Option to delete message"
+  },
+  
+  "deleteMessageConfirmation": "Are you sure you want to delete this message?",
+  "@deleteMessageConfirmation": {
+    "description": "Confirmation message for deleting a message"
+  },
+  
+  "photo": "Photo",
+  "@photo": {
+    "description": "Label for photo message type"
+  },
+  
+  "file": "File",
+  "@file": {
+    "description": "Label for file message type"
+  },
+  
+  "location": "Location",
+  "@location": {
+    "description": "Label for location message type"
+  },
+  
+  "voice": "Voice",
+  "@voice": {
+    "description": "Label for voice message type"
+  },
+  
+  "video": "Video",
+  "@video": {
+    "description": "Label for video message type"
+  },
+  
+  "contact": "Contact",
+  "@contact": {
+    "description": "Label for contact message type"
+  },
+  
   "emailValidationError": "Please enter a valid email address",
   "@emailValidationError": {
     "description": "Validation message for invalid email format"

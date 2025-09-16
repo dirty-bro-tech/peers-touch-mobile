@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/controller/controller.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
 
 class AvatarOverlay extends StatelessWidget {
   const AvatarOverlay({super.key});

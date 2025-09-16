@@ -8,15 +8,15 @@ import 'package:path_provider/path_provider.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:photo_manager/photo_manager.dart';
-import 'package:pure_touch/model/photo_model.dart';
-import 'package:pure_touch/common/logger/logger.dart';
-import 'package:pure_touch/store/photo_store.dart';
-import 'package:pure_touch/store/sync_manager.dart';
-import 'package:pure_touch/store/server_config_manager.dart';
-import 'package:pure_touch/store/base_store.dart';
+import 'package:peers_touch_mobile/model/photo_model.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
+import 'package:peers_touch_mobile/store/photo_store.dart';
+import 'package:peers_touch_mobile/store/sync_manager.dart';
+import 'package:peers_touch_mobile/store/server_config_manager.dart';
+import 'package:peers_touch_mobile/store/base_store.dart';
 
 
-import 'package:pure_touch/pages/photo/photo_selection_sheet.dart';
+import 'package:peers_touch_mobile/pages/photo/photo_selection_sheet.dart';
 
 class PhotoController extends GetxController implements SyncEventListener {
   // Static method channel for storage operations

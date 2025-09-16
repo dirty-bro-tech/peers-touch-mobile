@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/controller/controller.dart';
-import 'package:pure_touch/l10n/app_localizations.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
+import 'package:peers_touch_mobile/l10n/app_localizations.dart';
 
 class EmailUpdatePage extends StatelessWidget {
   EmailUpdatePage({super.key});

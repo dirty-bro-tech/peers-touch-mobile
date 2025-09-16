@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pure_touch/common/region/region_manager.dart';
-import 'package:pure_touch/common/init/init_loader_regions.dart';
+import 'package:peers_touch_mobile/common/region/region_manager.dart';
+import 'package:peers_touch_mobile/common/init/init_loader_regions.dart';
 
 /// Region provider widget for easy access to region data
 class RegionProvider extends InheritedWidget {

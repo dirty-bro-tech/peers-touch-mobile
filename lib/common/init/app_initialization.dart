@@ -1,7 +1,7 @@
-import 'package:pure_touch/common/init/init_loader_merge.dart';
-import 'package:pure_touch/common/init/init_loader_regions.dart';
-import 'package:pure_touch/common/region/region_manager.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/common/init/init_loader_merge.dart';
+import 'package:peers_touch_mobile/common/init/init_loader_regions.dart';
+import 'package:peers_touch_mobile/common/region/region_manager.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
 /// Comprehensive app initialization manager
 /// Handles initialization of all loaders and services

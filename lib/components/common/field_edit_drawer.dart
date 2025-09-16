@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/utils/snackbar_utils.dart';
-import 'package:pure_touch/l10n/app_localizations.dart';
+import 'package:peers_touch_mobile/utils/snackbar_utils.dart';
+import 'package:peers_touch_mobile/l10n/app_localizations.dart';
 
 class FieldEditController extends GetxController {
   late TextEditingController textController;

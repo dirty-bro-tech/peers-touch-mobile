@@ -360,6 +360,136 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get contactsTitle => 'Contacts';
+
+  @override
+  String get searchContacts => 'Search contacts';
+
+  @override
+  String get noContactsFound => 'No contacts found';
+
+  @override
+  String get viewProfile => 'View Profile';
+
+  @override
+  String get editRemark => 'Edit Remark';
+
+  @override
+  String get enterRemark => 'Enter remark';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get mute => 'Mute';
+
+  @override
+  String get unmute => 'Unmute';
+
+  @override
+  String get deleteFriend => 'Delete Friend';
+
+  @override
+  String get deleteFriendConfirmation =>
+      'Are you sure you want to delete this contact? This action cannot be undone.';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get online => 'Online';
+
+  @override
+  String lastSeen(String time) {
+    return 'Last seen: $time';
+  }
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String minutesAgo(int minutes) {
+    return '$minutes minutes ago';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours hours ago';
+  }
+
+  @override
+  String daysAgo(int days) {
+    return '$days days ago';
+  }
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
+
+  @override
+  String get noMessages => 'No messages yet';
+
+  @override
+  String get typeMessage => 'Type a message...';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get forward => 'Forward';
+
+  @override
+  String get deleteMessage => 'Delete Message';
+
+  @override
+  String get deleteMessageConfirmation =>
+      'Are you sure you want to delete this message?';
+
+  @override
+  String get photo => 'Photo';
+
+  @override
+  String get file => 'File';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get voice => 'Voice';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
   String get emailValidationError =>
       'Por favor ingrese una dirección de correo electrónico válida';
 

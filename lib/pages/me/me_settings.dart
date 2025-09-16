@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/controller/controller.dart';
-import 'package:pure_touch/l10n/app_localizations.dart';
-import 'package:pure_touch/pages/me/me_general_settings.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
+import 'package:peers_touch_mobile/l10n/app_localizations.dart';
+import 'package:peers_touch_mobile/pages/me/me_general_settings.dart';
 
 class MeSettingsPage extends StatelessWidget {
   MeSettingsPage({super.key});
@@ -95,32 +95,37 @@ class MeSettingsPage extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    Widget trailingWidget = Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (value.isNotEmpty)
-            Flexible(
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.6),
-                  fontSize: 14,
-                ),
-                overflow: TextOverflow.ellipsis,
+    Widget trailingWidget = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Value on the right
+        if (value.isNotEmpty)
+          Container(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
+            child: Text(
+              value,
+              style: TextStyle(
+                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
               ),
+              textAlign: TextAlign.right,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-          if (showTrailing)
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Icon(
-                Icons.chevron_right,
-                color: colorScheme.onSurface.withValues(alpha: 0.54),
-                size: 20,
-              ),
+          ),
+          
+        // Chevron icon
+        if (showTrailing)
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Icon(
+              Icons.chevron_right,
+              color: colorScheme.onSurface.withValues(alpha: 0.54),
+              size: 20,
             ),
-        ],
-      ),
+          ),
+      ],
     );
 
     // Use ListTile for consistent layout and alignment
@@ -141,6 +146,7 @@ class MeSettingsPage extends StatelessWidget {
 
   Widget _buildDivider(BuildContext context) {
     return Container(
+      margin: EdgeInsets.zero,
       height: 0.5,
       color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
     );

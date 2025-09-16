@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:pure_touch/controller/photo_controller.dart';
-import 'package:pure_touch/pages/photo/photo_post_item.dart';
-import 'package:pure_touch/pages/photo/profile_header.dart';
-import 'package:pure_touch/pages/photo/avatar_overlay.dart';
-import 'package:pure_touch/components/common/floating_action_ball.dart';
+import 'package:peers_touch_mobile/controller/photo_controller.dart';
+import 'package:peers_touch_mobile/pages/photo/photo_post_item.dart';
+import 'package:peers_touch_mobile/pages/photo/profile_header.dart';
+import 'package:peers_touch_mobile/pages/photo/avatar_overlay.dart';
+import 'package:peers_touch_mobile/components/common/floating_action_ball.dart';
 
-import 'package:pure_touch/controller/controller.dart';
-import 'package:pure_touch/utils/app_localizations_helper.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
+import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
 class PhotoPage extends GetView<PhotoController> {
   PhotoPage({super.key});

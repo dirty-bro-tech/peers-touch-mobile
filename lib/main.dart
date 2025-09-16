@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:pure_touch/pages/chat_page.dart';
-import 'package:pure_touch/pages/photo/photo_page.dart';
-import 'package:pure_touch/pages/photo/backend_photos_page.dart';
-import 'package:pure_touch/pages/me/me_home.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/pages/chat/chat_page.dart';
+import 'package:peers_touch_mobile/pages/photo/photo_page.dart';
+import 'package:peers_touch_mobile/pages/me/me_home.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
-import 'package:pure_touch/components/navigation/bottom_nav_bar.dart';
-import 'package:pure_touch/components/common/floating_action_ball.dart';
+import 'package:peers_touch_mobile/components/navigation/bottom_nav_bar.dart';
+import 'package:peers_touch_mobile/components/common/floating_action_ball.dart';
 
 import 'package:get/get.dart';
 
 import 'l10n/app_localizations.dart';
-import 'package:pure_touch/controller/controller.dart';
-import 'package:pure_touch/utils/floating_layout_manager.dart';
-import 'package:pure_touch/components/sync_status_bar.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
+import 'package:peers_touch_mobile/utils/floating_layout_manager.dart';
+import 'package:peers_touch_mobile/components/sync_status_bar.dart';
 
 void main() async {
   // Ensure Flutter is initialized
@@ -68,16 +67,7 @@ class MyApp extends StatelessWidget {
         Locale('zh'), // Chinese
       ],
       initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => const MainScreen(),
-        ),
-        GetPage(
-          name: '/backend-photos',
-          page: () => const BackendPhotosPage(),
-        ),
-      ],
+      getPages: [GetPage(name: '/', page: () => const MainScreen())],
     );
   }
 }
@@ -180,15 +170,28 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   List<FloatingActionOption> _currentOptions = [];
-  final GlobalKey<FloatingActionBallState> _floatingActionBallKey = GlobalKey<FloatingActionBallState>();
+  final GlobalKey<FloatingActionBallState> _floatingActionBallKey =
+      GlobalKey<FloatingActionBallState>();
 
   final List<Widget> _pages = [
+    const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Home'),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: null, // Will be set in build method
+            child: Text('Test Network Connection'),
+          ),
+        ],
+      ),
+    ),
     const ChatPage(),
-    const ChatPage(), 
     PhotoPage(),
     MeHomePage(),
   ];
-  
+
   @override
   void initState() {
     super.initState();
@@ -228,20 +231,33 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Create a modified home page with a working button
+    final List<Widget> modifiedPages = List.from(_pages);
+    if (_currentIndex == 0) {
+      modifiedPages[0] = Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Home'),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => Get.toNamed('/network-test'),
+              child: const Text('Test Network Connection'),
+            ),
+          ],
+        ),
+      );
+    }
+
     return GestureDetector(
       onTap: _handleOutsideTap,
       behavior: HitTestBehavior.translucent,
       child: Scaffold(
         body: Stack(
           children: [
-            _pages[_currentIndex],
+            modifiedPages[_currentIndex],
             // Sync status bar at the top
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: SyncStatusBar(),
-            ),
+            Positioned(top: 0, left: 0, right: 0, child: SyncStatusBar()),
             if (_currentOptions.isNotEmpty)
               FloatingLayoutManager.positionedFloatingActionBall(
                 context: context,

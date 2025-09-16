@@ -1,5 +1,5 @@
-import 'package:pure_touch/common/init/init_loader_regions.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/common/init/init_loader_regions.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
 /// Central manager for region data access and operations
 class RegionManager {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/store/sync_manager.dart';
-import 'package:pure_touch/store/base_store.dart';
+import 'package:peers_touch_mobile/store/sync_manager.dart';
+import 'package:peers_touch_mobile/store/base_store.dart';
 
 /// Sync status bar that appears at the top of the app
 class SyncStatusBar extends StatelessWidget {

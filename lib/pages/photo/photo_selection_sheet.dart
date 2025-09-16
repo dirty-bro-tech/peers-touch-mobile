@@ -4,12 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pure_touch/pages/photo/photo_grid.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/pages/photo/photo_grid.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
-import 'package:pure_touch/controller/photo_controller.dart';
-import 'package:pure_touch/pages/photo/album_list.dart';
+import 'package:peers_touch_mobile/controller/photo_controller.dart';
+import 'package:peers_touch_mobile/pages/photo/album_list.dart';
 
 class PhotoSelectionSheet extends StatelessWidget {
   const PhotoSelectionSheet({super.key});

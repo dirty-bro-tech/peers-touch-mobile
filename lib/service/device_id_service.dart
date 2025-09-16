@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
 /// Service for managing device-specific identifiers (DID)
 /// Generates a unique identifier per device installation that persists across app sessions

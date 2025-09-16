@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
 /// Region data model for country information
 class RegionData {

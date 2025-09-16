@@ -347,6 +347,134 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get contactsTitle => '联系人';
+
+  @override
+  String get searchContacts => '搜索联系人';
+
+  @override
+  String get noContactsFound => '未找到联系人';
+
+  @override
+  String get viewProfile => '查看资料';
+
+  @override
+  String get editRemark => '编辑备注';
+
+  @override
+  String get enterRemark => '输入备注';
+
+  @override
+  String get save => '保存';
+
+  @override
+  String get mute => '消息免打扰';
+
+  @override
+  String get unmute => '取消免打扰';
+
+  @override
+  String get deleteFriend => '删除好友';
+
+  @override
+  String get deleteFriendConfirmation => '确定要删除该联系人吗？此操作不可恢复。';
+
+  @override
+  String get delete => '删除';
+
+  @override
+  String get online => '在线';
+
+  @override
+  String lastSeen(String time) {
+    return '最后活跃：$time';
+  }
+
+  @override
+  String get justNow => '刚刚';
+
+  @override
+  String minutesAgo(int minutes) {
+    return '$minutes 分钟前';
+  }
+
+  @override
+  String hoursAgo(int hours) {
+    return '$hours 小时前';
+  }
+
+  @override
+  String daysAgo(int days) {
+    return '$days 天前';
+  }
+
+  @override
+  String get today => '今天';
+
+  @override
+  String get yesterday => '昨天';
+
+  @override
+  String get monday => '星期一';
+
+  @override
+  String get tuesday => '星期二';
+
+  @override
+  String get wednesday => '星期三';
+
+  @override
+  String get thursday => '星期四';
+
+  @override
+  String get friday => '星期五';
+
+  @override
+  String get saturday => '星期六';
+
+  @override
+  String get sunday => '星期日';
+
+  @override
+  String get noMessages => '暂无消息';
+
+  @override
+  String get typeMessage => '输入消息...';
+
+  @override
+  String get send => '发送';
+
+  @override
+  String get copy => '复制';
+
+  @override
+  String get forward => '转发';
+
+  @override
+  String get deleteMessage => '删除消息';
+
+  @override
+  String get deleteMessageConfirmation => '确定要删除这条消息吗？';
+
+  @override
+  String get photo => '照片';
+
+  @override
+  String get file => '文件';
+
+  @override
+  String get location => '位置';
+
+  @override
+  String get voice => '语音';
+
+  @override
+  String get video => '视频';
+
+  @override
+  String get contact => '联系人';
+
+  @override
   String get emailValidationError => 'Please enter a valid email address';
 
   @override

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:pure_touch/controller/photo_controller.dart';
+import 'package:peers_touch_mobile/controller/photo_controller.dart';
 
 class AlbumController extends GetxController {
   final RxList<AssetPathEntity> albums = <AssetPathEntity>[].obs;

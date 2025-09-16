@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pure_touch/pages/me/me_settings.dart';
+import 'package:peers_touch_mobile/pages/me/me_settings.dart';
 
 class SettingsSection extends StatelessWidget {
   const SettingsSection({super.key});

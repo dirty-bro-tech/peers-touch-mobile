@@ -736,6 +736,246 @@ abstract class AppLocalizations {
   /// **'{field} updated successfully'**
   String nameUpdatedSuccessfully(String field);
 
+  /// Title for contacts page
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get contactsTitle;
+
+  /// Placeholder for contact search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search contacts'**
+  String get searchContacts;
+
+  /// Message when no contacts are found
+  ///
+  /// In en, this message translates to:
+  /// **'No contacts found'**
+  String get noContactsFound;
+
+  /// Option to view contact profile
+  ///
+  /// In en, this message translates to:
+  /// **'View Profile'**
+  String get viewProfile;
+
+  /// Option to edit contact remark
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Remark'**
+  String get editRemark;
+
+  /// Placeholder for remark input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter remark'**
+  String get enterRemark;
+
+  /// Save button text
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Option to mute notifications from contact
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get mute;
+
+  /// Option to unmute notifications from contact
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get unmute;
+
+  /// Option to delete a contact
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Friend'**
+  String get deleteFriend;
+
+  /// Confirmation message for deleting a contact
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this contact? This action cannot be undone.'**
+  String get deleteFriendConfirmation;
+
+  /// Delete button text
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Status indicating user is online
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get online;
+
+  /// Status showing when user was last seen
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen: {time}'**
+  String lastSeen(String time);
+
+  /// Time indicator for very recent activity
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get justNow;
+
+  /// Time indicator for minutes ago
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes ago'**
+  String minutesAgo(int minutes);
+
+  /// Time indicator for hours ago
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours ago'**
+  String hoursAgo(int hours);
+
+  /// Time indicator for days ago
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days ago'**
+  String daysAgo(int days);
+
+  /// Label for today
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// Label for yesterday
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// Day of week: Monday
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// Day of week: Tuesday
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// Day of week: Wednesday
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// Day of week: Thursday
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// Day of week: Friday
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// Day of week: Saturday
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// Day of week: Sunday
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// Message shown when chat has no messages
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get noMessages;
+
+  /// Placeholder for message input field
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get typeMessage;
+
+  /// Send message button text
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// Option to copy message content
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// Option to forward message
+  ///
+  /// In en, this message translates to:
+  /// **'Forward'**
+  String get forward;
+
+  /// Option to delete message
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Message'**
+  String get deleteMessage;
+
+  /// Confirmation message for deleting a message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this message?'**
+  String get deleteMessageConfirmation;
+
+  /// Label for photo message type
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get photo;
+
+  /// Label for file message type
+  ///
+  /// In en, this message translates to:
+  /// **'File'**
+  String get file;
+
+  /// Label for location message type
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// Label for voice message type
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get voice;
+
+  /// Label for video message type
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get video;
+
+  /// Label for contact message type
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contact;
+
   /// Validation message for invalid email format
   ///
   /// In en, this message translates to:

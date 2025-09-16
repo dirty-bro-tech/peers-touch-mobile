@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 
-import 'package:pure_touch/controller/photo_controller.dart';
-import 'package:pure_touch/controller/album_controller.dart';
-import 'package:pure_touch/controller/device_id_controller.dart';
-import 'package:pure_touch/controller/scroll_controller.dart';
-import 'package:pure_touch/controller/me_controller.dart';
-import 'package:pure_touch/controller/profile_controller.dart';
-import 'package:pure_touch/store/sync_manager.dart';
+import 'package:peers_touch_mobile/controller/photo_controller.dart';
+import 'package:peers_touch_mobile/controller/album_controller.dart';
+import 'package:peers_touch_mobile/controller/device_id_controller.dart';
+import 'package:peers_touch_mobile/controller/scroll_controller.dart';
+import 'package:peers_touch_mobile/controller/me_controller.dart';
+import 'package:peers_touch_mobile/controller/profile_controller.dart';
+import 'package:peers_touch_mobile/store/sync_manager.dart';
 
 class ControllerManager {
   static final ControllerManager _instance = ControllerManager._internal();

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pure_touch/common/logger/logger.dart';
-import 'package:pure_touch/pages/photo/image_selection_page.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
+import 'package:peers_touch_mobile/pages/photo/image_selection_page.dart';
 
 class ProfileController extends GetxController {
   final RxBool isLoading = false.obs;

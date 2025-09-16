@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pure_touch/controller/controller.dart';
-import 'package:pure_touch/pages/me/me_profile.dart';
-import 'package:pure_touch/l10n/app_localizations.dart';
-import 'package:pure_touch/pages/me/me_name_update_page.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
+import 'package:peers_touch_mobile/pages/me/me_profile.dart';
+import 'package:peers_touch_mobile/l10n/app_localizations.dart';
+import 'package:peers_touch_mobile/pages/me/me_name_update_page.dart';
 
 class UserProfileHeader extends StatelessWidget {
   const UserProfileHeader({super.key});
@@ -25,7 +25,7 @@ class UserProfileHeader extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
         child: Column(
           children: [
             Row(
@@ -95,7 +95,7 @@ class UserProfileHeader extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Row(
+                        child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
@@ -103,7 +103,7 @@ class UserProfileHeader extends StatelessWidget {
                               color: colorScheme.onSurfaceVariant,
                               size: 20,
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(height: 4),
                             Icon(
                               Icons.arrow_forward_ios,
                               color: colorScheme.onSurfaceVariant,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pure_touch/utils/app_localizations_helper.dart';
+import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;

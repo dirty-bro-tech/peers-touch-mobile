@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-import 'package:pure_touch/controller/album_controller.dart';
-import 'package:pure_touch/controller/photo_controller.dart';
-import 'package:pure_touch/controller/controller.dart';
+import 'package:peers_touch_mobile/controller/album_controller.dart';
+import 'package:peers_touch_mobile/controller/photo_controller.dart';
+import 'package:peers_touch_mobile/controller/controller.dart';
 
 class AlbumListWidget extends GetView<AlbumController> {
   const AlbumListWidget({super.key});

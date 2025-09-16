@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pure_touch/components/common/floating_action_ball.dart';
-import 'package:pure_touch/components/common/scroll_to_top_button.dart';
+import 'package:peers_touch_mobile/components/common/floating_action_ball.dart';
+import 'package:peers_touch_mobile/components/scroll_to_top_button.dart';
 
 /// Manages the positioning of floating UI elements to ensure proper alignment
 /// and spacing regardless of FloatingActionBall state and options count.
@@ -56,7 +56,7 @@ class FloatingLayoutManager {
     required BuildContext context,
     required Key? key,
     required List<FloatingActionOption> options,
-    GlobalKey<FloatingActionBallState>? globalKey,
+    GlobalKey? globalKey,
   }) {
     return Positioned(
       bottom: getFloatingActionBallBottom(context),

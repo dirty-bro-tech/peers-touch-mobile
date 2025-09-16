@@ -5,9 +5,9 @@ import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
-import 'package:pure_touch/store/base_store.dart';
-import 'package:pure_touch/model/photo_model.dart';
-import 'package:pure_touch/common/logger/logger.dart';
+import 'package:peers_touch_mobile/store/base_store.dart';
+import 'package:peers_touch_mobile/model/photo_model.dart';
+import 'package:peers_touch_mobile/common/logger/logger.dart';
 
 /// Photo data model for local storage
 class PhotoData implements Storable {

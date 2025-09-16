@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
-import 'package:pure_touch/controller/profile_controller.dart';
-import 'package:pure_touch/utils/app_localizations_helper.dart';
+import 'package:peers_touch_mobile/controller/profile_controller.dart';
+import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
 
 class ImageSelectionPage extends StatelessWidget {
   const ImageSelectionPage({super.key});
