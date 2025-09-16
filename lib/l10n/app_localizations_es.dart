@@ -249,6 +249,21 @@ class AppLocalizationsEs extends AppLocalizations {
       'No hay suficiente espacio de almacenamiento en el dispositivo para cargar fotos. Por favor libera al menos 100MB de espacio e intenta de nuevo.';
 
   @override
+  String get settings => 'Configuración';
+
+  @override
+  String get myAccount => 'Mi Cuenta';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get language => 'Idioma';
+
+  @override
+  String get selectLanguage => 'Seleccionar Idioma';
+
+  @override
   String get startingUpload => 'Iniciando subida...';
 
   @override
@@ -488,6 +503,33 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get contact => 'Contact';
+
+  @override
+  String get allFriends => 'All Friends';
+
+  @override
+  String get conversations => 'Conversations';
+
+  @override
+  String get friends => 'Friends';
+
+  @override
+  String get onlineFriends => 'Online Friends';
+
+  @override
+  String get offlineFriends => 'Offline Friends';
+
+  @override
+  String get addFriend => 'Add Friend';
+
+  @override
+  String get sendMessage => 'Send Message';
+
+  @override
+  String get removeFriend => 'Remove Friend';
+
+  @override
+  String get blockFriend => 'Block Friend';
 
   @override
   String get emailValidationError =>

@@ -396,6 +396,31 @@
     "description": "Message when there's not enough storage space"
   },
   
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings page title"
+  },
+  
+  "myAccount": "My Account",
+  "@myAccount": {
+    "description": "My Account settings item"
+  },
+  
+  "general": "General",
+  "@general": {
+    "description": "General settings item"
+  },
+  
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
+  
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Language selection dialog title"
+  },
+  
   "startingUpload": "Starting upload...",
   "@startingUpload": {
     "description": "Status message when upload starts"
@@ -825,7 +850,57 @@
   
   "contact": "Contact",
   "@contact": {
-    "description": "Label for contact message type"
+    "description": "Label for contact"
+  },
+
+  "allFriends": "All Friends",
+  "@allFriends": {
+    "description": "Title for all friends page"
+  },
+
+  "conversations": "Conversations",
+  "@conversations": {
+    "description": "Title for conversations tab"
+  },
+
+  "friends": "Friends",
+  "@friends": {
+    "description": "Title for friends tab"
+  },
+
+  "onlineFriends": "Online Friends",
+  "@onlineFriends": {
+    "description": "Section title for online friends"
+  },
+
+  "offlineFriends": "Offline Friends",
+  "@offlineFriends": {
+    "description": "Section title for offline friends"
+  },
+
+  "addFriend": "Add Friend",
+  "@addFriend": {
+    "description": "Button text to add a friend"
+  },
+
+  "viewProfile": "View Profile",
+  "@viewProfile": {
+    "description": "Option to view friend's profile"
+  },
+
+  "sendMessage": "Send Message",
+  "@sendMessage": {
+    "description": "Option to send message to friend"
+  },
+
+  "removeFriend": "Remove Friend",
+  "@removeFriend": {
+    "description": "Option to remove friend"
+  },
+
+  "blockFriend": "Block Friend",
+  "@blockFriend": {
+    "description": "Option to block friend"
   },
   
   "emailValidationError": "Please enter a valid email address",

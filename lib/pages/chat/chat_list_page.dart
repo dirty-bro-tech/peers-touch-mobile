@@ -4,8 +4,8 @@ import 'package:peers_touch_mobile/components/common/floating_action_ball.dart';
 import 'package:peers_touch_mobile/common/logger/logger.dart';
 import 'package:peers_touch_mobile/pages/chat/chat_detail_page.dart';
 import 'package:peers_touch_mobile/pages/chat/models/friend_model.dart';
-import 'package:peers_touch_mobile/pages/chat/widgets/friend_list_item.dart';
-import 'package:peers_touch_mobile/pages/chat/widgets/search_bar.dart';
+import 'package:peers_touch_mobile/pages/chat/chat_friend_list_item.dart';
+import 'package:peers_touch_mobile/pages/chat/chat_search_bar.dart';
 import 'package:peers_touch_mobile/utils/app_localizations_helper.dart';
 
 class ChatListPage extends StatefulWidget {
@@ -115,34 +115,19 @@ class _ChatListPageState extends State<ChatListPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.contactsTitle),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // TODO: Implement add friend menu
-              appLogger.info('Add friend button pressed');
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          ChatSearchBar(
-            controller: _searchController,
-            onChanged: (value) {
-              setState(() {
-                _searchQuery = value;
-              });
-            },
-            hintText: l10n.searchContacts,
-          ),
-          Expanded(child: _buildFriendsList()),
-        ],
-      ),
+    return Column(
+      children: [
+        ChatSearchBar(
+          controller: _searchController,
+          onChanged: (value) {
+            setState(() {
+              _searchQuery = value;
+            });
+          },
+          hintText: l10n.searchContacts,
+        ),
+        Expanded(child: _buildFriendsList()),
+      ],
     );
   }
 

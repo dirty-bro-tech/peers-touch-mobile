@@ -544,6 +544,36 @@ abstract class AppLocalizations {
   /// **'Not enough storage space on the device to load photos. Please free up at least 100MB of space and try again.'**
   String get notEnoughStorageSpace;
 
+  /// Settings page title
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// My Account settings item
+  ///
+  /// In en, this message translates to:
+  /// **'My Account'**
+  String get myAccount;
+
+  /// General settings item
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// Language setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Language selection dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
   /// Status message when upload starts
   ///
   /// In en, this message translates to:
@@ -754,7 +784,7 @@ abstract class AppLocalizations {
   /// **'No contacts found'**
   String get noContactsFound;
 
-  /// Option to view contact profile
+  /// Option to view friend's profile
   ///
   /// In en, this message translates to:
   /// **'View Profile'**
@@ -970,11 +1000,65 @@ abstract class AppLocalizations {
   /// **'Video'**
   String get video;
 
-  /// Label for contact message type
+  /// Label for contact
   ///
   /// In en, this message translates to:
   /// **'Contact'**
   String get contact;
+
+  /// Title for all friends page
+  ///
+  /// In en, this message translates to:
+  /// **'All Friends'**
+  String get allFriends;
+
+  /// Title for conversations tab
+  ///
+  /// In en, this message translates to:
+  /// **'Conversations'**
+  String get conversations;
+
+  /// Title for friends tab
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get friends;
+
+  /// Section title for online friends
+  ///
+  /// In en, this message translates to:
+  /// **'Online Friends'**
+  String get onlineFriends;
+
+  /// Section title for offline friends
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Friends'**
+  String get offlineFriends;
+
+  /// Button text to add a friend
+  ///
+  /// In en, this message translates to:
+  /// **'Add Friend'**
+  String get addFriend;
+
+  /// Option to send message to friend
+  ///
+  /// In en, this message translates to:
+  /// **'Send Message'**
+  String get sendMessage;
+
+  /// Option to remove friend
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Friend'**
+  String get removeFriend;
+
+  /// Option to block friend
+  ///
+  /// In en, this message translates to:
+  /// **'Block Friend'**
+  String get blockFriend;
 
   /// Validation message for invalid email format
   ///

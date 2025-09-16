@@ -48,6 +48,21 @@
   "photosSyncedSuccessfully": "Fotos sincronizadas exitosamente",
   "failedToSyncPhotos": "Falló la sincronización de fotos",
   "unexpectedError": "Ocurrió un error inesperado: {error}",
+  "@unexpectedError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "settings": "Configuración",
+  "myAccount": "Mi Cuenta",
+  "general": "General",
+  "language": "Idioma",
+  "selectLanguage": "Seleccionar Idioma",
+  
+  "startingUpload": "Iniciando subida...",
   "syncSelectedPhotos": "Sincronizar Fotos Seleccionadas ({count})",
   "userName": "Nombre de Usuario",
   "userBio": "Esta es una biografía de usuario de ejemplo.",
@@ -127,5 +142,6 @@
   
   "shortBioUpdateTitle": "Biografía Corta",
   "shortBioHelper": "Comparte una breve descripción sobre ti. Esto será visible para otros usuarios cuando vean tu perfil.",
-  "shortBioMaxLength": "La biografía corta no puede exceder 30 caracteres"
+  "shortBioMaxLength": "La biografía corta no puede exceder 30 caracteres",
+  "startingUpload": "Iniciando subida..."
 }

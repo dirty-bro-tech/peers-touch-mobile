@@ -247,6 +247,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Not enough storage space on the device to load photos. Please free up at least 100MB of space and try again.';
 
   @override
+  String get settings => 'Settings';
+
+  @override
+  String get myAccount => 'My Account';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
   String get startingUpload => 'Starting upload...';
 
   @override
@@ -485,6 +500,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contact => 'Contact';
+
+  @override
+  String get allFriends => 'All Friends';
+
+  @override
+  String get conversations => 'Conversations';
+
+  @override
+  String get friends => 'Friends';
+
+  @override
+  String get onlineFriends => 'Online Friends';
+
+  @override
+  String get offlineFriends => 'Offline Friends';
+
+  @override
+  String get addFriend => 'Add Friend';
+
+  @override
+  String get sendMessage => 'Send Message';
+
+  @override
+  String get removeFriend => 'Remove Friend';
+
+  @override
+  String get blockFriend => 'Block Friend';
 
   @override
   String get emailValidationError => 'Please enter a valid email address';

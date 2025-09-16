@@ -28,7 +28,7 @@ class MeSettingsPage extends StatelessWidget {
           onPressed: () => Get.back(),
         ),
         title: Text(
-          'Settings', // TODO: Add to localization
+          l10n.settings,
           style: TextStyle(
             color: colorScheme.onSurface,
             fontSize: 18,
@@ -60,7 +60,7 @@ class MeSettingsPage extends StatelessWidget {
         // My Account item
         _buildSettingsField(
           context,
-          'My Account', // TODO: Add to localization
+          l10n.myAccount,
           '',
           Icons.account_circle_outlined,
           onTap: () {
@@ -72,7 +72,7 @@ class MeSettingsPage extends StatelessWidget {
         // General item
         _buildSettingsField(
           context,
-          'General', // TODO: Add to localization
+          l10n.general,
           '',
           Icons.settings_outlined,
           onTap: () {

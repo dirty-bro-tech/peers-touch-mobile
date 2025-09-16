@@ -27,7 +27,7 @@ class MeGeneralSettingsPage extends StatelessWidget {
           onPressed: () => Get.back(),
         ),
         title: Text(
-          'General', // TODO: Add to localization
+          l10n.general,
           style: TextStyle(
             color: colorScheme.onSurface,
             fontSize: 18,
@@ -81,7 +81,7 @@ class MeGeneralSettingsPage extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         title: Text(
-          'Language', // TODO: Add to localization
+          l10n.language,
           style: TextStyle(
             color: colorScheme.onSurface,
             fontSize: 16,
@@ -128,6 +128,7 @@ class MeGeneralSettingsPage extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final currentLocale = Localizations.localeOf(context);
+    final l10n = AppLocalizations.of(context)!;
 
     showModalBottomSheet(
       context: context,
@@ -145,7 +146,7 @@ class MeGeneralSettingsPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Text(
-                  'Select Language', // TODO: Add to localization
+                  l10n.selectLanguage,
                   style: TextStyle(
                     color: colorScheme.onSurface,
                     fontSize: 18,

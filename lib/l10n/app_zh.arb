@@ -1,3 +1,4 @@
+
 {
   "@@locale": "zh",
   "@@last_modified": "2024-01-01T00:00:00.000Z",
@@ -48,6 +49,19 @@
   "photosSyncedSuccessfully": "照片同步成功",
   "failedToSyncPhotos": "照片同步失败",
   "unexpectedError": "发生意外错误：{error}",
+  "@unexpectedError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "settings": "设置",
+  "myAccount": "我的账户",
+  "general": "通用",
+  "language": "语言",
+  "selectLanguage": "选择语言",
   "syncSelectedPhotos": "同步选中的照片 ({count})",
   "userName": "用户名",
   "userBio": "这是一个示例用户简介。",
@@ -149,5 +163,59 @@
   "location": "位置",
   "voice": "语音",
   "video": "视频",
-  "contact": "联系人"
+  "contact": "联系人",
+  "@contact": {
+    "description": "Label for contact"
+  },
+
+  "allFriends": "所有好友",
+  "@allFriends": {
+    "description": "Title for all friends page"
+  },
+
+  "conversations": "聊天",
+  "@conversations": {
+    "description": "Title for conversations tab"
+  },
+
+  "friends": "好友",
+  "@friends": {
+    "description": "Title for friends tab"
+  },
+
+  "onlineFriends": "在线好友",
+  "@onlineFriends": {
+    "description": "Section title for online friends"
+  },
+
+  "offlineFriends": "离线好友",
+  "@offlineFriends": {
+    "description": "Section title for offline friends"
+  },
+
+  "addFriend": "添加好友",
+  "@addFriend": {
+    "description": "Button text to add a friend"
+  },
+
+  "viewProfile": "查看资料",
+  "@viewProfile": {
+    "description": "Option to view friend's profile"
+  },
+
+  "sendMessage": "发送消息",
+  "@sendMessage": {
+    "description": "Option to send message to friend"
+  },
+
+  "removeFriend": "删除好友",
+  "@removeFriend": {
+    "description": "Option to remove friend"
+  },
+
+  "blockFriend": "拉黑好友",
+  "@blockFriend": {
+    "description": "Option to block friend"
+  },
+  "startingUpload": "开始上传..."
 }

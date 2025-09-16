@@ -239,6 +239,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notEnoughStorageSpace => '设备存储空间不足，无法上传照片。请至少释放 100MB 空间后重试。';
 
   @override
+  String get settings => '设置';
+
+  @override
+  String get myAccount => '我的账户';
+
+  @override
+  String get general => '通用';
+
+  @override
+  String get language => '语言';
+
+  @override
+  String get selectLanguage => '选择语言';
+
+  @override
   String get startingUpload => '开始上传...';
 
   @override
@@ -473,6 +488,33 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contact => '联系人';
+
+  @override
+  String get allFriends => '所有好友';
+
+  @override
+  String get conversations => '聊天';
+
+  @override
+  String get friends => '好友';
+
+  @override
+  String get onlineFriends => '在线好友';
+
+  @override
+  String get offlineFriends => '离线好友';
+
+  @override
+  String get addFriend => '添加好友';
+
+  @override
+  String get sendMessage => '发送消息';
+
+  @override
+  String get removeFriend => '删除好友';
+
+  @override
+  String get blockFriend => '拉黑好友';
 
   @override
   String get emailValidationError => 'Please enter a valid email address';
