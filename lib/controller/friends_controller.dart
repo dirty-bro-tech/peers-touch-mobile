@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../pages/chat/models/friend_model.dart';
 import 'package:peers_touch_mobile/common/logger/logger.dart';
 
-class FriendsController extends ChangeNotifier {
+class FriendsController extends GetxController {
   static final FriendsController _instance = FriendsController._internal();
   factory FriendsController() => _instance;
   FriendsController._internal();
@@ -166,12 +166,12 @@ class FriendsController extends ChangeNotifier {
   // Methods
   void updateSearchQuery(String query) {
     _searchQuery = query;
-    notifyListeners();
+    update();
   }
 
   void clearSearch() {
     _searchQuery = '';
-    notifyListeners();
+    update();
   }
 
   FriendModel? getFriendById(String id) {
@@ -190,7 +190,7 @@ class FriendsController extends ChangeNotifier {
         onlineStatus: status,
         lastActiveTime: DateTime.now().millisecondsSinceEpoch,
       );
-      notifyListeners();
+      update();
       appLogger.info('Updated online status for friend $friendId: $status');
     }
   }
@@ -202,7 +202,7 @@ class FriendsController extends ChangeNotifier {
         lastMessage: message,
         lastMessageTime: time,
       );
-      notifyListeners();
+      update();
       appLogger.info('Updated last message for friend $friendId');
     }
   }
@@ -214,7 +214,7 @@ class FriendsController extends ChangeNotifier {
       _allFriends[friendIndex] = _allFriends[friendIndex].copyWith(
         unreadCount: currentCount + 1,
       );
-      notifyListeners();
+      update();
       appLogger.info('Incremented unread count for friend $friendId');
     }
   }
@@ -223,7 +223,7 @@ class FriendsController extends ChangeNotifier {
     final friendIndex = _allFriends.indexWhere((friend) => friend.friendId == friendId);
     if (friendIndex != -1) {
       _allFriends[friendIndex] = _allFriends[friendIndex].copyWith(unreadCount: 0);
-      notifyListeners();
+      update();
       appLogger.info('Cleared unread count for friend $friendId');
     }
   }
@@ -231,17 +231,43 @@ class FriendsController extends ChangeNotifier {
   void addFriend(FriendModel friend) {
     if (!_allFriends.any((f) => f.friendId == friend.friendId)) {
       _allFriends.add(friend);
-      notifyListeners();
+      update();
       appLogger.info('Added new friend: ${friend.getDisplayName()}');
     }
   }
 
   void removeFriend(String friendId) {
     _allFriends.removeWhere((friend) => friend.friendId == friendId);
+    update();
+    appLogger.info('Removed friend with id: $friendId');
   }
 
-  void dispose() {
+  void updateFriendRemark(String friendId, String remarkName) {
+    final friendIndex = _allFriends.indexWhere((friend) => friend.friendId == friendId);
+    if (friendIndex != -1) {
+      _allFriends[friendIndex] = _allFriends[friendIndex].copyWith(
+        remarkName: remarkName,
+      );
+      update();
+      appLogger.info('Updated remark for friend $friendId: $remarkName');
+    }
+  }
+
+  void toggleMute(String friendId) {
+    final friendIndex = _allFriends.indexWhere((friend) => friend.friendId == friendId);
+    if (friendIndex != -1) {
+      final currentMuteStatus = _allFriends[friendIndex].isMuted;
+      _allFriends[friendIndex] = _allFriends[friendIndex].copyWith(
+        isMuted: !currentMuteStatus,
+      );
+      update();
+      appLogger.info('Toggled mute for friend $friendId: ${!currentMuteStatus}');
+    }
+  }
+
+  @override
+  void onClose() {
     // Clean up resources if needed
-    super.dispose();
+    super.onClose();
   }
 }

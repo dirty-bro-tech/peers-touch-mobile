@@ -471,21 +471,4 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     );
   }
 
-  Widget _buildNetworkStatusBar() {
-    // This would be shown when network is offline
-    return Container(
-      color: Colors.red,
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: Row(
-        children: [
-          const Icon(Icons.wifi_off, color: Colors.white, size: 16),
-          const SizedBox(width: 8),
-          Text(
-            AppLocalizations.of(context)!.networkConnectionFailed,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
-          ),
-        ],
-      ),
-    );
-  }
 }
